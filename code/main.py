@@ -3,6 +3,7 @@ import sys
 
 #importing class definitions
 from siteInfo import Site
+import wetlandCalc
 
 def main():
 
