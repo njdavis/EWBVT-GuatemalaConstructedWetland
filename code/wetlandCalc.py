@@ -2,11 +2,11 @@
 import sys
 
 #importing class definitions
-from siteInfo import siteInfo
+from siteInfo import Site
 
 def main():
 
-    CEFONMA = SiteInfo()
+    CEFONMA = Site()
     print(CEFONMA.temp[1])
     print(CEFONMA.tempLength)
     print(CEFONMA.tempAVG)

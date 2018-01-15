@@ -1,6 +1,6 @@
 #Class created to store information about the site (ie, CEFONMA Water Flow rates)
 
-class SiteInfo:
+class Site:
 
     #initialize values
     def __init__(self):
@@ -62,7 +62,7 @@ class SiteInfo:
 
 #Sample of how class is used
 
-CEFONMA = SiteInfo()
+CEFONMA = Site()
 CEFONMA.updateWaterQualityData(6,4,3,2)
 CEFONMA.updateNitrogen(3)
 CEFONMA.printWaterQuality()
