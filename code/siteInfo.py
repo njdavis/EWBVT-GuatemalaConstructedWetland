@@ -7,11 +7,7 @@ class Site:
         #initialized with high end of EPA concentrations in typical residential wastewater
         #can be found at /EWBVT-GuatemalaConstructedWetland/sources/EPA\ Document\ About\ Leach\ Fields.pdf 
         #values in mg/L
-        self.BOD = 286
-        self.TSS = 880
-        self.ammonia = 13
-        self.nitrogen = 75
-        self.waterQualityList = [0,880,0,0]
+        self.waterQualityData = {'BOD':286, 'TSS':880, 'ammonia':13, 'nitrogen':75}
 
         #initialized with average monthly chajul temps (https://en.wikipedia.org/wiki/Chajul). Update if we find a closer town
         self.monthlyTemps = [14.6,15.1,16.6,17.4,17.5,17.5,16.7,16.7,16.8,16.1,15.7,15.2]
@@ -25,39 +21,15 @@ class Site:
         #initialize with elevation of CEFONMA (meters) found using google maps
         self.elevation = 2152.62
 
-    #Update functions
-    def updateWaterQualityData(self,BOD,TSS,Ammonia,Nitrogen):
-        self.waterQualityList = [BOD, TSS, Ammonia, Nitrogen]
-        self.BOD = BOD
-        self.TSS = TSS
-        self.ammonia = Ammonia
-        self.nitrogen = Nitrogen
+    #Use water quality data as a list
+    def outputWaterQuality(self):
+        return [self.waterQualityData['BOD'], self.waterQualityData['TSS'],self.waterQualityData['ammonia'], self.waterQualityData['nitrogen']]
 
-    def updateBOD(self, newBOD):
-        self.BOD = newBOD
-        self.waterQualityList[0] = newBOD
-
-    def updateTSS(self, newTSS):
-        self.TSS = newTSS
-        self.waterQualityList[1] = newTSS
-
-    def updateAmmonia(self, newAmmonia):
-        self.ammonia = newAmmonia
-        self.waterQualityList[2] = newAmmonia
-
-    def updateNitrogen(self, newNitrogen):
-        self.nitrogen = newNitrogen
-        self.waterQualityList[3] = newNitrogen
-
-    def updateMonthlyTemperatures(self, newTemps):
-        self.monthlyTemps = newTemps
-
-    def updateFlowRate(self, newFlow):
-        self.flowRate = newFlow
-
-    def updateElevation(self, newElev):
-        self.elevation = newElev
-
+    def updateWaterQuality(self, data):
+        self.waterQualityData['BOD'] = data[0]
+        self.waterQualityData['TSS'] = data[1]
+        self.waterQualityData['ammonia'] = data[2]
+        self.waterQualityData['nitrogen'] = data[3]
 
     #Print functions
     def printMonthlyTemps(self):
@@ -65,21 +37,20 @@ class Site:
 
 
     def printWaterQuality(self):
-        print ("BOD:%d TSSS:%d Ammonia:%d Nitrogen:%d" % (self.BOD, self.TSS,self.ammonia, self.nitrogen))
+        print ("BOD:%d TSSS:%d Ammonia:%d Nitrogen:%d" % (self.waterQualityData['BOD'], self.waterQualityData['TSS'],self.waterQualityData['ammonia'], self.waterQualityData['nitrogen']))
+
 
 
 """
-
 #Sample of how class is used
 
 CEFONMA = Site()
-CEFONMA.updateWaterQualityData(6,4,3,2)
-CEFONMA.updateNitrogen(3)
+print(CEFONMA.waterQualityData)
+CEFONMA.updateWaterQuality([4,3,2,1])
 CEFONMA.printWaterQuality()
-CEFONMA.updateFlowRate(20250)
 CEFONMA.printMonthlyTemps()
-print(CEFONMA.waterQualityList)
+print(CEFONMA.waterQualityData)
 print(CEFONMA.flowRate)
 print(CEFONMA.coordinates)
-
+CEFONMA.printWaterQuality()
 """
