@@ -25,7 +25,7 @@ class Site:
         #initialize with elevation of CEFONMA (meters) found using google maps
         self.elevation = 2152.62
 
-    #updates Water Quality Data
+    #Update functions
     def updateWaterQualityData(self,BOD,TSS,Ammonia,Nitrogen):
         self.waterQualityList = [BOD, TSS, Ammonia, Nitrogen]
         self.BOD = BOD
@@ -49,14 +49,8 @@ class Site:
         self.nitrogen = newNitrogen
         self.waterQualityList[3] = newNitrogen
 
-    def printWaterQuality(self):
-        print ("BOD:%d TSSS:%d Ammonia:%d Nitrogen:%d" % (self.BOD, self.TSS,self.ammonia, self.nitrogen))
-
     def updateMonthlyTemperatures(self, newTemps):
         self.monthlyTemps = newTemps
-
-    def printMonthlyTemps(self):
-        print ("January:%.1f, February:%.1f, March:%.1f, April:%.1f, May:%.1f, June:%.1f, July:%.1f, August:%.1f, September:%.1f, October:%.1f, November:%.1f, December:%.1f" % (self.monthlyTemps[0], self.monthlyTemps[1],self.monthlyTemps[2],self.monthlyTemps[3],self.monthlyTemps[4],self.monthlyTemps[5], self.monthlyTemps[6],self.monthlyTemps[7],self.monthlyTemps[8],self.monthlyTemps[9],self.monthlyTemps[10], self.monthlyTemps[11]))
 
     def updateFlowRate(self, newFlow):
         self.flowRate = newFlow
@@ -64,6 +58,14 @@ class Site:
     def updateElevation(self, newElev):
         self.elevation = newElev
 
+
+    #Print functions
+    def printMonthlyTemps(self):
+        print ("January:%.1f, February:%.1f, March:%.1f, April:%.1f, May:%.1f, June:%.1f, July:%.1f, August:%.1f, September:%.1f, October:%.1f, November:%.1f, December:%.1f" % (self.monthlyTemps[0], self.monthlyTemps[1],self.monthlyTemps[2],self.monthlyTemps[3],self.monthlyTemps[4],self.monthlyTemps[5], self.monthlyTemps[6],self.monthlyTemps[7],self.monthlyTemps[8],self.monthlyTemps[9],self.monthlyTemps[10], self.monthlyTemps[11]))
+
+
+    def printWaterQuality(self):
+        print ("BOD:%d TSSS:%d Ammonia:%d Nitrogen:%d" % (self.BOD, self.TSS,self.ammonia, self.nitrogen))
 
 
 """
