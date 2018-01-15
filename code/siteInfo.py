@@ -5,7 +5,7 @@ class SiteInfo:
     #initialize values
     def __init__(self):
         #initialized with high end of EPA concentrations in typical residential wastewater
-        #can be found at /EWBVT-GuatemalaConstructedWetland/Sources/EPA\ Document\ About\ Leach\ Fields.pdf 
+        #can be found at /EWBVT-GuatemalaConstructedWetland/sources/EPA\ Document\ About\ Leach\ Fields.pdf 
         #values in mg/L
         self.BOD = 286
         self.TSS = 880
