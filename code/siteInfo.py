@@ -43,7 +43,10 @@ class SiteInfo:
         print ("BOD:%d TSSS:%d Ammonia:%d Nitrogen:%d" % (self.BOD, self.TSS,self.ammonia, self.nitrogen))
 
     def updateMonthlyTemperatures(self, newTemps):
-        self.monthlyTemperatures = newTemps
+        self.monthlyTemps = newTemps
+
+    def printMonthlyTemps(self):
+        print ("January:%.1f, February:%.1f, March:%.1f, April:%.1f, May:%.1f, June:%.1f, July:%.1f, August:%.1f, September:%.1f, October:%.1f, November:%.1f, December:%.1f" % (self.monthlyTemps[0], self.monthlyTemps[1],self.monthlyTemps[2],self.monthlyTemps[3],self.monthlyTemps[4],self.monthlyTemps[5], self.monthlyTemps[6],self.monthlyTemps[7],self.monthlyTemps[8],self.monthlyTemps[9],self.monthlyTemps[10], self.monthlyTemps[11]))
 
     def updateFlowRate(self, newFlow):
         self.flowRate = newFlow
@@ -61,6 +64,7 @@ CEFONMA.updateWaterQualityData(6,4,3,2)
 CEFONMA.updateNitrogen(3)
 CEFONMA.printWaterQuality()
 CEFONMA.updateFlowRate(20250)
+CEFONMA.printMonthlyTemps()
 print(CEFONMA.waterQualityList)
 print(CEFONMA.flowRate)
 print(CEFONMA.coordinates)
