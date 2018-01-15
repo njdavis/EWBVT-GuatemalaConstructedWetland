@@ -12,10 +12,13 @@ class Site:
         self.ammonia = 13
         self.nitrogen = 75
         self.waterQualityList = [0,880,0,0]
+
         #initialized with average monthly chajul temps (https://en.wikipedia.org/wiki/Chajul). Update if we find a closer town
         self.monthlyTemps = [14.6,15.1,16.6,17.4,17.5,17.5,16.7,16.7,16.8,16.1,15.7,15.2]
+
         #initialized with CEFONMA's current wastewater flow, according to EPA
         self.flowRate = 5,625
+
         #initialized with the current location of CEFONMA
         self.coordinates = {'latitude':15.47, 'longitude':-91.09} 
 
