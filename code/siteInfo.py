@@ -20,7 +20,10 @@ class Site:
         self.flowRate = 5,625
 
         #initialized with the current location of CEFONMA
-        self.coordinates = {'latitude':15.47, 'longitude':-91.09} 
+        self.coordinates = {'latitude':15.47, 'longitude':-91.09}
+
+        #initialize with elevation of CEFONMA (meters) found using google maps
+        self.elevation = 2152.62
 
     #updates Water Quality Data
     def updateWaterQualityData(self,BOD,TSS,Ammonia,Nitrogen):
@@ -58,7 +61,8 @@ class Site:
     def updateFlowRate(self, newFlow):
         self.flowRate = newFlow
 
-
+    def updateElevation(self, newElev):
+        self.elevation = newElev
 
 
 
