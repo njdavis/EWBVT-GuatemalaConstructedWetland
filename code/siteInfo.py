@@ -14,9 +14,10 @@ class Site:
         self.waterQualityList = [0,880,0,0]
         #initialized with average monthly chajul temps (https://en.wikipedia.org/wiki/Chajul). Update if we find a closer town
         self.monthlyTemps = [14.6,15.1,16.6,17.4,17.5,17.5,16.7,16.7,16.8,16.1,15.7,15.2]
-        self.flowRate = 5,625 #initialized with CEFONMA's current wastewater flow, according to EPA
-        self.coordinates = {'latitude':15.47, 'longitude':-91.09} #initialized with the current location of CEFONMA
-
+        #initialized with CEFONMA's current wastewater flow, according to EPA
+        self.flowRate = 5,625
+        #initialized with the current location of CEFONMA
+        self.coordinates = {'latitude':15.47, 'longitude':-91.09} 
 
     #updates Water Quality Data
     def updateWaterQualityData(self,BOD,TSS,Ammonia,Nitrogen):
