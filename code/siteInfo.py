@@ -13,13 +13,16 @@ class Site:
         self.monthlyTemps = [14.6,15.1,16.6,17.4,17.5,17.5,16.7,16.7,16.8,16.1,15.7,15.2]
 
         #initialized with CEFONMA's current wastewater flow, according to EPA
-        self.flowRate = 5,625
+        self.flowRate = 5625
 
         #initialized with the current location of CEFONMA
         self.coordinates = {'latitude':15.47, 'longitude':-91.09}
 
         #initialize with elevation of CEFONMA (meters) found using google maps
         self.elevation = 2152.62
+
+    def flowRateM3PD(self):
+        return self.flowRate*0.003785
 
     #Use water quality data as a list
     def outputWaterQuality(self):

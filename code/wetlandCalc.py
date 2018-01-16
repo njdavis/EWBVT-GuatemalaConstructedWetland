@@ -27,14 +27,15 @@ class VolumetricProcessDesignModel:
         return (self.BOD_Const['K_20']*self.BOD_Const['theta']**(T_W-20))
 
     def treatmentArea(self, Q_A,influentConcentration, K_T):
-        return Q_A(math.log(influentConcentration/self.effluentConcentration)/(K_T*self.avgDepth*self.porosity))
+        return Q_A*(math.log(influentConcentration/self.effluentConcentration)/(K_T*self.avgDepth*self.porosity))
 
 
 
 #example of how to use class
 reedModel = VolumetricProcessDesignModel()
 CEFONMA = Site()
-#reedModel.BOD_Const['K_20'] = 20
-print(reedModel.treatmentArea(CEFONMA.flowRate,CEFONMA.waterQualityData['BOD'], reedModel.K_T(18)))
+
+print(reedModel.treatmentArea(CEFONMA.flowRateM3PD(), CEFONMA.waterQualityData['BOD'], reedModel.K_T(18)))
+
 
 
