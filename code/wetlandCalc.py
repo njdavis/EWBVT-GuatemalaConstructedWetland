@@ -14,8 +14,6 @@ class VolumetricProcessDesignModel:
         self.ammonia_Const = {'K_20':0.2187, 'theta':1.048}
         self.nitrate_Const = {'K_20':1, 'theta':1.15}
 
-        #self.effluentConcentration = 10
-
         #initialize with reasonable value used in example, but should change this
         self.avgDepth = 0.5
 
@@ -43,16 +41,10 @@ class VolumetricProcessDesignModel:
 
     def effluent(self, influentConcentration, K_T, t):
         return influentConcentration*math.exp(-K_T*t)
+    
+    def TSSEffluent(self, influentConcentration, HLR):
+        return influentConcentration*(0.1139+(0.00213*HLR))
 
     def phosphorusEffluent(self, influentConcentration, K_P, HLR):
         return influentConcentration*math.exp(-K_P/HLR)
-
-"""
-
-#example of how to use class
-reedModel = VolumetricProcessDesignModel()
-CEFONMA = Site()
-print(reedModel.K_T(18))
-print(reedModel.treatmentArea(CEFONMA.flowRate, CEFONMA.waterQualityData['BOD'], 10,  reedModel.K_T(18)))
-"""
 

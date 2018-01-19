@@ -21,6 +21,7 @@ class VolumetricProcessModelTest(unittest.TestCase):
     def testTreatmentAreaBOD(self):
         reedModel = VolumetricProcessDesignModel()
         CEFONMA = Site()
+
         CEFONMA.flowRate = 18
         CEFONMA.waterQualityData['BOD'] = 1625
         effluentConcentration = 1.84645
@@ -86,12 +87,20 @@ class VolumetricProcessModelTest(unittest.TestCase):
         #checks to 3 decimal places
         self.assertAlmostEqual(test, 7.165, 3)
 
+    def testTSSEffluent(self):
+        reedModel = VolumetricProcessDesignModel()
+        CEFONMA = Site()
+
+        test = reedModel.TSSEffluent(14, 7.4675)
+
+        self.assertAlmostEqual(test, 1.81726, 3)
+
     def testNitrateEffluent(self):
         reedModel = VolumetricProcessDesignModel()
         CEFONMA = Site()
         CEFONMA.waterQualityData['nitrate'] = 32
         t = 5
-
+    
         reedModel.nitrate_Const['K_20'] = 1
         reedModel.nitrate_Const['theta'] = 1.15
         t_w = 20
