@@ -7,13 +7,16 @@ class Site:
         #initialized with high end of EPA concentrations in typical residential wastewater
         #can be found at /EWBVT-GuatemalaConstructedWetland/sources/EPA\ Document\ About\ Leach\ Fields.pdf 
         #values in mg/L
-        self.waterQualityData = {'BOD':286, 'TSS':880, 'ammonia':13, 'nitrogen':75}
+        self.waterQualityData = {'BOD':286, 'TSS':880, 'ammonia':13, 'nitrogen':75, 'phosphorus':8}
 
         #initialized with average monthly chajul temps (https://en.wikipedia.org/wiki/Chajul). Update if we find a closer town
         self.monthlyTemps = [14.6,15.1,16.6,17.4,17.5,17.5,16.7,16.7,16.8,16.1,15.7,15.2]
 
-        #initialized with CEFONMA's current wastewater flow, according to EPA
-        self.flowRate = 5625
+        #initialized with CEFONMA's current wastewater flow, according to EPA (m^3/day)
+        self.flowRate = 21.29
+
+        #20250 = 76.65 possible future flowrate
+        #5625 = 21.29 current flowrate
 
         #initialized with the current location of CEFONMA
         self.coordinates = {'latitude':15.47, 'longitude':-91.09}
@@ -26,13 +29,14 @@ class Site:
 
     #Use water quality data as a list
     def outputWaterQuality(self):
-        return [self.waterQualityData['BOD'], self.waterQualityData['TSS'],self.waterQualityData['ammonia'], self.waterQualityData['nitrogen']]
+        return [self.waterQualityData['BOD'], self.waterQualityData['TSS'],self.waterQualityData['ammonia'], self.waterQualityData['nitrogen'], self.waterQualityData['phosphorus']]
 
     def updateWaterQuality(self, data):
         self.waterQualityData['BOD'] = data[0]
         self.waterQualityData['TSS'] = data[1]
         self.waterQualityData['ammonia'] = data[2]
         self.waterQualityData['nitrogen'] = data[3]
+        self.waterQualityData['phosphorus'] = data[4]
 
     #Print functions
     def printMonthlyTemps(self):
@@ -40,7 +44,7 @@ class Site:
 
 
     def printWaterQuality(self):
-        print ("BOD:%d TSSS:%d Ammonia:%d Nitrogen:%d" % (self.waterQualityData['BOD'], self.waterQualityData['TSS'],self.waterQualityData['ammonia'], self.waterQualityData['nitrogen']))
+        print ("BOD:%d TSSS:%d Ammonia:%d Nitrogen:%d Phosphorus:%d" % (self.waterQualityData['BOD'], self.waterQualityData['TSS'],self.waterQualityData['ammonia'], self.waterQualityData['nitrogen'], self.waterQualityData['phosphorus']))
 
 
 
@@ -49,7 +53,7 @@ class Site:
 
 CEFONMA = Site()
 print(CEFONMA.waterQualityData)
-CEFONMA.updateWaterQuality([4,3,2,1])
+CEFONMA.updateWaterQuality([4,3,2,1,3])
 CEFONMA.printWaterQuality()
 CEFONMA.printMonthlyTemps()
 print(CEFONMA.waterQualityData)
