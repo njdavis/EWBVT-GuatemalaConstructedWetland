@@ -3,12 +3,20 @@ import sys
 
 #importing class definitions
 from siteInfo import Site
-import wetlandCalc
+from wetlandCalc import ReedSubsurfaceFlow, ReedFreewaterFlow
 
 def main():
 
-    CEFONMA = Site()
-    CEFONMA.printMonthlyTemps()
+    CEFONMA = Site()    
+    Reed = ReedSubsurfaceFlow()
+   
+    print(CEFONMA.flowRate)
+    print("Area needed (with BOD = 155): %d m^2" % Reed.treatmentArea(CEFONMA.flowRate, 155, 10, Reed.K_T('BOD', 18)))
+
+    print("Area needed (with BOD = 286): %d m^2" %Reed.treatmentArea(CEFONMA.flowRate, 286, 10, Reed.K_T('BOD', 18)))
+
+    print("Area needed (for coliform): %d m^2" %Reed.kadlecModel(CEFONMA.flowRate, 37153, 201, 200, Reed.K_T('coliform', 18)))
+
 
 
 if __name__ == '__main__': main()

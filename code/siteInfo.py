@@ -13,10 +13,10 @@ class Site:
         self.monthlyTemps = [14.6,15.1,16.6,17.4,17.5,17.5,16.7,16.7,16.8,16.1,15.7,15.2]
 
         #initialized with CEFONMA's current wastewater flow, according to EPA (m^3/day)
-        self.flowRate = 21.29
+        self.flowRate = 76.65
 
         #20250 = 76.65 possible future flowrate
-        #5625 = 21.29 current flowrate
+        #5625 = 17.74 - 21.29 current flowrate
 
         #initialized with the current location of CEFONMA
         self.coordinates = {'latitude':15.47, 'longitude':-91.09}
@@ -46,18 +46,3 @@ class Site:
     def printWaterQuality(self):
         print ("BOD:%d TSSS:%d Ammonia:%d Nitrogen:%d Phosphorus:%d" % (self.waterQualityData['BOD'], self.waterQualityData['TSS'],self.waterQualityData['ammonia'], self.waterQualityData['nitrogen'], self.waterQualityData['phosphorus']))
 
-
-
-"""
-#Sample of how class is used
-
-CEFONMA = Site()
-print(CEFONMA.waterQualityData)
-CEFONMA.updateWaterQuality([4,3,2,1,3])
-CEFONMA.printWaterQuality()
-CEFONMA.printMonthlyTemps()
-print(CEFONMA.waterQualityData)
-print(CEFONMA.flowRate)
-print(CEFONMA.coordinates)
-CEFONMA.printWaterQuality()
-"""

@@ -93,7 +93,7 @@ class VolumetricProcessModelTest(unittest.TestCase):
 
         test = reedModel.TSSEffluent(14, 7.4675)
 
-        self.assertAlmostEqual(test, 1.81726, 3)
+        self.assertAlmostEqual(test, 1.596, 3)
 
     def testNitrateEffluent(self):
         reedModel = VolumetricProcessDesignModel()

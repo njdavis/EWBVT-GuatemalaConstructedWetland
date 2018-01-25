@@ -1,0 +1,25 @@
+# Questions for John Neel
+
+## Wetland Questions
+
+Is a Constructed Wetland a viable option, in his opinion?
+
+CEFONMA's land has a high water table, or at least very saturated soil, what should we do with effluent once it leaves the system?
+
+We are currently basing our calculations on EPA wastewater values, however Professor Thompson said that actual values leaving the tank would be a lot lower. Where can we water quality data for effluent leaving the septic tank?
+
+If Gay and Neel implements constructed wetlands often, do they have any data on reliability? 
+
+Are we using the right design models for our system? Does Gay and Neel use different equations?
+
+What is hydrolic Loading Rate? How do we calculate it? 
+
+What kind of factor of safety does Gay and Neel use for its system? What does he think we should use?
+
+Does Gay and Neel have material cost data for the systems it has built in the past? How do we estimate how much material we need for a system based on knowing the size of the system?
+
+-Will want an effluent filter in the tank (effluent T)
+
+## Mound System Questions
+
+John mentioned during our phone call that he thought Gay and Neel had implemented a gravity fed mound system a while ago. Would we be able to see those designs?
