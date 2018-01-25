@@ -5,6 +5,7 @@ import sys, math, unittest
 from siteInfo import Site
 import matplotlib.pyplot as plt
 
+#Purely Virtual Class used for printing graphs about the data
 class PresentData():
 
     def printAreaGraph(self, waterQualityParameter, site, waterQualityLow, waterQualityHigh,  highlightedValuesX):
@@ -36,7 +37,7 @@ class PresentData():
         if waterQualityParameter == "fecalColiform":
             units = "cfu/100ml"
 
-        outputSubPlot.set(title=r'%s' % self.nameOfModel,
+        outputSubPlot.set(title=r'%s: %s' % (self.nameOfModel, waterQualityParameter),
         xlabel='%s (%s)' % (waterQualityParameter, units), ylabel= 'Area Required for Constructed Wetland $(m^2)$')
 
 
