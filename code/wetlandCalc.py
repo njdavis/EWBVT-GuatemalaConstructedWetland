@@ -5,10 +5,9 @@ import sys, math, unittest
 from siteInfo import Site
 import matplotlib.pyplot as plt
 
-#Purely Virtual Class used for printing graphs about the data
 class PresentData():
 
-    def printAreaGraph(self, waterQualityParameter, site, waterQualityLow, waterQualityHigh,  highlightedValuesX):
+    def printAreaGraph(self, model, waterQualityParameter, site, waterQualityLow, waterQualityHigh,  highlightedValuesX):
         '''
         Prints graphs about how changing certain water quality parameters changes the area needed
         waterQualityParameter=string, site = siteInfo(), waterQualityLow = int, waterQualityHigh = int, highlightedValues = [x,..]
@@ -18,33 +17,80 @@ class PresentData():
         yAxis = []
         xAxis = []
         areaEPA = []
+
+        outputPlot = plt.figure()
+        outputSubPlot = outputPlot.add_subplot(111)
+
+
         
         for value in range(waterQualityLow, waterQualityHigh):
             xAxis.append(value) 
             site.currentSepticTankEffluent[waterQualityParameter] = value
-            yAxis.append(self.treatmentArea(waterQualityParameter, site))
+            yAxis.append(model.treatmentArea(waterQualityParameter, site))
 
-        outputPlot = plt.figure()
-         
-        outputSubPlot = outputPlot.add_subplot(111)
+                 
         for parameterValue in highlightedValuesX:
             site.currentSepticTankEffluent[waterQualityParameter] = parameterValue
-            outputSubPlot.annotate('(%d, %d)' % (parameterValue, self.treatmentArea(waterQualityParameter, site)), xy=(parameterValue+30, self.treatmentArea(waterQualityParameter, site)-20 ))
+            outputSubPlot.annotate('(%d, %d)' % (parameterValue, model.treatmentArea(waterQualityParameter, site)), xy=(parameterValue+30, model.treatmentArea(waterQualityParameter, site)-20 ))
 
-            plt.plot(xAxis, yAxis, '-', parameterValue, self.treatmentArea('BOD', site), 'h') 
+            plt.plot(xAxis, yAxis, '-', parameterValue, model.treatmentArea('BOD', site), 'h') 
 
         units = "mg/L"
         if waterQualityParameter == "fecalColiform":
             units = "cfu/100ml"
 
-        outputSubPlot.set(title=r'%s: %s' % (self.nameOfModel, waterQualityParameter),
+        outputSubPlot.set(title=r'%s: %s' % (model.nameOfModel, waterQualityParameter),
         xlabel='%s (%s)' % (waterQualityParameter, units), ylabel= 'Area Required for Constructed Wetland $(m^2)$')
 
 
-        outputPlot.savefig("../Graphs and Charts/%s-%s.pdf" % (self.nameOfModel, waterQualityParameter), bbox_inches='tight')
+        outputPlot.savefig("../Graphs and Charts/%s-%s.pdf" % (model.nameOfModel, waterQualityParameter), bbox_inches='tight')
+
+    def printMultipleModels(self, models, waterQualityParameter, site, waterQualityLow, waterQualityHigh,  highlightedValuesX):
+        '''
+        Prints graphs about how changing certain water quality parameters changes the area needed
+        waterQualityParameter=string, site = siteInfo(), waterQualityLow = int, waterQualityHigh = int, highlightedValues = [x,..]
+        '''
+        
+        waterQualityList = []
+        yAxis = []
+        xAxis = []
+        areaEPA = []
+
+        outputPlot = plt.figure()
+        outputSubPlot = outputPlot.add_subplot(111)
+        
+        for i, model in enumerate(models):
+            yAxis.append([])
+            xAxis.append([])
+            #print(i)
+
+        for value in range(waterQualityLow, waterQualityHigh):   
+            for i, model in enumerate(models):
+                xAxis[i].append(value) 
+                site.currentSepticTankEffluent[waterQualityParameter] = value
+                yAxis[i].append(model.treatmentArea(waterQualityParameter, site))
+
+        for i, model in enumerate(models):    
+            for parameterValue in highlightedValuesX:  
+                print(i)
+                site.currentSepticTankEffluent[waterQualityParameter] = parameterValue
+                outputSubPlot.annotate('(%d, %d)' % (parameterValue, model.treatmentArea(waterQualityParameter, site)), xy=(parameterValue+30, model.treatmentArea(waterQualityParameter, site)-20 ))
+
+            plt.plot(xAxis, yAxis, '-', parameterValue, model.treatmentArea('BOD', site), 'h') 
+
+        units = "mg/L"
+        if waterQualityParameter == "fecalColiform":
+            units = "cfu/100ml"
+
+        outputSubPlot.set(title=r'%s: %s' % (models[0].nameOfModel, waterQualityParameter),
+        xlabel='%s (%s)' % (waterQualityParameter, units), ylabel= 'Area Required for Constructed Wetland $(m^2)$')
+
+
+        outputPlot.savefig("../Graphs and Charts/%s vs %s-%s.pdf" % (models[0].nameOfModel, models[1].nameOfModel, waterQualityParameter), bbox_inches='tight')
+
 
 #Virtual Class of the Reed Model
-class ReedModel(PresentData):
+class ReedModel():
     
     def K_T(self, qualityType, T_W):
         return (self.KT_Const[qualityType]*self.theta_Const[qualityType]**(T_W-20))
@@ -99,7 +145,7 @@ class ReedFreewaterFlow(ReedModel):
 
 
 #Virtual Class of the Kadlec Models
-class Kadlec(PresentData):
+class Kadlec():
 
     #Volumetric Design Equations
     #BOD
