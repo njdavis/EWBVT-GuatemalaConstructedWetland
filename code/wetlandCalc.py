@@ -43,7 +43,7 @@ class PresentData():
 
         outputPlot.savefig("../Graphs and Charts/%s-%s.pdf" % (self.nameOfModel, waterQualityParameter), bbox_inches='tight')
 
-
+#Virtual Class of the Reed Model
 class ReedModel(PresentData):
     
     def K_T(self, qualityType, T_W):
@@ -98,8 +98,7 @@ class ReedFreewaterFlow(ReedModel):
         return influentConcentration*(0.11139+(0.00213*HLR))
 
 
-#Kadlec Models
-
+#Virtual Class of the Kadlec Models
 class Kadlec(PresentData):
 
     #Volumetric Design Equations
