@@ -6,66 +6,65 @@ from wetlandCalc import ReedSubsurfaceFlow, ReedFreewaterFlow
 #This is an example of how a testing module would be set up. But tests aren't actually useful for anything right now
 class VolumetricProcessModelTest(unittest.TestCase):
    
-    reedModelSubSurface = ReedSubsurfaceFlow()
+    reedFreewaterFlow = ReedFreewaterFlow()
     CEFONMA = Site()
 
     #testing that the K_T function is correct
     def testK_T(self):
                 
-        self.reedModelSubSurface.BOD_Const['K_20'] = 0.678
-        self.reedModelSubSurface.BOD_Const['theta'] = 1.06
-        t_w = 20  
-        test = self.reedModelSubSurface.K_T('BOD',t_w)
+        self.reedFreewaterFlow.KT_Const['BOD'] = 0.678
+        self.reedFreewaterFlow.theta_Const['BOD'] = 1.06
+        test = self.reedFreewaterFlow.K_T('BOD',20)
 
         self.assertEqual(test, .678)
 
     def testTreatmentAreaBOD(self):
        
-        self.CEFONMA.flowRate = 18
-        self.CEFONMA.waterQualityData['BOD'] = 1625
-        effluentConcentration = 1.84645
+        self.CEFONMA.avgFlowRate = 18
+        self.CEFONMA.currentSepticTankEffluent['BOD'] = 1625
+        self.CEFONMA.waterTemp = 20
+        self.CEFONMA.necessaryEffluentQuality['BOD'] = 1.84645
 
-        self.reedModelSubSurface.avgDepth = 0.4
-        self.reedModelSubSurface.porosity = 0.7
-        self.reedModelSubSurface.BOD_Const['K_20'] = 0.678
-        self.reedModelSubSurface.BOD_Const['theta'] = 1.06
-        t_w = 20
-
-        test = self.reedModelSubSurface.treatmentArea(self.CEFONMA.flowRate, self.CEFONMA.waterQualityData['BOD'], effluentConcentration, self.reedModelSubSurface.K_T('BOD',t_w))
+        self.reedFreewaterFlow.avgDepth = 0.4
+        self.reedFreewaterFlow.porosity = 0.7
+        self.reedFreewaterFlow.KT_Const['BOD'] = 0.678
+        self.reedFreewaterFlow.theta_Const['BOD'] = 1.06
+     
+        test = self.reedFreewaterFlow.treatmentArea('BOD', self.CEFONMA)
 
         #checks to 3 decimal places
         self.assertAlmostEqual(test, 642.857, 3)
 
     def testTreatmentAreaAmmonia(self):
         
-        self.CEFONMA.flowRate = 18
-        self.CEFONMA.waterQualityData['ammonia'] = 32
-        effluentConcentration = 10.7213
+        self.CEFONMA.avgFlowRate = 18
+        self.CEFONMA.currentSepticTankEffluent['ammonia'] = 32
+        self.CEFONMA.waterTemp = 20
+        self.CEFONMA.necessaryEffluentQuality['ammonia'] = 10.7213
 
-        self.reedModelSubSurface.avgDepth = 0.4
-        self.reedModelSubSurface.porosity = 0.7
-        self.reedModelSubSurface.ammonia_Const['K_20'] = 0.2187
-        self.reedModelSubSurface.ammonia_Const['theta'] = 1.048
-        t_w = 20
+        self.reedFreewaterFlow.avgDepth = 0.4
+        self.reedFreewaterFlow.porosity = 0.7
+        self.reedFreewaterFlow.KT_Const['ammonia'] = 0.2187
+        self.reedFreewaterFlow.theta_Const['ammonia'] = 1.048
 
-        test = self.reedModelSubSurface.treatmentArea(self.CEFONMA.flowRate, self.CEFONMA.waterQualityData['ammonia'], effluentConcentration, self.reedModelSubSurface.K_T('ammonia',t_w))
+        test = self.reedFreewaterFlow.treatmentArea('ammonia', self.CEFONMA)
 
         #checks to 3 decimal places
         self.assertAlmostEqual(test, 321.430, 3)
 
     def testTreatmentAreaNitrate(self):
         
-        self.CEFONMA.flowRate = 18
-        self.CEFONMA.waterQualityData['nitrate'] = 32
-        effluentConcentration = 0.215614
+        self.CEFONMA.avgFlowRate = 18
+        self.CEFONMA.currentSepticTankEffluent['nitrate'] = 32
+        self.CEFONMA.waterTemp = 20
+        self.CEFONMA.necessaryEffluentQuality['nitrate'] = 0.215614
 
-        self.reedModelSubSurface.avgDepth = 0.4
-        self.reedModelSubSurface.porosity = 0.7
-        self.reedModelSubSurface.ammonia_Const['K_20'] = 1
-        self.reedModelSubSurface.ammonia_Const['theta'] = 1.15
-        t_w = 20
+        self.reedFreewaterFlow.avgDepth = 0.4
+        self.reedFreewaterFlow.porosity = 0.7
+        self.reedFreewaterFlow.KT_Const['nitrate'] = 1
+        self.reedFreewaterFlow.theta_Const['nitrate'] = 1.15
 
-        test = self.reedModelSubSurface.treatmentArea(self.CEFONMA.flowRate, self.CEFONMA.waterQualityData['nitrate'], effluentConcentration, self.reedModelSubSurface.K_T('nitrate',t_w))
+        test = self.reedFreewaterFlow.treatmentArea('nitrate', self.CEFONMA)
 
         #checks to 3 decimal places
         self.assertAlmostEqual(test, 321.429, 3)
