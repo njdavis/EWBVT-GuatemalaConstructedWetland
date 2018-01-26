@@ -20,8 +20,6 @@ class PresentData():
 
         outputPlot = plt.figure()
         outputSubPlot = outputPlot.add_subplot(111)
-
-
         
         for value in range(waterQualityLow, waterQualityHigh):
             xAxis.append(value) 
@@ -57,33 +55,31 @@ class PresentData():
         areaEPA = []
 
         outputPlot = plt.figure()
-        outputSubPlot = outputPlot.add_subplot(111)
+        outputSubPlot = outputPlot.add_subplot(111) 
         
         for i, model in enumerate(models):
             yAxis.append([])
             xAxis.append([])
-            #print(i)
-
-        for value in range(waterQualityLow, waterQualityHigh):   
-            for i, model in enumerate(models):
+            
+            for value in range(waterQualityLow, waterQualityHigh):   
                 xAxis[i].append(value) 
                 site.currentSepticTankEffluent[waterQualityParameter] = value
                 yAxis[i].append(model.treatmentArea(waterQualityParameter, site))
+ 
+            outputSubPlot.plot(xAxis[i], yAxis[i], '-', label = model.nameOfModel) 
 
-        for i, model in enumerate(models):    
             for parameterValue in highlightedValuesX:  
-                print(i)
                 site.currentSepticTankEffluent[waterQualityParameter] = parameterValue
                 outputSubPlot.annotate('(%d, %d)' % (parameterValue, model.treatmentArea(waterQualityParameter, site)), xy=(parameterValue+30, model.treatmentArea(waterQualityParameter, site)-20 ))
+                outputSubPlot.plot(parameterValue, model.treatmentArea('BOD', site), 'h')
+            
 
-            plt.plot(xAxis, yAxis, '-', parameterValue, model.treatmentArea('BOD', site), 'h') 
-
+        outputSubPlot.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
         units = "mg/L"
         if waterQualityParameter == "fecalColiform":
             units = "cfu/100ml"
 
-        outputSubPlot.set(title=r'%s: %s' % (models[0].nameOfModel, waterQualityParameter),
-        xlabel='%s (%s)' % (waterQualityParameter, units), ylabel= 'Area Required for Constructed Wetland $(m^2)$')
+        outputSubPlot.set(title=r'%s vs %s: %s' % (models[0].nameOfModel, models[1].nameOfModel, waterQualityParameter), xlabel='%s (%s)' % (waterQualityParameter, units), ylabel= 'Area Required for Constructed Wetland $(m^2)$')
 
 
         outputPlot.savefig("../Graphs and Charts/%s vs %s-%s.pdf" % (models[0].nameOfModel, models[1].nameOfModel, waterQualityParameter), bbox_inches='tight')
