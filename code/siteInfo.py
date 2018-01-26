@@ -8,7 +8,7 @@ class Site:
         #initialized with high end of EPA concentrations in typical residential wastewater
         #can be found at /EWBVT-GuatemalaConstructedWetland/sources/EPA\ Document\ About\ Leach\ Fields.pdf 
         #values in mg/L
-        self.currentSepticTankEffluent = {'BOD':155, 'TSS':60, 'organicNitrogen':0.1, 'ammonia':40, 'nitrate':0.1, 'totalNitrogen':60, 'totalPhosphorus':8.1, 'fecalColiform':10**6}
+        self.currentSepticTankEffluent = {'BOD':168, 'TSS':85, 'organicNitrogen':0.1, 'ammonia':40, 'nitrate':0.1, 'totalNitrogen':63.4, 'totalPhosphorus':8.1, 'fecalColiform':10**6}
         self.necessaryEffluentQuality = {'BOD':10, 'TSS':10, 'organicNitrogen':10, 'ammonia':10, 'nitrate':10, 'totalNitrogen':10, 'totalPhosphorus':10, 'fecalColiform':200}
 
 
@@ -28,6 +28,9 @@ class Site:
 
         #initialize with elevation of CEFONMA (meters) found using google maps
         self.elevation = 2152.62
+
+        self.area = 822
+        
 
     def flowRateM3PD(self):
         return self.flowRate*0.003785
