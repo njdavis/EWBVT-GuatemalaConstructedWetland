@@ -20,7 +20,11 @@ class PresentData():
         for value in range(waterQualityLow, waterQualityHigh):
             
             site.currentSepticTankEffluent[waterQualityParameter] = value
-            yValue = model.safeFunctionCall('treatmentArea', waterQualityParameter, site)
+            if model.nameOfModel == "Kadlec Subsurface Flow":
+                yValue = model.safeFunctionCall('area', waterQualityParameter, site)
+            else:
+                yValue = model.treatmentArea(waterQualityParameter, site)
+
             if yValue != 0:
                 xAxis.append(value) 
                 yAxis.append(yValue)
@@ -28,9 +32,15 @@ class PresentData():
                  
         for parameterValue in highlightedValuesX:
             site.currentSepticTankEffluent[waterQualityParameter] = parameterValue
-            outputSubPlot.annotate('(%d, %d)' % (parameterValue, model.safeFunctionCall('treatmentArea',waterQualityParameter, site)), xy=(parameterValue+30, model.safeFunctionCall('treatmentArea',waterQualityParameter, site)-19 ))
+            if model.nameOfModel == "Kadlec Subsurface Flow":
+                area = model.safeFunctionCall('area', waterQualityParameter, site)
+            else:
+                area = model.treatmentArea(waterQualityParameter, site)
 
-            plt.plot(xAxis, yAxis, '-', parameterValue, model.safeFunctionCall('treatmentArea','BOD', site), 'h') 
+            site.currentSepticTankEffluent[waterQualityParameter] = parameterValue
+            outputSubPlot.annotate('(%d, %d)' % (parameterValue, area), xy=(parameterValue+30, area-19 ))
+
+            plt.plot(xAxis, yAxis, '-', parameterValue,area, 'h') 
 
         units = "mg/L"
         if waterQualityParameter == "fecalColiform":
