@@ -1,0 +1,9 @@
+Media Type       Effective Size (D~10~)(mm)  Porosity (n)(%)    Hydraulic Conductivity (K~s~)(m/d)
+-------------  ----------------------------  -----------------  ------------------------------------
+Coarse Sand                               2  28-32              100.04 - 1000.4
+Gravelly Sand                             8  30-35              500.2 - 5002.0
+Fine Gravel                              16  35-38              1000.4 - 10004.0
+Medium Gravel                            32  36-40              10004.0 - 50020.0
+Coarse Rock                             128  38-45              50020.0 - 250100.0
+ 
+Table: Typical Media Characteristics for Subsurface Flow Wetlands {#tbl:MediaCharacteristicsReed}

@@ -67,7 +67,7 @@ class ReedFreewaterFlow(ReedModel):
     def __init__(self):
         #From "Natural Wastewater Treatment Systems". First order removal model
         self.worksFor = {'BOD', 'TSS',  'ammonia', 'nitrate', 'phosphorus'}
-        self.KT_Const = {'BOD':0.678, 'ammonia':0.2187, 'nitrate':1 }
+        self.C*_Const = {'BOD':0.678, 'ammonia':0.2187, 'nitrate':1 }
         self.theta_Const = {'BOD':1.06, 'ammonia':1.048, 'nitrate':1.15 }
 
         #initialize with reasonable value used in example, but should change this
@@ -92,85 +92,28 @@ class ReedFreewaterFlow(ReedModel):
 class Kadlec():
 
     #Volumetric Design Equations
-    def backgroundConcentration(self, qualityType, site):
-        return (self.background_Const[qualityType]*self.theta_Const[qualityType]**(site.waterTemp-20))
+    #BOD
+    def backgroundConentration(self, qualityType, T_W):
+        return (self.background_Const[qualityType]*self.theta_Const[qualityType]**(T_W-20))
 
-    def area(self, qualityType, site):  
-        hectares = ((0.0365*site.avgFlowRate)/self.k_Const[qualityType])*math.log((site.currentSepticTankEffluent[qualityType] - self.backgroundConcentration(qualityType, site))/(site.necessaryEffluentQuality[qualityType] - self.backgroundConcentration(qualityType, site)) )
-        return hectares*10000
-      
-    def isEffluentQualityTooLow(self, qualityType, site):
-        if self.backgroundConcentration(qualityType, site) > site.necessaryEffluentQuality[qualityType]:
-            isEffluentTooLow = True
-        else: 
-            isEffluentTooLow = False   
-        return isEffluentTooLow
+    def treatmentArea(self, qualityType, siteInfo):  
+        return siteInfo.avgFlowRate*(math.log((siteInfo.currentSepticTankEffluent[qualityType] - self.backgroundConcentration[qualityType])/(siteInfo.necessaryEffluentQuality[qualityType] - self.backgroundConcentration[qualityType]))/(self.K_T(qualityType, siteInfo.waterTemp)))
 
-    def safeFunctionCall(self, function, qualityType, site):
-        if self.isEffluentQualityTooLow(qualityType, site):
-            print("Your effluent %s requirements are too low for this %s influent value (%.2f vs %.2f). Change area or C_in" % (qualityType, qualityType, site.necessaryEffluentQuality[qualityType], self.backgroundConcentration(qualityType, site)))
-            return 0
-        else:
-            if function == 'area':
-                return self.area(qualityType, site)
-            else:
-                return self.effluent(qualityType, site)
-
-    def minNecessaryEffluentQuality(self, site):
-        listOfMinValues = []
-        for qualityType in self.background_Const:
-            listOfMinValues.append(self.background_Const[qualityType])  
-        return listOfMinValues
-
-    def effluent(self, qualityType, site):
-        a = self.backgroundConcentration(qualityType, site)
-        b = (site.currentSepticTankEffluent[qualityType] - self.backgroundConcentration(qualityType, site))
-        c = -(self.k_Const[qualityType]*(site.area/10000))/(0.0365*site.avgFlowRate)
-        return a + b*math.exp(c)
-        
+    def effluent(self, qualityType, siteInfo):
+        return (self.backgroundConentration(qualityType) + (siteInfo.currentSepticTankEffluent[qualityType] - self.backgroundConentration(qualityType))*math.log(-(self.k_Const[qualityType]*siteInfo.area)/(0.0365*self.siteInfo.avgFlowRate)))        
+    
 
 class KadlecSubsurfaceFlow(Kadlec):
-    def __init__(self, site): 
+    def __init__(self, siteInfo):
 
         self.worksFor = ('BOD', 'TSS', 'organicNitrogen', 'ammonia', 'nitrate', 'totalNitrogen', 'totalPhosphorus')
+        #From "Natural Wastewater Treatment Systems". First order removal model
+        self.backgroundConcentration_Const = {'BOD':(3.5+0.053*siteInfo.currentSepticTankEffluent['BOD']), 'TSS':(7.8+0.063*siteInfo.currentSepticTankEffluent['TSS'], 'organicNitrogen':1.5, 'ammonia':0, 'nitrate':0, 'totalNitrogen':1.5, 'totalPhosphorus':0.02, 'fecalColiform':0} #fecal coliform: 10^b of central tendency of widely variable value
+        self.theta_Const = {'BOD':1.0, 'TSS':1.065, 'organicNitrogen':1, 'ammonia':1, 'nitrate':1, 'totalNitrogen':1, 'totalPhosphorus':1, 'fecalColiform':1}
+       
+        # For Ammonia: The KNH value would be 0.4107 with a fully developed root zone and 0.01854
         
-        
-        self.regression_Const = {'BOD':[0.33,1.4], 
-                                 'TSS':[7.8, 0.063], 
-                                 'organicNitrogen':[0.6], 
-                                 'ammonia':[3.3, 0.46], 
-                                 'totalNitrogen':[2.6, 0.46, 0.124], 
-                                 'totalPhosphorus':[0.51, 1.1]}
-
-        self.background_Const = {'BOD':(3.5+0.053*site.currentSepticTankEffluent['BOD']),
-                                 'TSS':(7.8+0.063*site.currentSepticTankEffluent['TSS']), 
-                                 'organicNitrogen':1.5, 
-                                 'ammonia':0, 
-                                 'nitrate':0, 
-                                 'totalNitrogen':1.5, 
-                                 'totalPhosphorus':0.02, 
-                                 'fecalColiform':0} 
-                                 #fecal coliform: 10^b of central tendency of widely variable value
-
-        self.theta_Const =      {'BOD':1.0, 
-                                 'TSS':1.065, 
-                                 'organicNitrogen':1, 
-                                 'ammonia':1, 'nitrate':1, 
-                                 'totalNitrogen':1, 
-                                 'totalPhosphorus':1, 
-                                 'fecalColiform':1} 
-
-        self.k_Const =          {'BOD':180, 
-                                 'TSS':1000, 
-                                 'organicNitrogen':35, 
-                                 'ammonia':34, 
-                                 'nitrate':50, 
-                                 'totalNitrogen':27, 
-                                 'totalPhosphorus':12, 
-                                 'fecalColiform':95}
-
-
-
+        self.regression_Const = {'BOD':[0.33,1.4], 'TSS':[7.8, 0.063], 'organicNitrogen':[0.6], 'ammonia':[3.3, 0.46], 'totalNitrogen':[2.6, 0.46, 0.124], 'totalPhosphorus':[0.51, 1.1]}
         
         #initialize with reasonable value used in example, but should change this
         self.avgDepth = 0.5
@@ -180,8 +123,45 @@ class KadlecSubsurfaceFlow(Kadlec):
 
         self.nameOfModel = "Kadlec Subsurface Flow"
 
-                #for tss 1000 is a rough estimate, should figure out settling rate instead
+        self.k_Const = {'BOD':180, 'TSS':1000, 'organicNitrogen':35, 'ammonia':34, 'nitrate':50, 'totalNitrogen':27, 'totalPhosphorus':12, 'fecalColiform':95}
+        #for tss 1000 is a rough estimate, should figure out settling rate instead
 
-            
+          
+
+#Virtual Class of the Kadlec Models
+class Tanzania():
+
+    #Volumetric Design Equations
+    #BOD
+    def K_T(self, qualityType, T_W):
+        return (self.backgroundConcentration_Const[qualityType]*self.theta_Const[qualityType]**(T_W-20))
+
+    def treatmentArea(self, qualityType, siteInfo):  
+        return ((0.0365*siteInfo.avgFlowRate)/self.k[qualityType])*math.log((siteInfo.currentSepticTankEffluent[qualityType] - backgroundConcentration(qualityType))/(siteInfo.necessaryEffluentQuality[qualityType] - backgroundConcentration(qualityType)))
+        
+    def effluent(self, qualityType, siteInfo):
+        hydrolicLoadingRate = siteInfo.avgFlowRate/siteInfo.area
+        return (math.exp((-self.K_T(qualityType, siteInfo.waterTemp)/hydrolicLoadingRate)))*(siteInfo.currentSepticTankEffluent[qualityType] + (math.exp(self.K_T(qualityType, siteInfo.waterTemp)/hydrolicLoadingRate)*self.backgroundConcentration[qualityType]) - self.backgroundConcentration[qualityType])
+        
+    
+
+class TanzaniaSubsurfaceFlow(Tanzania):
+    def __init__(self):
+
+        self.worksFor = ('BOD', 'TSS', 'organicNitrogen', 'ammonia', 'nitrate', 'totalNitrogen', 'totalPhosphorus')
+        #From "Natural Wastewater Treatment Systems". First order removal model
+        self.KT_Const = {'BOD':3.5, 'TSS':0.1186, 'organicNitrogen':0.959, 'ammonia':0.0932, 'nitrate':0.1370, 'totalNitrogen':0.0274, 'totalPhosphorus':0.0249, 'fecalColiform':0.274}
+        self.theta_Const = {'BOD':1.057, 'TSS':1, 'organicNitrogen':1.05, 'ammonia':1.05, 'nitrate':1.05, 'totalNitrogen':1.05, 'totalPhosphorus':1.097, 'fecalColiform':1.03}
+        self.backgroundConcentration = {'BOD':3.0, 'TSS':6.0, 'organicNitrogen':1.5, 'ammonia':0, 'nitrate':0, 'totalNitrogen':1.5, 'totalPhosphorus':0, 'fecalColiform':200}
+        # For Ammonia: The KNH value would be 0.4107 with a fully developed root zone and 0.01854
+        
+        #initialize with reasonable value used in example, but should change this
+        self.avgDepth = 0.5
+
+        #initialize to an average value from Reed book
+        self.porosity = 0.8
+
+        self.nameOfModel = "Kadlec Subsurface Flow"
 
 
+          

@@ -8,8 +8,8 @@ class Site:
         #initialized with high end of EPA concentrations in typical residential wastewater
         #can be found at /EWBVT-GuatemalaConstructedWetland/sources/EPA\ Document\ About\ Leach\ Fields.pdf 
         #values in mg/L
-        self.currentSepticTankEffluent = {'BOD':168, 'TSS':85, 'organicNitrogen':10, 'ammonia':40, 'nitrate':30, 'totalNitrogen':30, 'totalPhosphorus':8.1, 'fecalColiform':10**6}
-        self.necessaryEffluentQuality = {'BOD':10, 'TSS':10, 'organicNitrogen':2, 'ammonia':0.1, 'nitrate':2, 'totalNitrogen':2, 'totalPhosphorus':0.05, 'fecalColiform':200}
+        self.currentSepticTankEffluent = {'BOD':168, 'TSS':85, 'organicNitrogen':0.1, 'ammonia':40, 'nitrate':0.1, 'totalNitrogen':63.4, 'totalPhosphorus':8.1, 'fecalColiform':10**6}
+        self.necessaryEffluentQuality = {'BOD':10, 'TSS':10, 'organicNitrogen':10, 'ammonia':10, 'nitrate':10, 'totalNitrogen':10, 'totalPhosphorus':10, 'fecalColiform':200}
 
 
         #initialized with average monthly chajul temps (https://en.wikipedia.org/wiki/Chajul). Update if we find a closer town

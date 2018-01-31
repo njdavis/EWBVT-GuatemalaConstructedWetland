@@ -7,6 +7,7 @@ class PresentData():
         Prints graphs about how changing certain water quality parameters changes the area needed
         waterQualityParameter=string, site = siteInfo(), waterQualityLow = int, waterQualityHigh = int, highlightedValues = [x,..]
         '''
+
         tempWaterQuality = site.currentSepticTankEffluent[waterQualityParameter] 
         waterQualityList = []
         yAxis = []
@@ -17,16 +18,19 @@ class PresentData():
         outputSubPlot = outputPlot.add_subplot(111)
         
         for value in range(waterQualityLow, waterQualityHigh):
-            xAxis.append(value) 
+            
             site.currentSepticTankEffluent[waterQualityParameter] = value
-            yAxis.append(model.treatmentArea(waterQualityParameter, site))
+            yValue = model.safeFunctionCall('treatmentArea', waterQualityParameter, site)
+            if yValue != 0:
+                xAxis.append(value) 
+                yAxis.append(yValue)
 
                  
         for parameterValue in highlightedValuesX:
             site.currentSepticTankEffluent[waterQualityParameter] = parameterValue
-            outputSubPlot.annotate('(%d, %d)' % (parameterValue, model.treatmentArea(waterQualityParameter, site)), xy=(parameterValue+30, model.treatmentArea(waterQualityParameter, site)-20 ))
+            outputSubPlot.annotate('(%d, %d)' % (parameterValue, model.safeFunctionCall('treatmentArea',waterQualityParameter, site)), xy=(parameterValue+30, model.safeFunctionCall('treatmentArea',waterQualityParameter, site)-19 ))
 
-            plt.plot(xAxis, yAxis, '-', parameterValue, model.treatmentArea('BOD', site), 'h') 
+            plt.plot(xAxis, yAxis, '-', parameterValue, model.safeFunctionCall('treatmentArea','BOD', site), 'h') 
 
         units = "mg/L"
         if waterQualityParameter == "fecalColiform":
@@ -40,58 +44,9 @@ class PresentData():
 
         site.currentSepticTankEffluent[waterQualityParameter] = tempWaterQuality
 
-    def printMultipleModelsArea(self, models, waterQualityParameter, site, waterQualityLow, waterQualityHigh,  highlightedValuesX):
-        '''
-        Prints graphs about how changing certain water quality parameters changes the area needed
-        waterQualityParameter=string, site = siteInfo(), waterQualityLow = int, waterQualityHigh = int, highlightedValues = [x,..]
-        '''
-        
-        tempWaterQuality = site.currentSepticTankEffluent[waterQualityParameter] 
-
-        waterQualityList = []
-        yAxis = []
-        xAxis = []
-        areaEPA = []
-
-        outputPlot = plt.figure()
-        outputSubPlot = outputPlot.add_subplot(111) 
-        
-        for i, model in enumerate(models):
-            yAxis.append([])
-            xAxis.append([])
-            
-            for value in range(waterQualityLow, waterQualityHigh):   
-                xAxis[i].append(value) 
-                site.currentSepticTankEffluent[waterQualityParameter] = value
-                yAxis[i].append(model.treatmentArea(waterQualityParameter, site))
- 
-            outputSubPlot.plot(xAxis[i], yAxis[i], '-', label = model.nameOfModel) 
-
-            for parameterValue in highlightedValuesX:  
-                site.currentSepticTankEffluent[waterQualityParameter] = parameterValue
-                outputSubPlot.annotate('(%d, %d)' % (parameterValue, model.treatmentArea(waterQualityParameter, site)), xy=(parameterValue+30, model.treatmentArea(waterQualityParameter, site)-20 ))
-                outputSubPlot.plot(parameterValue, model.treatmentArea('BOD', site), 'h')
             
 
-        outputSubPlot.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
-        units = "mg/L"
-        if waterQualityParameter == "fecalColiform":
-            units = "cfu/100ml"
-
-        graphTitle = ""
-        for model in models:
-            graphTitle = graphTitle + model.nameOfModel + " v "
-        graphTitle = graphTitle[:-3] + ": " + waterQualityParameter
-
-        outputSubPlot.set(title=graphTitle, xlabel='%s (%s)' % (waterQualityParameter, units), ylabel= 'Area Required for Constructed Wetland $(m^2)$')
-
-
-        outputPlot.savefig("../Graphs and Charts/%s vs %s-%s.pdf" % (models[0].nameOfModel, models[1].nameOfModel, waterQualityParameter), bbox_inches='tight')
-
-        site.currentSepticTankEffluent[waterQualityParameter] = tempWaterQuality
-        
-
-    def printMultipleModelsEffluent(self, model,  site, waterQualityLow, waterQualityHigh,  highlightedValuesX):
+    def printMultipleModelsArea(self, model,  site, waterQualityLow, waterQualityHigh,  highlightedValuesX):
         '''
         Prints graphs about how changing certain water quality parameters changes the area needed
         waterQualityParameter=string, site = siteInfo(), waterQualityLow = int, waterQualityHigh = int, highlightedValues = [x,..]
@@ -101,22 +56,37 @@ class PresentData():
         waterQualityList = []
         yAxis = []
         xAxis = []
+        listOfAreas = []
         areaEPA = []
 
         outputPlot = plt.figure()
         outputSubPlot = outputPlot.add_subplot(111) 
         
+
         for i, waterQualityParameter in enumerate(model.worksFor):
             yAxis.append([])
             xAxis.append([])
             
-            for value in range(waterQualityLow, waterQualityHigh):   
-                xAxis[i].append(value) 
-                site.area = value
-                yAxis[i].append(model.effluent(waterQualityParameter, site))
- 
+            #Kadlec Model has conditions that can report impossible values
+            if model.nameOfModel == "Kadlec Subsurface Flow":
+                if model.isEffluentQualityTooLow(waterQualityParameter, site):
+                    outputSubPlot.set(title=('Your Effluent requirements are Too Low: !< %.2f' % model.backgroundConcentration(waterQualityParameter, site)), xlabel= 'Your Effluent requirements are Too Low', ylabel='Your Effluent requirements are Too Low')
+                    outputPlot.savefig("../Graphs and Charts/%s Effluent.pdf" % (model.nameOfModel), bbox_inches='tight')
+
+                    return 
+                else:                        
+                    for value in range(waterQualityLow, waterQualityHigh):   
+                        xAxis[i].append(value) 
+                        site.area = value
+                        yAxis[i].append(model.safeFunctionCall('effluent', waterQualityParameter, site))
+            else: 
+                for value in range(waterQualityLow, waterQualityHigh):   
+                    xAxis[i].append(value) 
+                    site.area = value
+                    yAxis[i].append(model.effluent(waterQualityParameter, site))
+
             outputSubPlot.plot(xAxis[i], yAxis[i], '-', label = waterQualityParameter) 
-            
+        
         outputSubPlot.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
         units = "mg/L"
         if waterQualityParameter == "fecalColiform":
