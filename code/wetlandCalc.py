@@ -132,7 +132,7 @@ class Kadlec():
 class KadlecSubsurfaceFlow(Kadlec):
     def __init__(self, site): 
 
-        self.worksFor = ('BOD', 'TSS', 'organicNitrogen', 'ammonia', 'nitrate', 'totalNitrogen', 'totalPhosphorus')
+        self.worksFor = ('BOD', 'TSS', 'organicNitrogen', 'ammonia', 'nitrate', 'totalNitrogen', 'totalPhosphorus', 'fecalColiform')
         
         
         self.regression_Const = {'BOD':[0.33,1.4], 
@@ -149,14 +149,15 @@ class KadlecSubsurfaceFlow(Kadlec):
                                  'nitrate':0, 
                                  'totalNitrogen':1.5, 
                                  'totalPhosphorus':0.02, 
-                                 'fecalColiform':0} 
+                                 'fecalColiform':10} 
                                  #fecal coliform: 10^b of central tendency of widely variable value
 
         self.theta_Const =      {'BOD':1.0, 
-                                 'TSS':1.065, 
-                                 'organicNitrogen':1, 
-                                 'ammonia':1, 'nitrate':1, 
-                                 'totalNitrogen':1, 
+                                 'TSS':1.0, 
+                                 'organicNitrogen':1.05, 
+                                 'ammonia':1.04, 
+                                 'nitrate':1.09, 
+                                 'totalNitrogen':1.05, 
                                  'totalPhosphorus':1, 
                                  'fecalColiform':1} 
 
@@ -169,8 +170,7 @@ class KadlecSubsurfaceFlow(Kadlec):
                                  'totalPhosphorus':12, 
                                  'fecalColiform':95}
 
-
-
+        
         
         #initialize with reasonable value used in example, but should change this
         self.avgDepth = 0.5
@@ -180,7 +180,42 @@ class KadlecSubsurfaceFlow(Kadlec):
 
         self.nameOfModel = "Kadlec Subsurface Flow"
 
-                #for tss 1000 is a rough estimate, should figure out settling rate instead
+        #for tss 1000 is a rough estimate, should figure out settling rate instead
+        self.worksForAbb = ('BOD', 'TSS', 'Organic N', 'NH~4~-N', 'NO~x~N', 'TN', 'TP', 'FC')
+
+    def convertBackground_Const(self):
+        out = self.regression_Const
+        for value in self.worksFor:
+            if value == 'BOD':
+                out[value] = "3.5+0.053 C~i~"
+            elif value == 'TSS':
+                out[value] = "7.8+0.063 C~i~"
+            else:
+                out[value] = str(self.background_Const[value])
+        return out
+
+    def table21_1(self):
+        convBackground_Const = self.convertBackground_Const()
+        out = []
+        for x, qualityType in enumerate(self.worksFor):
+            out.append([])
+            out[x].append(str(self.k_Const[qualityType]))
+            out[x].append(str(self.theta_Const[qualityType]))
+            out[x].append(convBackground_Const[qualityType])
+
+        return out
+    
+    def printTable21_1(self):
+        values = self.table21_1()
+        #from table 21-1: SSF Model Parameter Values -- Preliminary
+        self.SSFModelParmaters = {"": ["k20, m/yr", "$\Theta$", "C*, mg/L"], "BOD":values[0], "TSS":values[1], "Organic N":values[2], 'NH~4~-N':values[3] , 'NO~x~N':values[4], 'TN':values[5], 'TP':values[6], 'FC':values[7]}
+
+        text_file = open("../Graphs and Charts/charts/Kadlec 21-1 Table.txt", "w")
+        text_file.write(tabulate.tabulate(self.SSFModelParmaters, headers="keys", tablefmt="simple"))
+        text_file.write("\n \nTable: Typical Media Characteristics for Subsurface Flow Wetlands {#tbl:MediaCharacteristicsReed}")
+        text_file.close()
+
+
 
             
 

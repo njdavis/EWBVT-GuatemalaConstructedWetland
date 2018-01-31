@@ -29,6 +29,7 @@ def main():
     output.printMultipleModelsArea(ReedSSF, CEFONMA, 10, 800, [])
 
     ReedSSF.printMediaCharacteristicsTable()
+    KadlecSSF.printTable21_1()
            
 
 if __name__ == '__main__': main()

@@ -1,0 +1,7 @@
+           BOD             TSS               Organic N    NH~4~-N    NO~x~N     TN     TP    FC
+---------  --------------  --------------  -----------  ---------  --------  -----  -----  ----
+k20, m/yr  180             1000                  35         34        50     27     12       95
+$\Theta$   1.0             1.0                    1.05       1.04      1.09   1.05   1        1
+C*, mg/L   3.5+0.053 C~i~  7.8+0.063 C~i~         1.5        0         0      1.5    0.02    10
+ 
+Table: Typical Media Characteristics for Subsurface Flow Wetlands {#tbl:MediaCharacteristicsReed}
