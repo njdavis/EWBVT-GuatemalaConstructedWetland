@@ -10,8 +10,8 @@ from present import PresentData
 def main():
 
     CEFONMA = Site()    
-    ReedSSF = ReedSubsurfaceFlow()
-    ReedFWF = ReedFreewaterFlow()
+    ReedSSF = ReedSubsurfaceFlow(CEFONMA)
+    ReedFWF = ReedFreewaterFlow(CEFONMA)
     KadlecSSF = KadlecSubsurfaceFlow(CEFONMA)
     output = PresentData()
     
