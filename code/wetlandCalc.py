@@ -7,17 +7,18 @@ from siteInfo import Site
 #Virtual Class of the Reed Model
 class ReedModel():
     
-    def K_T(self, qualityType, T_W):
-        return (self.KT_Const[qualityType]*self.theta_Const[qualityType]**(T_W-20))
+    def K_T(self, qualityType):
+        return (self.KT_Const[qualityType]*self.theta_Const[qualityType]**(self.site.waterTemp-20))
 
-    def treatmentArea(self, qualityType, site):
-        return site.avgFlowRate*((math.log(site.currentSepticTankEffluent[qualityType]/site.necessaryEffluentQuality[qualityType]))/(self.K_T(qualityType, site.waterTemp)*self.avgDepth*self.porosity))
+    def treatmentArea(self, qualityType):
+        return self.site.avgFlowRate*((math.log(self.site.currentSepticTankEffluent[qualityType]/self.site.necessaryEffluentQuality[qualityType]))/(self.K_T(qualityType)*self.avgDepth*self.porosity))
 
             
             
 class ReedSubsurfaceFlow(ReedModel):
 
-    def __init__(self): 
+    def __init__(self, site): 
+        self.site = site
         #From "Natural Wastewater Treatment Systems". First order removal model
         self.worksFor = ['BOD', 'TSS',  'ammonia', 'nitrate', 'fecalColiform']
         self.KT_Const = {'BOD':1.104, 'ammonia':0.4107, 'nitrate':1 }
@@ -48,23 +49,30 @@ class ReedSubsurfaceFlow(ReedModel):
 
 
 
-    def hydrolicLoadingRate(self, site):
-        return ((site.area*self.avgDepth*self.porosity)/site.avgFlowRate)/100
+    def hydrolicLoadingRate(self):
+        return ((self.site.avgFlowRate)/self.site.area)*100
 
-    def effluent(self, qualityType, site):
-        hydrolicLoadingRate = self.hydrolicLoadingRate(site)
-        hydrolicRetentionTime = (site.area*self.avgDepth*self.porosity)/site.avgFlowRate
+    def effluent(self, qualityType):
+        hydrolicLoadingRate = self.hydrolicLoadingRate()
+        hydrolicRetentionTime = (self.site.area*self.avgDepth*self.porosity)/self.site.avgFlowRate
 
+        #Gotta reread the book to figure out 
         if qualityType == 'TSS':
             if hydrolicLoadingRate < 0.4:
+                print("Hydrolic Loading Rate %d Too Low" % hydrolicLoadingRate)
                 hydrolicLoadingRate = 0.4
-            return site.currentSepticTankEffluent[qualityType]*(0.1058+(0.0011*hydrolicLoadingRate))
+            elif hydrolicLoadingRate > 75:
+                print("Hydrolic Loading Rate %d Too High" % hydrolicLoadingRate)
+                hydrolicLoadingRate = 75
+                
+            return self.site.currentSepticTankEffluent[qualityType]*(0.1058+(0.0011*hydrolicLoadingRate))
         else:
-            return site.currentSepticTankEffluent[qualityType]*math.exp(-self.K_T(qualityType, site.waterTemp)*hydrolicRetentionTime)
+            return self.site.currentSepticTankEffluent[qualityType]*math.exp(-self.K_T(qualityType)*hydrolicRetentionTime)
 
 class ReedFreewaterFlow(ReedModel):
 
-    def __init__(self):
+    def __init__(self, site):
+        self.site = site
         #From "Natural Wastewater Treatment Systems". First order removal model
         self.worksFor = {'BOD', 'TSS',  'ammonia', 'nitrate', 'phosphorus'}
         self.KT_Const = {'BOD':0.678, 'ammonia':0.2187, 'nitrate':1 }
@@ -78,59 +86,60 @@ class ReedFreewaterFlow(ReedModel):
 
         self.nameOfModel = "Reed Freewater Flow"
 
-    def effluent(self, qualityType, site):
-        hydrolicLoadingRate = site.avgFlowRate/site.area
+    def effluent(self, qualityType):
+        hydrolicLoadingRate = self.site.avgFlowRate/self.site.area
 
         if qualityType == 'phosphorus':
-            return site.currentSepticTankEffluent*math.exp(-self.K_T(qualityType, site.waterTemp)/hydrolicLoadingRate)
+            return self.site.currentSepticTankEffluent*math.exp(-self.K_T(qualityType, self.site.waterTemp)/hydrolicLoadingRate)
         elif qualityType == 'TSS':
-            return site.currentSepticTankEffluent[qualityType]*(0.11139+(0.00213*hydrolicLoadingRate))
+            return self.site.currentSepticTankEffluent[qualityType]*(0.11139+(0.00213*hydrolicLoadingRate))
         else:
-            return site.currentSepticTankEffluent[qualityType]*math.exp(-self.K_T(qualityType, site.waterTemp)*self.hydrolicRetentionTime)
+            return self.site.currentSepticTankEffluent[qualityType]*math.exp(-self.K_T(qualityType, site.waterTemp)*self.hydrolicRetentionTime)
 
 #Virtual Class of the Kadlec Models
 class Kadlec():
 
     #Volumetric Design Equations
-    def backgroundConcentration(self, qualityType, site):
-        return (self.background_Const[qualityType]*self.theta_Const[qualityType]**(site.waterTemp-20))
+    def backgroundConcentration(self, qualityType): 
+        return (self.background_Const[qualityType]*self.theta_Const[qualityType]**(self.site.waterTemp-20))
 
-    def area(self, qualityType, site):  
-        hectares = ((0.0365*site.avgFlowRate)/self.k_Const[qualityType])*math.log((site.currentSepticTankEffluent[qualityType] - self.backgroundConcentration(qualityType, site))/(site.necessaryEffluentQuality[qualityType] - self.backgroundConcentration(qualityType, site)) )
+    def area(self, qualityType):  
+        hectares = ((0.0365*self.site.avgFlowRate)/self.k_Const[qualityType])*math.log((self.site.currentSepticTankEffluent[qualityType] - self.backgroundConcentration(qualityType))/(self.site.necessaryEffluentQuality[qualityType] - self.backgroundConcentration(qualityType)) )
         return hectares*10000
       
-    def isEffluentQualityTooLow(self, qualityType, site):
-        if self.backgroundConcentration(qualityType, site) > site.necessaryEffluentQuality[qualityType]:
+    def isEffluentQualityTooLow(self, qualityType):
+        if self.backgroundConcentration(qualityType) > self.site.necessaryEffluentQuality[qualityType]:
             isEffluentTooLow = True
         else: 
             isEffluentTooLow = False   
         return isEffluentTooLow
 
-    def safeFunctionCall(self, function, qualityType, site):
-        if self.isEffluentQualityTooLow(qualityType, site):
-            print("Your effluent %s requirements are too low for this %s influent value (%.2f vs %.2f). Change area or C_in" % (qualityType, qualityType, site.necessaryEffluentQuality[qualityType], self.backgroundConcentration(qualityType, site)))
+    def safeFunctionCall(self, function, qualityType):
+        if self.isEffluentQualityTooLow(qualityType):
+            print("Your effluent %s requirements are too low for this %s influent value (%.2f vs %.2f). Change area or C_in" % (qualityType, qualityType, self.site.necessaryEffluentQuality[qualityType], self.backgroundConcentration(qualityType)))
             return 0
         else:
             if function == 'area':
-                return self.area(qualityType, site)
+                return self.area(qualityType)
             else:
-                return self.effluent(qualityType, site)
+                return self.effluent(qualityType)
 
-    def minNecessaryEffluentQuality(self, site):
+    def minNecessaryEffluentQuality(self):
         listOfMinValues = []
         for qualityType in self.background_Const:
             listOfMinValues.append(self.background_Const[qualityType])  
         return listOfMinValues
 
-    def effluent(self, qualityType, site):
-        a = self.backgroundConcentration(qualityType, site)
-        b = (site.currentSepticTankEffluent[qualityType] - self.backgroundConcentration(qualityType, site))
-        c = -(self.k_Const[qualityType]*(site.area/10000))/(0.0365*site.avgFlowRate)
+    def effluent(self, qualityType):
+        a = self.backgroundConcentration(qualityType)
+        b = (self.site.currentSepticTankEffluent[qualityType] - self.backgroundConcentration(qualityType))
+        c = -(self.k_Const[qualityType]*(self.site.area/10000))/(0.0365*self.site.avgFlowRate)
         return a + b*math.exp(c)
         
 
 class KadlecSubsurfaceFlow(Kadlec):
     def __init__(self, site): 
+        self.site = site
 
         self.worksFor = ['BOD', 'TSS', 'organicNitrogen', 'ammonia', 'nitrate', 'totalNitrogen', 'totalPhosphorus', 'fecalColiform']
         
@@ -142,8 +151,8 @@ class KadlecSubsurfaceFlow(Kadlec):
                                  'totalNitrogen':[2.6, 0.46, 0.124], 
                                  'totalPhosphorus':[0.51, 1.1]}
 
-        self.background_Const = {'BOD':(3.5+0.053*site.currentSepticTankEffluent['BOD']),
-                                 'TSS':(7.8+0.063*site.currentSepticTankEffluent['TSS']), 
+        self.background_Const = {'BOD':(3.5+0.053*self.site.currentSepticTankEffluent['BOD']),
+                                 'TSS':(7.8+0.063*self.site.currentSepticTankEffluent['TSS']), 
                                  'organicNitrogen':1.5, 
                                  'ammonia':0, 
                                  'nitrate':0, 
@@ -171,6 +180,8 @@ class KadlecSubsurfaceFlow(Kadlec):
                                  'fecalColiform':95}
 
         
+
+        
         
         #initialize with reasonable value used in example, but should change this
         self.avgDepth = 0.5
@@ -183,59 +194,7 @@ class KadlecSubsurfaceFlow(Kadlec):
         #for tss 1000 is a rough estimate, should figure out settling rate instead
         self.worksForAbb = ('BOD', 'TSS', 'Organic N', 'NH~4~-N', 'NO~x~N', 'TN', 'TP', 'FC')
 
-    def convertBackground_Const(self):
-        out = self.regression_Const
-        for value in self.worksFor:
-            if value == 'BOD':
-                out[value] = "3.5+0.053 C~i~"
-            elif value == 'TSS':
-                out[value] = "7.8+0.063 C~i~"
-            else:
-                out[value] = str(self.background_Const[value])
-        return out
-
-    def table21_1(self):
-        convBackground_Const = self.convertBackground_Const()
-        out = []
-        for x, qualityType in enumerate(self.worksFor):
-            out.append([])
-            out[x].append(str(self.k_Const[qualityType]))
-            out[x].append(str(self.theta_Const[qualityType]))
-            out[x].append(convBackground_Const[qualityType])
-
-        return out
-    
-    def printTable21_1(self):
-        values = self.table21_1()
-        #from table 21-1: SSF Model Parameter Values -- Preliminary
-        self.SSFModelParmaters = {"": ["k20, m/yr", "$\Theta$", "C*, mg/L"], "BOD":values[0], "TSS":values[1], "Organic N":values[2], 'NH~4~-N':values[3] , 'NO~x~N':values[4], 'TN':values[5], 'TP':values[6], 'FC':values[7]}
-
-        text_file = open("../visualization/charts/Kadlec 21-1 Table.txt", "w")
-        text_file.write(tabulate.tabulate(self.SSFModelParmaters, headers="keys", tablefmt="simple"))
-        text_file.write("\n \nTable: Typical Media Characteristics for Subsurface Flow Wetlands {#tbl:MediaCharacteristicsReed}")
-        text_file.close()
-
-    def printTableOfEffluent(self, listOfAreas, site):
-        values = []
-        for typeCount, qualityType in enumerate(self.worksFor):
-            values.append([])
-            for area in listOfAreas:
-                site.area = area
-                effluent = self.effluent(qualityType, site)
-                if type(effluent) is str:
-                    print("Your effluent %s requirements are too low for this %s influent value (%.2f vs %.2f). Change area or C_in" % (qualityType, qualityType, site.necessaryEffluentQuality[qualityType], self.backgroundConcentration(qualityType, site)))
-                    values[typeCount].append("N/A")
-                else:
-                    values[typeCount].append("%.2f" % effluent)
-
-        self.SSFModelParmaters = {"Area (m^2^":listOfAreas, "BOD":values[0], "TSS":values[1], "Organic N":values[2], 'NH~4~-N':values[3] , 'NO~x~N':values[4], 'TN':values[5], 'TP':values[6], 'FC':values[7]}
-
-        text_file = open("../visualization/charts/Kadlec Effluent with Areas [%s] .txt" % ', '.join(map(str, listOfAreas)), "w")
-        text_file.write(tabulate.tabulate(self.SSFModelParmaters, headers="keys", tablefmt="simple"))
-        text_file.write("\n \nTable: Possible Effluent Values at Certain Areas {#tbl:specificAreas}")
-        text_file.close()
-
-        
+            
 
 
 
