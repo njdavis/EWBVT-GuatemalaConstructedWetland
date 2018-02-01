@@ -1,0 +1,134 @@
+# Basic Git Commands
+
+## Installing Git
+
+## Windows:
+
+### GUI:
+
+All IDE's should have git support built in. We'll install Anaconda during the meeting. Anaconda comes with PyCharm as the IDE. 
+
+Otherwise, you can use any seperate git client. I've had people recommend [SourceTree](https://www.sourcetreeapp.com/) before. 
+
+
+##  Mac:
+
+### GUI:
+
+All IDE's should have git support built in. We'll install Anaconda during the meeting. Anaconda comes with PyCharm as the IDE. 
+
+Otherwise, you can use any seperate git client. I've had people recommend [SourceTree](https://www.sourcetreeapp.com/) before. 
+
+### Command Line:
+
+~~~
+$ git --version
+~~~
+Then follow the instructions on screen.
+
+## Linux:
+
+### Command Line:
+
+~~~
+$ sudo apt-get install git-all
+~~~
+*This example is for Debian-based distributions. If you have a different package manager then use that instead of "apt-get".
+
+
+### GUI:
+
+All IDE's should have git support built in. We'll install Anaconda during the meeting. Anaconda comes with PyCharm as the IDE. <Paste>
+
+I don't have any experience with  any seperate clients. I just use the command line and that or using your IDE is probably your best bet. I'm sure you can[Google](www.google.com) one though. 
+
+
+
+# Git Shell Commands
+
+## Configure Git:
+
+### Changing name and email:
+
+~~~
+$ git config --global user.name "John Doe"
+$ git config --global user.email johndoe@example.com
+~~~
+
+If you want to use a different text editor:
+
+~~~
+$ git config --global core.editor nvim
+~~~
+
+If you want to view your settings:
+
+~~~
+$ git config --list
+ user.name=John Doe
+ user.email=johndoe@example.com
+ color.status=auto
+ color.branch=auto
+ color.interactive=auto
+ color.diff=auto
+ ...
+~~~
+
+### Need To Know About Any Git Command? 
+
+~~~
+$git help <verb>
+~~~
+Or just ask any question you have to [Google](www.google.com) like every professional programmer I know. I literally had a friend tell me his entire programming department just got up and went home one day cause the internet went out. 
+
+## Using Git
+
+### Copying Remote Repository:
+
+~~~
+$ git clone "https://github.com/njdavis/EWBVT-GuatemalaConstructedWetland.git"
+~~~
+
+### Creating a New Branch (Do the next 2 steps before you start making changes to our code):
+
+~~~
+$ git checkout -b yourName
+  Switched to a new branch "yourName"
+~~~
+
+### Switching Branches:
+
+~~~
+ $ git checkout yourName
+~~~
+
+
+### Staging Files for Commit (these are the files you are "saving" to the remote repository):
+
+To add an individual file or directory:
+
+~~~
+$ git add somefile
+~~~
+To add all the files that have been changed:
+
+~~~
+$ git add --all
+~~~
+
+### Commiting Files (Basically saving all the files):
+
+~~~
+$ git commit -m "Some message describing what you've changed/Notes on current files" someFile
+~~~
+
+### Pushing to Github (copies your git saves from your computer to our GitHub repository):
+
+~~~
+$ git push
+~~~
+
+
+
+
+
