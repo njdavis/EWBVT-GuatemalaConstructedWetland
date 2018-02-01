@@ -1,2 +1,6 @@
 $ cat .gitignore
 visualization/*.pdf
+<<<<<<< HEAD
+=======
+
+>>>>>>> Noah
