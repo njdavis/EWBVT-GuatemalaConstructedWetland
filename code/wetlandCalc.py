@@ -19,7 +19,7 @@ class ReedSubsurfaceFlow(ReedModel):
 
     def __init__(self): 
         #From "Natural Wastewater Treatment Systems". First order removal model
-        self.worksFor = {'BOD', 'TSS',  'ammonia', 'nitrate'}
+        self.worksFor = ['BOD', 'TSS',  'ammonia', 'nitrate', 'fecalColiform']
         self.KT_Const = {'BOD':1.104, 'ammonia':0.4107, 'nitrate':1 }
         self.theta_Const = {'BOD':1.06, 'ammonia':1.048, 'nitrate':1.15 }
 
@@ -132,7 +132,7 @@ class Kadlec():
 class KadlecSubsurfaceFlow(Kadlec):
     def __init__(self, site): 
 
-        self.worksFor = ('BOD', 'TSS', 'organicNitrogen', 'ammonia', 'nitrate', 'totalNitrogen', 'totalPhosphorus', 'fecalColiform')
+        self.worksFor = ['BOD', 'TSS', 'organicNitrogen', 'ammonia', 'nitrate', 'totalNitrogen', 'totalPhosphorus', 'fecalColiform']
         
         
         self.regression_Const = {'BOD':[0.33,1.4], 
@@ -214,6 +214,28 @@ class KadlecSubsurfaceFlow(Kadlec):
         text_file.write(tabulate.tabulate(self.SSFModelParmaters, headers="keys", tablefmt="simple"))
         text_file.write("\n \nTable: Typical Media Characteristics for Subsurface Flow Wetlands {#tbl:MediaCharacteristicsReed}")
         text_file.close()
+
+    def printTableOfEffluent(self, listOfAreas, site):
+        values = []
+        for typeCount, qualityType in enumerate(self.worksFor):
+            values.append([])
+            for area in listOfAreas:
+                site.area = area
+                effluent = self.effluent(qualityType, site)
+                if type(effluent) is str:
+                    print("Your effluent %s requirements are too low for this %s influent value (%.2f vs %.2f). Change area or C_in" % (qualityType, qualityType, site.necessaryEffluentQuality[qualityType], self.backgroundConcentration(qualityType, site)))
+                    values[typeCount].append("N/A")
+                else:
+                    values[typeCount].append("%.2f" % effluent)
+
+        self.SSFModelParmaters = {"Area (m^2^":listOfAreas, "BOD":values[0], "TSS":values[1], "Organic N":values[2], 'NH~4~-N':values[3] , 'NO~x~N':values[4], 'TN':values[5], 'TP':values[6], 'FC':values[7]}
+
+        text_file = open("../Graphs and Charts/charts/Kadlec Effluent with Areas [%s] .txt" % ', '.join(map(str, listOfAreas)), "w")
+        text_file.write(tabulate.tabulate(self.SSFModelParmaters, headers="keys", tablefmt="simple"))
+        text_file.write("\n \nTable: Possible Effluent Values at Certain Areas {#tbl:specificAreas}")
+        text_file.close()
+
+        
 
 
 

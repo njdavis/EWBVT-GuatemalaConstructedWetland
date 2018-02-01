@@ -1,4 +1,10 @@
-#!/usr/bin/env python
+#!/usr/local/bin/env python3
+import platform
+print platform.python_version()
+
+import sys
+print sys.path
+
 import panflute as pf
 import re
 
@@ -22,7 +28,7 @@ def comment(el, doc):
             doc.ignore = False
         return []
 
-if __name__ == "__main__":
-    pf.toJSONFilter(comment, prepare=prepare)
 
+if __name__ == "__main__":
+    pf.toJSONFilter("test")
 

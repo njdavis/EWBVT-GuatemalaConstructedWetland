@@ -72,8 +72,8 @@ class PresentData():
         outputPlot = plt.figure()
         outputSubPlot = outputPlot.add_subplot(111) 
         
-
-        for i, waterQualityParameter in enumerate(model.worksFor):
+        worksFor = model.worksFor[:-1]
+        for i, waterQualityParameter in enumerate(worksFor):
             yAxis.append([])
             xAxis.append([])
             
@@ -107,7 +107,7 @@ class PresentData():
             graphTitle = graphTitle + " " + waterQualityParameter + " V"
         graphTitle = graphTitle[:-3] 
 
-        outputSubPlot.set(title=graphTitle, xlabel= 'Area Required for Constructed Wetland $(m^2)$', ylabel=units)
+        outputSubPlot.set( xlabel= 'Area Required for Constructed Wetland $(m^2)$', ylabel=units)
 
         outputPlot.savefig("../Graphs and Charts/%s Effluent.pdf" % (model.nameOfModel), bbox_inches='tight')
 

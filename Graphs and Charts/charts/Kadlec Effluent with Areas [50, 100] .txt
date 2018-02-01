@@ -1,0 +1,6 @@
+  Area (m^2^     BOD    TSS    Organic N    NH~4~-N    NO~x~N     TN    TP      FC
+------------  ------  -----  -----------  ---------  --------  -----  ----  ------
+          50  125.2   25.18         9.48      37.64     27.44  28.65  7.93  843851
+         100   94.17  15.17         8.98      35.42     25.09  27.37  7.76  712085
+ 
+Table: Typical Media Characteristics for Subsurface Flow Wetlands {#tbl:MediaCharacteristicsReed}
