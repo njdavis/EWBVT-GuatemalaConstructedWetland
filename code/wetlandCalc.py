@@ -41,14 +41,6 @@ class ReedSubsurfaceFlow(ReedModel):
 
         self.mediaCharacteristicsTable = {"Media Type": ["Coarse Sand", "Gravelly Sand", "Fine Gravel", "Medium Gravel", "Coarse Rock"], "Effective Size (D~10~)(mm)": [2, 8, 16, 32, 128], "Porosity (n)(%)":["28-32","30-35","35-38","36-40","38-45"], "Hydraulic Conductivity (K~s~)(m/d)":self.hydraulicConductivity}
 
-    def printMediaCharacteristicsTable(self):
-        text_file = open("../visualization/charts/Media Characteristics Table.txt", "w")
-        text_file.write(tabulate.tabulate(self.mediaCharacteristicsTable, headers="keys", tablefmt="simple"))
-        text_file.write("\n \nTable: Typical Media Characteristics for Subsurface Flow Wetlands {#tbl:MediaCharacteristicsReed}")
-        text_file.close()
-
-
-
     def hydrolicLoadingRate(self):
         return ((self.site.avgFlowRate)/self.site.area)*100
 
@@ -59,10 +51,10 @@ class ReedSubsurfaceFlow(ReedModel):
         #Gotta reread the book to figure out 
         if qualityType == 'TSS':
             if hydrolicLoadingRate < 0.4:
-                print("Hydrolic Loading Rate %d Too Low" % hydrolicLoadingRate)
+                #print("Hydrolic Loading Rate %d Too Low" % hydrolicLoadingRate)
                 hydrolicLoadingRate = 0.4
             elif hydrolicLoadingRate > 75:
-                print("Hydrolic Loading Rate %d Too High" % hydrolicLoadingRate)
+                #print("Hydrolic Loading Rate %d Too High" % hydrolicLoadingRate)
                 hydrolicLoadingRate = 75
                 
             return self.site.currentSepticTankEffluent[qualityType]*(0.1058+(0.0011*hydrolicLoadingRate))

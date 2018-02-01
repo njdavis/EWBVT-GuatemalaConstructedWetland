@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 from wetlandCalc import ReedSubsurfaceFlow, ReedFreewaterFlow, KadlecSubsurfaceFlow
 from siteInfo import Site
-import tabulate, copy
+import tabulate, copy, os, sys
 
 
 class PresentData(): 
@@ -53,8 +53,8 @@ class PresentData():
         outputSubPlot.set(title=r'%s: %s' % (model.nameOfModel, waterQualityParameter),
         xlabel='%s (%s)' % (waterQualityParameter, units), ylabel= 'Area Required for Constructed Wetland $(m^2)$')
 
-
-        outputPlot.savefig("../visualization/%s-%s.pdf" % (model.nameOfModel, waterQualityParameter), bbox_inches='tight')
+        folderLocation = os.path.join(sys.path[0], "../visualization/%s-%s.pdf" % (model.nameOfModel, waterQualityParameter))
+        outputPlot.savefig(folderLocation, bbox_inches='tight')
 
         model.site.currentSepticTankEffluent[waterQualityParameter] = tempWaterQuality
 
@@ -113,7 +113,9 @@ class PresentData():
 
         outputSubPlot.set( xlabel= 'Area Required for Constructed Wetland $(m^2)$', ylabel=units)
 
-        outputPlot.savefig("../visualization/%s Effluent.pdf" % (model.nameOfModel), bbox_inches='tight')
+        folderLocation = os.path.join(sys.path[0], "../visualization/%s Effluent.pdf" % (model.nameOfModel))
+        
+        outputPlot.savefig(folderLocation, bbox_inches='tight')
 
         model.site.area = tempArea
 
@@ -144,7 +146,9 @@ class PresentData():
         #SF Model Parameter Values -- Preliminary
         self.SSFModelParmaters = {"": ["k20, m/yr", "$\Theta$", "C*, mg/L"], "BOD":values[0], "TSS":values[1], "Organic N":values[2], 'NH~4~-N':values[3] , 'NO~x~N':values[4], 'TN':values[5], 'TP':values[6], 'FC':values[7]}
 
-        text_file = open("../visualization/charts/Kadlec 21-1 Table.txt", "w")
+        folderLocation = os.path.join(sys.path[0], "../visualization/charts/Kadlec 21-1 Table.txt")
+        
+        text_file = open(folderLocation, "w")
         text_file.write(tabulate.tabulate(self.SSFModelParmaters, headers="keys", tablefmt="simple"))
         text_file.write("\n \nTable: Typical Media Characteristics for Subsurface Flow Wetlands {#tbl:MediaCharacteristicsReed}")
         text_file.close()
@@ -164,9 +168,20 @@ class PresentData():
 
         self.SSFModelParmaters = {"Area (m^2^":listOfAreas, "BOD":values[0], "TSS":values[1], "Organic N":values[2], 'NH~4~-N':values[3] , 'NO~x~N':values[4], 'TN':values[5], 'TP':values[6], 'FC':values[7]}
 
-        text_file = open("../visualization/charts/Kadlec Effluent with Areas [%s] .txt" % ', '.join(map(str, listOfAreas)), "w")
+        folderLocation = os.path.join(sys.path[0], "../visualization/charts/Kadlec Effluent with Areas [%s] .txt" % ', '.join(map(str, listOfAreas)))
+
+        text_file = open(folderLocation, "w")
         text_file.write(tabulate.tabulate(self.SSFModelParmaters, headers="keys", tablefmt="simple"))
         text_file.write("\n \nTable: Possible Effluent Values at Certain Areas {#tbl:specificAreas}")
+        text_file.close()
+
+    def printMediaCharacteristicsTable(self, model):
+        
+        folderLocation = os.path.join(sys.path[0], "../visualization/charts/Media Characteristics Table.txt")
+
+        text_file = open(folderLocation, "w")
+        text_file.write(tabulate.tabulate(model.mediaCharacteristicsTable, headers="keys", tablefmt="simple"))
+        text_file.write("\n \nTable: Typical Media Characteristics for Subsurface Flow Wetlands {#tbl:MediaCharacteristicsReed}")
         text_file.close()
 
 

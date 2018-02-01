@@ -52,7 +52,7 @@ def main():
     output.printMultipleModelsArea(KadlecSSF, 10, 800, [])
     output.printMultipleModelsArea(ReedSSF, 10, 800, [])
 
-    ReedSSF.printMediaCharacteristicsTable()
+    output.printMediaCharacteristicsTable(ReedSSF)
     output.printTable21_1(KadlecSSF)
     
     CEFONMA.__init__()
