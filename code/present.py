@@ -50,7 +50,7 @@ class PresentData():
         xlabel='%s (%s)' % (waterQualityParameter, units), ylabel= 'Area Required for Constructed Wetland $(m^2)$')
 
 
-        outputPlot.savefig("../Graphs and Charts/%s-%s.pdf" % (model.nameOfModel, waterQualityParameter), bbox_inches='tight')
+        outputPlot.savefig("../visualization/%s-%s.pdf" % (model.nameOfModel, waterQualityParameter), bbox_inches='tight')
 
         site.currentSepticTankEffluent[waterQualityParameter] = tempWaterQuality
 
@@ -81,7 +81,7 @@ class PresentData():
             if model.nameOfModel == "Kadlec Subsurface Flow":
                 if model.isEffluentQualityTooLow(waterQualityParameter, site):
                     outputSubPlot.set(title=('Your Effluent requirements are Too Low: !< %.2f' % model.backgroundConcentration(waterQualityParameter, site)), xlabel= 'Your Effluent requirements are Too Low', ylabel='Your Effluent requirements are Too Low')
-                    outputPlot.savefig("../Graphs and Charts/%s Effluent.pdf" % (model.nameOfModel), bbox_inches='tight')
+                    outputPlot.savefig("../visualization/%s Effluent.pdf" % (model.nameOfModel), bbox_inches='tight')
 
                     return 
                 else:                        
@@ -109,7 +109,7 @@ class PresentData():
 
         outputSubPlot.set( xlabel= 'Area Required for Constructed Wetland $(m^2)$', ylabel=units)
 
-        outputPlot.savefig("../Graphs and Charts/%s Effluent.pdf" % (model.nameOfModel), bbox_inches='tight')
+        outputPlot.savefig("../visualization/%s Effluent.pdf" % (model.nameOfModel), bbox_inches='tight')
 
         site.area = tempArea
 

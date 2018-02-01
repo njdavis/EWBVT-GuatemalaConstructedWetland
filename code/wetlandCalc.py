@@ -41,7 +41,7 @@ class ReedSubsurfaceFlow(ReedModel):
         self.mediaCharacteristicsTable = {"Media Type": ["Coarse Sand", "Gravelly Sand", "Fine Gravel", "Medium Gravel", "Coarse Rock"], "Effective Size (D~10~)(mm)": [2, 8, 16, 32, 128], "Porosity (n)(%)":["28-32","30-35","35-38","36-40","38-45"], "Hydraulic Conductivity (K~s~)(m/d)":self.hydraulicConductivity}
 
     def printMediaCharacteristicsTable(self):
-        text_file = open("../Graphs and Charts/charts/Media Characteristics Table.txt", "w")
+        text_file = open("../visualization/charts/Media Characteristics Table.txt", "w")
         text_file.write(tabulate.tabulate(self.mediaCharacteristicsTable, headers="keys", tablefmt="simple"))
         text_file.write("\n \nTable: Typical Media Characteristics for Subsurface Flow Wetlands {#tbl:MediaCharacteristicsReed}")
         text_file.close()
@@ -210,7 +210,7 @@ class KadlecSubsurfaceFlow(Kadlec):
         #from table 21-1: SSF Model Parameter Values -- Preliminary
         self.SSFModelParmaters = {"": ["k20, m/yr", "$\Theta$", "C*, mg/L"], "BOD":values[0], "TSS":values[1], "Organic N":values[2], 'NH~4~-N':values[3] , 'NO~x~N':values[4], 'TN':values[5], 'TP':values[6], 'FC':values[7]}
 
-        text_file = open("../Graphs and Charts/charts/Kadlec 21-1 Table.txt", "w")
+        text_file = open("../visualization/charts/Kadlec 21-1 Table.txt", "w")
         text_file.write(tabulate.tabulate(self.SSFModelParmaters, headers="keys", tablefmt="simple"))
         text_file.write("\n \nTable: Typical Media Characteristics for Subsurface Flow Wetlands {#tbl:MediaCharacteristicsReed}")
         text_file.close()
@@ -230,7 +230,7 @@ class KadlecSubsurfaceFlow(Kadlec):
 
         self.SSFModelParmaters = {"Area (m^2^":listOfAreas, "BOD":values[0], "TSS":values[1], "Organic N":values[2], 'NH~4~-N':values[3] , 'NO~x~N':values[4], 'TN':values[5], 'TP':values[6], 'FC':values[7]}
 
-        text_file = open("../Graphs and Charts/charts/Kadlec Effluent with Areas [%s] .txt" % ', '.join(map(str, listOfAreas)), "w")
+        text_file = open("../visualization/charts/Kadlec Effluent with Areas [%s] .txt" % ', '.join(map(str, listOfAreas)), "w")
         text_file.write(tabulate.tabulate(self.SSFModelParmaters, headers="keys", tablefmt="simple"))
         text_file.write("\n \nTable: Possible Effluent Values at Certain Areas {#tbl:specificAreas}")
         text_file.close()
