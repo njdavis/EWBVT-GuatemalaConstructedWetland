@@ -1,7 +1,6 @@
 $ cat .gitignore
 visualization/*.pdf
 code/__pycache__
-<<<<<<< HEAD
-=======
+explanation/*.pdf
 
->>>>>>> Noah
+

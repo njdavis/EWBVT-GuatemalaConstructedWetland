@@ -1,27 +1,255 @@
+---
+title: Notes About Constructed Wetlands
+author: Engineers Without Borders Virginia Tech
+fontfamily: droid
+margin-left: 1in
+margin-right: 1in
+subparagraph: yes
+classoption: fleqn
+header-includes:
+- \setlength{\mathindent}{125pt}
+- \usepackage{titlesec}
+- \titleformat{\section}[display]
+  {\bfseries\centering}{\sectiontitlename\ \thesection}{20pt}{\Large}
+
+---
+
+\maketitle
+\pagebreak
+
+\section{k-C$^\ast$ Model (1996) \\}
 
 
-# Notes About Constructed Wetland Calculations
+$$ A = (\frac{0.0365*Q}{k})\ln{(\frac{C_i - C^\ast}{C_e - C^\ast})} $${#eq:k-C Model (Kadlec)}
+$$ C_o = C^* + (C_i - C*)\exp{(-\frac{kA}{0.0365Q})}  $${#eq:k-C Model (Kadlec)}
 
-## Kadlec Calculations
+$$ C_o = \text{outlet concentration (mg/L)} $$
+$$ C_i = \text{inlet concentration (mg/L)} $$
+$$ C^* = \text{background concentration (mg/L)} $$
+$$ k = \text{modified first order areal constant (m/d)} $$
+$$ A = \text{area (m\textsuperscript{2}/d)} $$
+$$ Q = \text{design flow (m\textsuperscript{3}/d)} $$
 
-~~~~~~~ {#kadlec21-1 .insertExtFile .read}
-../Graphs and Charts/charts/Kadlec 21-1 Table.txt
+
+
+~~~~~~~ {#kadlec22-1 .insertExtFile .read}
+../visualization/charts/Kadlec 21-1 Table.txt
 ~~~~~~~
-~~~~~~~ {#kadlec21-1 .insertExtFile .read}
-../Graphs and Charts/charts/Kadlec Effluent with Areas [500, 1000, 10000] .txt
+~~~~~~~ {#kadlecPossible .insertExtFile .read}
+../visualization/charts/Kadlec Effluent with Areas [500, 1000, 10000].txt
 ~~~~~~~
 
 
-![Kadlec Effluent](../Graphs and Charts/Kadlec Subsurface Flow Effluent.pdf){#fig:kadlecEffluent width=600}
+
+
+![Kadlec Effluent](../visualization/Kadlec Subsurface Flow Effluent.pdf){#fig:kadlecEffluent width=600}
 
 \pagebreak
 
-## Reed Calculations
+\section{P-k-C$^\ast$ Model (2009) \\}
 
-~~~~~~~ {#mediaCharacteristics .insertExtFile}
-../Graphs and Charts/charts/Media Characteristics Table.txt
+
+
+
+$$ \frac{(C_o - C^*)}{(C_i - C^*)} = \frac{1}{(1 + k/Pq)^P} $$ {#eq:P-k-C Model (Kadlec)}
+
+
+$$ C_o = \text{outlet concentration (mg/L)} $$
+$$ C_i = \text{inlet concentration (mg/L)} $$
+$$ C^* = \text{background concentration (mg/L)} $$
+$$ k = \text{modified first order areal constant (m/d)} $$
+$$ p = \text{number of cells} $$
+$$ q = \text{hydrolic loading rate (m/d)} $$
+
+$$ k_T = K_{20}\theta^{(T-20)} $$ {#eq: Temperature effect on K (Kadlec)}
+
+$$ C^\ast = C_0 = 1.5 + 0.22C_i $$ {#eq: TSS Removal (Kadlec)}
+
+$$ Q_1 = Q_i + A_1(P - ET - I) $$ {#eq: Total  Flow Rate (Kadlec)}
+
+$$ A_1 = \text{area of the first segment (tank), m\textsuperscript{3}} $$
+
+$$ ET = \text{evapotranspiration, m/d } $$
+$$ I = \text{infiltration, m/d} $$
+$$ P = \text{precipitation, m/d} $$
+$$ Q_i = \text{inlet flow rate, m\textsuperscript{3}/d} $$
+$$ Q_1 = \text{outlet flow rate from first segment, m\textsuperscript{3}/d} $$
+
+$$ q = Q/A $$ {#eq: Hydrolic Loading Rate, m/d}
+$$ q = \text{hydrolic loading rate} $$
+$$ Q = \text{inflow rate, m\textsuperscript{3}/d } $$
+$$ A = \text{area, m\textsuperscript{2}}  $$ 
+
+
+~~~~~~~ {#BODRateConstants .insertExtFile .read}
+../visualization/charts/firstOrderBODRateConstantsKadlec.txt
 ~~~~~~~
- 
-![Reed Effluent](../Graphs and Charts/Reed Subsurface Flow Effluent.pdf){#fig:reedEffluent width=600}
 
-Testing (Figure @fig:kadlecEffluent)
+\pagebreak
+
+~~~~~~~ {#firstOrderRateConstants .insertExtFile .read}
+../visualization/charts/firstOrderRateConstantsKadlec.txt
+~~~~~~~
+
+\pagebreak
+
+
+Table 16.3: Predesign Checklist
+===================================
+### Potential Weltand Site Data
+
+
+Site name: CEFONMA
+
+- City/Community: Xix, Guatemala
+- Current Population: 150 (Half day students, half boarding students)
+- Future Population: 450 
+
+Other anticipated Wetland Uses (nature study, hunting, aquaculture, other):
+
+Key/sensitive wildlife habitat:
+
+Site substrate material (e.g., sand, clay, muck, sandy clay, clayey sand, etc.):
+
+- Substrate permeability:	high	medium	 low
+
+%Vegitation Cover:
+
+- Submergent:
+- Emergent:
+- Meadow:
+- Forest:
+
+Land area available:
+
+Proximity to water/wastewater source:
+
+- Zoning:
+- Ownership:
+
+Adjacent land use:
+
+- Zoning:
+- Ownership:
+
+Presence of existing or potential limiting land use (e.g., environmentally sensitive areas, etc.):
+
+Protected species historical or archealogical resources on or near site:
+
+Aquifers, aquitards, or natural wetlands (note location):
+
+% of Available land area covered by natural wetlands:
+
+Type of natural wetland (marsh, openwater, floating aquitic, etc):
+
+Dominant plant species:
+
+Site topography (flat, rolling, steep, other):
+
+- Is the wetland/site landlocked? 	 Yes	No	
+- If no, what water body will/does teh treatment wetland discharge to?
+
+Water body classification:
+
+Wetland outlet location and description:
+
+Upland buffer zone description:
+
+
+### Climatic Factors
+
+Site elevation:
+
+Number of frost-free days:
+
+Annual and monthly temperature
+
+~~~~~~~ {#annualAndMonthlyTemps .insertExtFile}
+../visualization/charts/annualAndMonthlyTemps.txt
+~~~~~~~
+~~~~~~~ {#annualAndMonthlySnowfall .insertExtFile}
+../visualization/charts/annualAndMonthlySnowfall.txt
+~~~~~~~
+~~~~~~~ {#annualAndMonthlyRainfall .insertExtFile}
+../visualization/charts/annualAndMonthlyRainfall.txt
+~~~~~~~
+~~~~~~~ {#annualAndMonthlyEvapo .insertExtFile}
+../visualization/charts/annualAndMonthlyEvapo.txt
+~~~~~~~
+
+### Potential Influent Quantity and Quality
+
+Design flows:
+
+Stormwater to watershed area:
+
+Define watershed border and note watershed area:	ha
+
+Runoff coefficient:
+
+Wastewaters (municipal, industrial, etc):
+
+Wastewater pretreatment:
+
+Operating season (months): 
+
+Period of record
+
+- Start		year
+- End		year
+
+Average flow (m^3^/d):
+
+Metals (list):
+
+Pesticides/herbicides (list):
+
+Organics (list):
+
+### Parameter Concentrations and Loadings
+
+| Parameter           |          |              |		   |              |
+|-----------          |  ------- | -------      | ---------| --------     |
+| BOD~5~              | ________ |   mg/L       | ________ |   kg/d       | 
+| TSS                 | ________ |   mg/L       | ________ |   kg/d       |
+| NH~4~-N	          | ________ |   mg/L       | ________ |   kg/d       |
+| NO~3~+NO~2~	      | ________ |   mg/L       | ________ |   kg/d       |
+| TN                  | ________ |   mg/L       | ________ |   kg/d       |
+| TKN                 | ________ |   mg/L       | ________ |   kg/d       |
+| Organic Nitrogen    | ________ |   mg/L       | ________ |   kg/d       |
+| TP                  | ________ |   mg/L       | ________ |   kg/d       |
+| SO~4~/S~2~          | ________ |   mg/L       | ________ |   kg/d       |
+| Alkalinity          | ________ |   mg/L       | ________ |   kg/d       |
+| Chloride            | ________ |   mg/L       | ________ |   kg/d       |
+| Dissolved Oxygen    | ________ |   mg/L       | ________ |   kg/d       |
+| Conductivity        | ________ |              |
+| pH				  | ________ |              |
+| Temperature         | ________ | (${^\circ}$C)|
+| Fecal Coliform      | ________ | (CFU/100 mL) |
+| E. coli             | ________ | (CFU/100 mL) | 
+
+### Treatment Wetland System Outflow Targets
+
+Approval permit limits to be met at:
+
+- wetland inflow:
+- wetland outflow:
+
+Approved flow (per day, week, month, year):
+
+Approval duration:
+
+| Parameter           |          |              |		   |              |
+|-----------          |  ------- | -------      | ---------| --------     |
+| BOD~5~              | ________ |   mg/L       | ________ |   kg/d       | 
+| TSS                 | ________ |   mg/L       | ________ |   kg/d       |
+| NH~4~-N	          | ________ |   mg/L       | ________ |   kg/d       |
+| TN                  | ________ |   mg/L       | ________ |   kg/d       |
+| TP                  | ________ |   mg/L       | ________ |   kg/d       |
+| Dissolved Oxygen    | ________ |   mg/L       |
+| Fecal Coliform      | ________ | (CFU/100 mL) |
+| pH				  | ________ |              |
+
+
+		
+

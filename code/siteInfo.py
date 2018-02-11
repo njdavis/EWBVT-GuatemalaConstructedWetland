@@ -12,8 +12,15 @@ class Site:
         self.necessaryEffluentQuality = {'BOD':15, 'TSS':12, 'organicNitrogen':2, 'ammonia':0.1, 'nitrate':2, 'totalNitrogen':2, 'totalPhosphorus':0.05, 'fecalColiform':200}
 
 
-        #initialized with average monthly chajul temps (https://en.wikipedia.org/wiki/Chajul). Update if we find a closer town
-        self.monthlyTemps = [14.6,15.1,16.6,17.4,17.5,17.5,16.7,16.7,16.8,16.1,15.7,15.2]
+        #initialized with average monthly chajul data (https://en.wikipedia.org/wiki/Chajul). Update if we find a closer town
+        self.climateTemps = {'Jan':14.6,'Feb':15.1,'Mar':16.6,'Apr':17.4,'May':17.5,'Jun':17.5,'Jul':16.7,'Aug':16.7,'Sep':16.8,'Oct':16.1,'Nov':15.7,'Dec':15.2, 'Annual':16.33}
+
+        self.snowfall = {'Jan':"__",'Feb':"__",'Mar':"__",'Apr':"__",'May':"__",'Jun':"__",'Jul':"__",'Aug':"__",'Sep':"__",'Oct':"__",'Nov':"__",'Dec':"__", 'Annual':"__"}
+
+        self.rainfall = {'Jan':65,'Feb':42,'Mar':50,'Apr':66,'May':128,'Jun':306,'Jul':264,'Aug':230,'Sep':251,'Oct':224,'Nov':127,'Dec':64, 'Annual':1818}
+
+        self.evapotranspiration = {'Jan':"__",'Feb':"__",'Mar':"__",'Apr':"__",'May':"__",'Jun':"__",'Jul':"__",'Aug':"__",'Sep':"__",'Oct':"__",'Nov':"__",'Dec':"__", 'Annual':"__"}
+
 
         #initialized with CEFONMA's current wastewater flow, according to EPA (m^3/day)
         self.avgFlowRate = 76.65
@@ -30,6 +37,8 @@ class Site:
         self.elevation = 2152.62
 
         self.area = 822
+
+        self.numberOfCells = 6
         
 
     def flowRateM3PD(self):

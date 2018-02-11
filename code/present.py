@@ -27,7 +27,7 @@ class PresentData():
             if model.nameOfModel == "Kadlec Subsurface Flow":
                 yValue = model.safeFunctionCall('area', waterQualityParameter)
             else:
-                yValue = model.treatmentArea(waterQualityParameter)
+                yValue = model.area(waterQualityParameter)
 
             if yValue != 0:
                 xAxis.append(value) 
@@ -39,7 +39,7 @@ class PresentData():
             if model.nameOfModel == "Kadlec Subsurface Flow":
                 area = model.safeFunctionCall('area', waterQualityParameter)
             else:
-                area = model.treatmentArea(waterQualityParameter)
+                area = model.area(waterQualityParameter)
 
             model.site.currentSepticTankEffluent[waterQualityParameter] = parameterValue
             outputSubPlot.annotate('(%d, %d)' % (parameterValue, area), xy=(parameterValue+30, area-19 ))
@@ -149,7 +149,7 @@ class PresentData():
         folderLocation = os.path.join(sys.path[0], "../visualization/charts/Kadlec 21-1 Table.txt")
         
         text_file = open(folderLocation, "w")
-        text_file.write(tabulate.tabulate(self.SSFModelParmaters, headers="keys", tablefmt="simple"))
+        text_file.write(tabulate.tabulate(self.SSFModelParmaters, headers="keys", tablefmt="grid"))
         text_file.write("\n \nTable: Typical Media Characteristics for Subsurface Flow Wetlands {#tbl:MediaCharacteristicsReed}")
         text_file.close()
 
@@ -168,22 +168,32 @@ class PresentData():
 
         self.SSFModelParmaters = {"Area (m^2^":listOfAreas, "BOD":values[0], "TSS":values[1], "Organic N":values[2], 'NH~4~-N':values[3] , 'NO~x~N':values[4], 'TN':values[5], 'TP':values[6], 'FC':values[7]}
 
-        folderLocation = os.path.join(sys.path[0], "../visualization/charts/Kadlec Effluent with Areas [%s] .txt" % ', '.join(map(str, listOfAreas)))
+        folderLocation = os.path.join(sys.path[0], "../visualization/charts/Kadlec Effluent with Areas [%s].txt" % ', '.join(map(str, listOfAreas)))
 
         text_file = open(folderLocation, "w")
-        text_file.write(tabulate.tabulate(self.SSFModelParmaters, headers="keys", tablefmt="simple"))
+        text_file.write(tabulate.tabulate(self.SSFModelParmaters, headers="keys", tablefmt="grid"))
         text_file.write("\n \nTable: Possible Effluent Values at Certain Areas {#tbl:specificAreas}")
         text_file.close()
 
-    def printMediaCharacteristicsTable(self, model):
-        
-        folderLocation = os.path.join(sys.path[0], "../visualization/charts/Media Characteristics Table.txt")
+    
+    def printTable(self, filename, inputDict, title=''):
+        tempDict = {}
+        checkIfList = []
+        for header in inputDict:
+            if (type(inputDict[header])) != type(checkIfList): 
+                tempList = [0]
+                tempList[0] = inputDict[header] 
+                tempDict[header] = tempList
+            else: 
+                tempDict = inputDict
+
+                
+        folderLocation = os.path.join(sys.path[0], "../visualization/charts/%s.txt" % filename)
 
         text_file = open(folderLocation, "w")
-        text_file.write(tabulate.tabulate(model.mediaCharacteristicsTable, headers="keys", tablefmt="simple"))
-        text_file.write("\n \nTable: Typical Media Characteristics for Subsurface Flow Wetlands {#tbl:MediaCharacteristicsReed}")
+        text_file.write(tabulate.tabulate(tempDict, headers="keys", tablefmt="grid"))
+        text_file.write(" \n \n Table: %s {#tbl:%s}" % (title, filename))
         text_file.close()
-
 
 
 

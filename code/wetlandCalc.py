@@ -10,7 +10,7 @@ class ReedModel():
     def K_T(self, qualityType):
         return (self.KT_Const[qualityType]*self.theta_Const[qualityType]**(self.site.waterTemp-20))
 
-    def treatmentArea(self, qualityType):
+    def area(self, qualityType):
         return self.site.avgFlowRate*((math.log(self.site.currentSepticTankEffluent[qualityType]/self.site.necessaryEffluentQuality[qualityType]))/(self.K_T(qualityType)*self.avgDepth*self.porosity))
 
             
@@ -186,10 +186,67 @@ class KadlecSubsurfaceFlow(Kadlec):
         #for tss 1000 is a rough estimate, should figure out settling rate instead
         self.worksForAbb = ('BOD', 'TSS', 'Organic N', 'NH~4~-N', 'NO~x~N', 'TN', 'TP', 'FC')
 
-            
+
+class Kadlec2009(Kadlec):
+
+    def __init__(self, site):
+
+        self.site = site
+
+        self.tableBODRateConstants = {"**C~i~ (mg/L)**":["**FWS**", "P", "C^\*^, (mg/L)", "30th %ile  (k, m/yr)", "50th %ile (k, m/yr)", "70th %ile (k, m/yr)", "  ", "**HSSF**", "P", "C^\*^, (mg/L)", "30th %ile (k, m/yr)", "50th %ile (k, m/yr)", "70th %ile (k, m/yr)"], 
+                "**BOD Tertiary 0-30 (mg/L)**":[" ",1, 2, 16, 33, 79, " ", " ",3, 1, 36, 86, 224], 
+                "**BOD Tertiary 30-100 (mg/L)**":[" ",1,5,16,'**41**',67," "," ",3,5,24,'**37**',44], 
+                "**BOD Tertiary 100-200 (mg/L)**":[" ",1,10,23,'**36**',112," "," ",3,10,15,'**25**',44], 
+                "**BOD Tertiary >200 (mg/L)**":[" ",1,20,54,189,439," "," ",3,15,21,66,114]}
+        
+        self.tableRateConstants = {"**C~i~ (mg/L)**":["**FWS**", "P", "C^\*^, (mg/L)", "30th %ile (k, m/yr)", "50th %ile (k, m/yr)", "70th %ile (k, m/yr)", "  ", "**HSSF**", "P", "C^\*^, (mg/L)", "30th %ile (k, m/yr)", "50th %ile (k, m/yr)", "70th %ile (k, m/yr)"], 
+        "**ORG-N**":[" ",3,1.5,10.7,'**17.3**',27.4," "," ",6,1,8.8,'**19.6**',38.0], 
+        "**NH~4~-N**":[" ",3,0,8.7,'**14.7**',45.1," "," ",6,0,5.2,'**11.4**',18.8], 
+        "**NO~x~-N**":[" ",3,0,18.5,'**26.5**',33.6," "," ",8,0,32,'**42**',73], 
+        "**TKN**":[" ",3,1.5,6.1,'**9.8**',13.6," "," ",6,1,4.8,'**9.1**',14.6], 
+        "**TN**":[" ",3,1.5,6.6,'**12.6**',24.2," "," ",6,1,4.7,'**8.4**',14.2], 
+        "**TP**":[" ",3.4,0.002,4.5,'**10.0**',16.7," "," ","*","*","*","*","*"], 
+        "**FC**":[" ",3,40,49,'**83**',177," "," ",6,0,56,'**103**',181]}
+
+        self.k_Const = {'BOD':66/365, 'organicNitrogen':19.6/365, 'ammonia':11.4/365, 'nitrate':42/365, 'totalNitrogen':9.1/365, 'fecalColiform':103/365}
+
+        self.background_Const = {'BOD':(3.5+0.053*self.site.currentSepticTankEffluent['BOD']),
+                                 'TSS':(7.8+0.063*self.site.currentSepticTankEffluent['TSS']), 
+                                 'organicNitrogen':1.5, 
+                                 'ammonia':0, 
+                                 'nitrate':0, 
+                                 'totalNitrogen':1.5, 
+                                 'totalPhosphorus':0.02, 
+                                 'fecalColiform':10} 
+                                 #fecal coliform: 10^b of central tendency of widely variable value
+
+        self.theta_Const =      {'BOD':1.0, 
+                                 'TSS':1.0, 
+                                 'organicNitrogen':1.05, 
+                                 'ammonia':1.04, 
+                                 'nitrate':1.09, 
+                                 'totalNitrogen':1.05, 
+                                 'totalPhosphorus':1, 
+                                 'fecalColiform':1}
+
+        self.background_Const = {'BOD':8}
+
+        self.worksFor = ['BOD']
+
+        self.nameOfModel = "Kadlec PkC Subsurface Flow"
 
 
+    #Volumetric Design Equations
+    def area(self, qualityType):   
+        x = (self.site.currentSepticTankEffluent[qualityType]-self.background_Const[qualityType])/(self.site.necessaryEffluentQuality[qualityType]-self.background_Const[qualityType])  
+        metersCubed = ((self.site.numberOfCells*self.site.avgFlowRate)*((x)**(1/self.site.numberOfCells) - 1))/self.k_Const[qualityType]
+        return metersCubed
+      
+    def effluent(self, qualityType):
+        a = (self.site.currentSepticTankEffluent[qualityType] - self.background_Const[qualityType])
+        b = (1+(self.k_Const[qualityType]/(self.site.numberOfCells*(self.site.avgFlowRate/self.site.area))))**self.site.numberOfCells
+        return a/b + self.background_Const[qualityType]
+        
 
-            
 
 
