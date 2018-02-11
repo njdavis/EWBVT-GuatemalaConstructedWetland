@@ -46,7 +46,7 @@ class ReedSubsurfaceFlow(ReedModel):
 
     def effluent(self, qualityType):
         hydrolicLoadingRate = self.hydrolicLoadingRate()
-        hydrolicRetentionTime = (self.site.area*self.avgDepth*self.porosity)/self.site.avgFlowRate
+        hydrolicRetentionTime = (self.site.area*self.site.depth*self.site.porosity)/self.site.avgFlowRate
 
         #Gotta reread the book to figure out 
         if qualityType == 'TSS':
@@ -230,6 +230,7 @@ class Kadlec2009(Kadlec):
                                  'fecalColiform':1}
 
         self.background_Const = {'BOD':8}
+        
 
         self.worksFor = ['BOD']
 
@@ -238,13 +239,20 @@ class Kadlec2009(Kadlec):
 
     #Volumetric Design Equations
     def area(self, qualityType):   
-        x = (self.site.currentSepticTankEffluent[qualityType]-self.background_Const[qualityType])/(self.site.necessaryEffluentQuality[qualityType]-self.background_Const[qualityType])  
+        x = (self.site.currentSepticTankEffluent[qualityType]-self.site.backgroundEffluent[qualityType])/(self.site.necessaryEffluentQuality[qualityType]-self.site.backgroundEffluent[qualityType])  
         metersCubed = ((self.site.numberOfCells*self.site.avgFlowRate)*((x)**(1/self.site.numberOfCells) - 1))/self.k_Const[qualityType]
         return metersCubed
       
-    def effluent(self, qualityType):
-        a = (self.site.currentSepticTankEffluent[qualityType] - self.background_Const[qualityType])
-        b = (1+(self.k_Const[qualityType]/(self.site.numberOfCells*(self.site.avgFlowRate/self.site.area))))**self.site.numberOfCells
+    def effluent(self, qualityType, cells=None, area=None, k=None):
+        if cells is None:
+            cells = self.site.numberOfCells
+        if area is None:
+            area = self.site.area
+        if k is None:
+            k = self.k_Const[qualityType]
+
+        a = (self.site.currentSepticTankEffluent[qualityType] - self.site.backgroundEffluent[qualityType])
+        b = (1+(k/(cells*(self.site.avgFlowRate/area))))**cells
         return a/b + self.background_Const[qualityType]
         
 

@@ -1,10 +1,13 @@
 import matplotlib.pyplot as plt
-from wetlandCalc import ReedSubsurfaceFlow, ReedFreewaterFlow, KadlecSubsurfaceFlow
+from wetlandCalc import ReedSubsurfaceFlow, ReedFreewaterFlow, KadlecSubsurfaceFlow, Kadlec2009
 from siteInfo import Site
 import tabulate, copy, os, sys
 
 
 class PresentData(): 
+
+    def __init__(self, site):
+        self.site = site
 
     def printAreaGraph(self, model, waterQualityParameter,  waterQualityLow, waterQualityHigh,  highlightedValuesX):
         '''
@@ -195,6 +198,52 @@ class PresentData():
         text_file.write(" \n \n Table: %s {#tbl:%s}" % (title, filename))
         text_file.close()
 
+
+    def printTable20_1(self, filename, qualityType, k=None):
+        kadlec = Kadlec2009(self.site)
+        if k is None:
+            k = Kadlec.k_Const[qualityType]
+
+        tableA = {'**Input Parameters**':['Flow rate, Q (m~3~/d', '*P*TIS (system)', 'Area, A (m~2~)', 'Porosity $\epsilon$', 'Bed Depth (m)', 'C_i_ (mg/L)', 'C~*~ (mg/L)', 'k (m/yr)', 'k (m/d)'], 
+                  ' ':[self.site.avgFlowRate, self.site.numberOfCells, self.site.area, self.site.porosity, self.site.depth, self.site.currentSepticTankEffluent[qualityType], self.site.backgroundEffluent[qualityType], k*365, k],  
+                  '**Calculated Values**':['Volume per tank (m~3~)', 'Area per tank (m~3~)', 'Influent flow, Q_i_ (m~3~/d)', 'Effluent flow, Q_o_ (m~3~/d)', 'Average flow, Q_avg_ (m~3~/d)', 'Effluent mass load (g/d)', 'Nominal HRT (d)', 'HRT based on Q_avg_ (d)', 'HRT based on *P*TIS (d)']}
+    
+        tankHLR = self.site.avgFlowRate/self.site.tankArea
+        HLR = (self.site.avgFlowRate/self.site.area)
+
+        temp = self.site.currentSepticTankEffluent['BOD']
+        effluent1 = kadlec.effluent('BOD', cells=1, area=self.site.tankArea, k=k)
+        self.site.currentSepticTankEffluent['BOD'] = effluent1
+        effluent2 = kadlec.effluent('BOD', cells=1, area=self.site.tankArea, k=k)
+        self.site.currentSepticTankEffluent['BOD'] = effluent2
+        effluent3 = kadlec.effluent('BOD', cells=1, area=self.site.tankArea, k=k)
+        self.site.currentSepticTankEffluent['BOD'] = effluent3
+        effluent4 = kadlec.effluent('BOD', cells=1, area=self.site.tankArea, k=k)
+        self.site.currentSepticTankEffluent['BOD'] = effluent4
+        self.site.currentSepticTankEffluent['BOD'] = temp
+
+        concentrationTank1 = kadlec.effluent('BOD')
+        tableB = {'**Calculated Values**':['Net flow', 
+                                            'HLR, q', 'Concentration', 
+                                            'HRT'], 
+                                            ' ':['(m^3^/d)', '(m/d)', '(mg/L)', '(days)'],
+                                            '**System In**':[self.site.avgFlowRate, round(HLR, 2), round(self.site.currentSepticTankEffluent[qualityType], 2), 'N/A'], 
+                                            '**Exit Tank 1**':[self.site.avgFlowRate, round(tankHLR, 2), round(effluent1, 2), 'N/A'], 
+                                            '**Exit Tank 2**':[self.site.avgFlowRate, round(tankHLR, 2), round(effluent2, 2), 'N/A'], 
+                                            '**Exit Tank 3**':[self.site.avgFlowRate, round(tankHLR, 2), round(effluent3, 2), 'N/A'], 
+                                            '**Exit Tank 4**':[self.site.avgFlowRate, round(tankHLR, 2), round(effluent4, 2), 'N/A'], 
+                                            '**System Out**':[self.site.avgFlowRate, round(HLR, 2), round(kadlec.effluent('BOD', cells=4), 2), 'N/A']}
+
+
+        folderLocation = os.path.join(sys.path[0], "../visualization/charts/%s.txt" % filename)
+
+        text_file = open(folderLocation, "w")
+        text_file.write(tabulate.tabulate(tableA, headers="keys", tablefmt="grid"))
+        text_file.write("\n \n")
+        text_file.write(tabulate.tabulate(tableB, headers="keys", tablefmt="grid"))
+        text_file.write("\n \nTable: Estimated Pollutant Reduction Using a First-Order (P-k-C^*^) Model for Constant FLow (P=ET) {#tbl:PkCCaluculated}")
+        text_file.close()
+        
 
 
 

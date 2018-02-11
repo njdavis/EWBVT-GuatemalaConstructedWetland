@@ -80,6 +80,9 @@ $$ q = \text{hydrolic loading rate} $$
 $$ Q = \text{inflow rate, m\textsuperscript{3}/d } $$
 $$ A = \text{area, m\textsuperscript{2}}  $$ 
 
+~~~~~~~ {#exampleCalcs .insertExtFile .read}
+../visualization/charts/Table20_1.txt
+~~~~~~~
 
 ~~~~~~~ {#BODRateConstants .insertExtFile .read}
 ../visualization/charts/firstOrderBODRateConstantsKadlec.txt

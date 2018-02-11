@@ -14,7 +14,7 @@ def main():
     ReedFWF = ReedFreewaterFlow(CEFONMA)
     KadlecSSF = KadlecSubsurfaceFlow(CEFONMA)
     KadlecPkC = Kadlec2009(CEFONMA)
-    output = PresentData()
+    output = PresentData(CEFONMA)
     
     #Examples of graphs being printed
     """ 
@@ -64,9 +64,10 @@ def main():
     
     output.printMultipleModelsArea(KadlecSSF, 15, 800, [])
     output.printMultipleModelsArea(ReedSSF, 15, 800, [])
+    #output.printMultipleModelsArea(KadlecPkC, 15, 800, [])
 
     #output.printMediaCharacteristicsTable(ReedSSF)
-    output.printTable21_1(KadlecSSF)
+    output.printTable21_1(KadlecSSF) 
     
     output.printTableOfEffluent(KadlecSSF, [500, 1000, 10000])
 
@@ -80,6 +81,16 @@ def main():
     output.printTable("firstOrderBODRateConstantsKadlec", KadlecPkC.tableBODRateConstants, "Summary of First-Order Rate Constants for Selected Parameters")
     output.printTable("firstOrderRateConstantsKadlec", KadlecPkC.tableRateConstants, "Summary of First-Order Rate Constants for Selected Parameters")
 
+
+    CEFONMA.avgFlowRate = 20
+    CEFONMA.numberOfCells = 4
+    CEFONMA.area = 500
+    CEFONMA.porosity = 0.38
+    CEFONMA.depth = 0.30
+    CEFONMA.currentSepticTankEffluent['BOD'] = 200
+    CEFONMA.tankArea = 125
+    CEFONMA.backgroundEffluent['BOD']
+    output.printTable20_1('Table20_1', 'BOD', k=45/365)
         
 
 if __name__ == '__main__': main()
