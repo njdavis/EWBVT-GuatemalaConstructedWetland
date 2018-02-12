@@ -19,7 +19,7 @@ header-includes:
 \pagebreak
 
 \section{k-C* Model (1996) \\}
-test
+
 
 $$ A = (\frac{0.0365*Q}{k})\ln{(\frac{C_i - C^\ast}{C_e - C^\ast})} $${#eq:k-C Model (Kadlec)}
 $$ C_o = C^* + (C_i - C*)\exp{(-\frac{kA}{0.0365Q})}  $${#eq:k-C Model (Kadlec)}
