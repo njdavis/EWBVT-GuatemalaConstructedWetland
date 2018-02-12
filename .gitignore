@@ -1,9 +1,4 @@
 $ cat .gitignore
 visualization/*.pdf
 code/__pycache__
-<<<<<<< HEAD
-explanation/*.pdf
 
-
-=======
->>>>>>> a4b5ef670e620babfe59f150db17a48bacf45426
