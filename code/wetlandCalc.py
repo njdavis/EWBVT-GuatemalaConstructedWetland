@@ -129,7 +129,7 @@ class Kadlec():
         return a + b*math.exp(c)
         
 
-class KadlecSubsurfaceFlow(Kadlec):
+class Kadlec1996SSF(Kadlec):
     def __init__(self, site): 
         self.site = site
 
@@ -181,13 +181,13 @@ class KadlecSubsurfaceFlow(Kadlec):
         #initialize to an average value from Reed book
         self.porosity = 0.8
 
-        self.nameOfModel = "Kadlec Subsurface Flow"
+        self.nameOfModel = "Kadlec kC SSF"
 
         #for tss 1000 is a rough estimate, should figure out settling rate instead
         self.worksForAbb = ('BOD', 'TSS', 'Organic N', 'NH~4~-N', 'NO~x~N', 'TN', 'TP', 'FC')
 
 
-class Kadlec2009(Kadlec):
+class Kadlec2009SSF(Kadlec):
 
     def __init__(self, site):
 
@@ -234,7 +234,7 @@ class Kadlec2009(Kadlec):
 
         self.worksFor = ['BOD']
 
-        self.nameOfModel = "Kadlec PkC Subsurface Flow"
+        self.nameOfModel = "Kadlec PkC SSF"
 
 
     #Volumetric Design Equations

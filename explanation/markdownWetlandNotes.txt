@@ -11,14 +11,15 @@ header-includes:
 - \usepackage{titlesec}
 - \titleformat{\section}[display]
   {\bfseries\centering}{\sectiontitlename\ \thesection}{20pt}{\Large}
+- \usepackage{amsmath}
 
 ---
 
 \maketitle
 \pagebreak
 
-\section{k-C$^\ast$ Model (1996) \\}
-
+\section{k-C* Model (1996) \\}
+test
 
 $$ A = (\frac{0.0365*Q}{k})\ln{(\frac{C_i - C^\ast}{C_e - C^\ast})} $${#eq:k-C Model (Kadlec)}
 $$ C_o = C^* + (C_i - C*)\exp{(-\frac{kA}{0.0365Q})}  $${#eq:k-C Model (Kadlec)}
@@ -39,17 +40,17 @@ $$ Q = \text{design flow (m\textsuperscript{3}/d)} $$
 ../visualization/charts/Kadlec Effluent with Areas [500, 1000, 10000].txt
 ~~~~~~~
 
+\pagebreak
 
-
-
-![Kadlec Effluent](../visualization/Kadlec Subsurface Flow Effluent.pdf){#fig:kadlecEffluent width=600}
+![Effluent](../visualization/Kadlec kC SSF Effluent.pdf){#fig:kadlecEffluent width=600}
 
 \pagebreak
 
-\section{P-k-C$^\ast$ Model (2009) \\}
+![Area](../visualization/Kadlec kC SSF-BOD.pdf){#fig:kadlec1996Area width=600}
 
+\pagebreak
 
-
+\section{P-k-C* Model (2009) \\}
 
 $$ \frac{(C_o - C^*)}{(C_i - C^*)} = \frac{1}{(1 + k/Pq)^P} $$ {#eq:P-k-C Model (Kadlec)}
 
@@ -61,9 +62,12 @@ $$ k = \text{modified first order areal constant (m/d)} $$
 $$ p = \text{number of cells} $$
 $$ q = \text{hydrolic loading rate (m/d)} $$
 
-$$ k_T = K_{20}\theta^{(T-20)} $$ {#eq: Temperature effect on K (Kadlec)}
+$$ k_T = k_{20}\theta^{(T-20)} $$ {#eq: Temperature effect on K (Kadlec)}
 
-$$ C^\ast = C_0 = 1.5 + 0.22C_i $$ {#eq: TSS Removal (Kadlec)}
+$$ q = Q/A $$ {#eq: Hydrolic Loading Rate, m/d}
+$$ q = \text{hydrolic loading rate} $$
+$$ Q = \text{inflow rate, m\textsuperscript{3}/d } $$
+$$ A = \text{area, m\textsuperscript{2}}  $$ 
 
 $$ Q_1 = Q_i + A_1(P - ET - I) $$ {#eq: Total  Flow Rate (Kadlec)}
 
@@ -75,14 +79,15 @@ $$ P = \text{precipitation, m/d} $$
 $$ Q_i = \text{inlet flow rate, m\textsuperscript{3}/d} $$
 $$ Q_1 = \text{outlet flow rate from first segment, m\textsuperscript{3}/d} $$
 
-$$ q = Q/A $$ {#eq: Hydrolic Loading Rate, m/d}
-$$ q = \text{hydrolic loading rate} $$
-$$ Q = \text{inflow rate, m\textsuperscript{3}/d } $$
-$$ A = \text{area, m\textsuperscript{2}}  $$ 
+
+
+![Area](../visualization/Kadlec PkC SSF-BOD.pdf){#fig:kadlec2009Area width=600}
+
 
 ~~~~~~~ {#exampleCalcs .insertExtFile .read}
-../visualization/charts/Table20_1.txt
+../visualization/charts/fourCellArea.txt
 ~~~~~~~
+\pagebreak
 
 ~~~~~~~ {#BODRateConstants .insertExtFile .read}
 ../visualization/charts/firstOrderBODRateConstantsKadlec.txt
