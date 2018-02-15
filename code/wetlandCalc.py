@@ -193,11 +193,11 @@ class Kadlec2009SSF(Kadlec):
 
         self.site = site
 
-        self.tableBODRateConstants = {"**C~i~ (mg/L)**":["**FWS**", "P", "C^\*^, (mg/L)", "30th %ile  (k, m/yr)", "50th %ile (k, m/yr)", "70th %ile (k, m/yr)", "  ", "**HSSF**", "P", "C^\*^, (mg/L)", "30th %ile (k, m/yr)", "50th %ile (k, m/yr)", "70th %ile (k, m/yr)"], 
-                "**BOD Tertiary 0-30 (mg/L)**":[" ",1, 2, 16, 33, 79, " ", " ",3, 1, 36, 86, 224], 
-                "**BOD Tertiary 30-100 (mg/L)**":[" ",1,5,16,'**41**',67," "," ",3,5,24,'**37**',44], 
-                "**BOD Tertiary 100-200 (mg/L)**":[" ",1,10,23,'**36**',112," "," ",3,10,15,'**25**',44], 
-                "**BOD Tertiary >200 (mg/L)**":[" ",1,20,54,189,439," "," ",3,15,21,66,114]}
+        self.tableBODRateConstants = {"**C~i~ (mg/L)**":["**FWS**", "P", "C^\*^, (mg/L)", "30th %ile  (k, m/yr)", "50th %ile (k, m/yr)", "70th %ile (k, m/yr)", "  ", "**HSSF**", "P", "C^\*^, (mg/L)", "30th %ile (k, m/yr)", "50th %ile (k, m/yr)", "70th %ile (k, m/yr)", " ",  "**VFSF**", "P", "C^\*^, (mg/L)", "30th %ile (k, m/yr)", "50th %ile (k, m/yr)", "70th %ile (k, m/yr)"], 
+                "**BOD Tertiary 0-30 (mg/L)**":[" ",1, 2, 16, 33, 79, " ", " ",3, 1, 36, 86, 224, " ", " ",6,0,22,63,105], 
+                "**BOD Tertiary 30-100 (mg/L)**":[" ",1,5,16,'**41**',67," "," ",3,5,24,'**37**',44, " ", " ",6,0,40,"**56**",79], 
+                "**BOD Tertiary 100-200 (mg/L)**":[" ",1,10,23,'**36**',112," "," ",3,10,15,'**25**',44, " ", " ",6,0,53,"**76**",122], 
+                "**BOD Tertiary >200 (mg/L)**":[" ",1,20,54,189,439," "," ",3,15,21,66,114, " ", " ",6,0,48,71,93]}
         
         self.tableRateConstants = {"**C~i~ (mg/L)**":["**FWS**", "P", "C^\*^, (mg/L)", "30th %ile (k, m/yr)", "50th %ile (k, m/yr)", "70th %ile (k, m/yr)", "  ", "**HSSF**", "P", "C^\*^, (mg/L)", "30th %ile (k, m/yr)", "50th %ile (k, m/yr)", "70th %ile (k, m/yr)"], 
         "**ORG-N**":[" ",3,1.5,10.7,'**17.3**',27.4," "," ",6,1,8.8,'**19.6**',38.0], 
@@ -208,7 +208,7 @@ class Kadlec2009SSF(Kadlec):
         "**TP**":[" ",3.4,0.002,4.5,'**10.0**',16.7," "," ","*","*","*","*","*"], 
         "**FC**":[" ",3,40,49,'**83**',177," "," ",6,0,56,'**103**',181]}
 
-        self.k_Const = {'BOD':66/365, 'organicNitrogen':19.6/365, 'ammonia':11.4/365, 'nitrate':42/365, 'totalNitrogen':9.1/365, 'fecalColiform':103/365}
+        self.k_Const = {'BOD':76/365, 'organicNitrogen':19.6/365, 'ammonia':11.4/365, 'nitrate':42/365, 'totalNitrogen':9.1/365, 'fecalColiform':103/365}
 
         self.background_Const = {'BOD':(3.5+0.053*self.site.currentSepticTankEffluent['BOD']),
                                  'TSS':(7.8+0.063*self.site.currentSepticTankEffluent['TSS']), 
@@ -238,9 +238,16 @@ class Kadlec2009SSF(Kadlec):
 
 
     #Volumetric Design Equations
-    def area(self, qualityType):   
-        x = (self.site.currentSepticTankEffluent[qualityType]-self.site.backgroundEffluent[qualityType])/(self.site.necessaryEffluentQuality[qualityType]-self.site.backgroundEffluent[qualityType])  
-        metersCubed = ((self.site.numberOfCells*self.site.avgFlowRate)*((x)**(1/self.site.numberOfCells) - 1))/self.k_Const[qualityType]
+    def area(self, qualityType, cells=None, k=None, c_i=None):   
+        if cells is None:
+            cells = self.site.numberOfCells
+        if k is None:
+            k = self.k_Const[qualityType]
+        if c_i is None:
+            c_i=self.site.currentSepticTankEffluent[qualityType]
+
+        x = (c_i-self.site.backgroundEffluent[qualityType])/(self.site.necessaryEffluentQuality[qualityType]-self.site.backgroundEffluent[qualityType])  
+        metersCubed = ((cells*self.site.avgFlowRate)*((x)**(1/cells) - 1))/k
         return metersCubed
       
     def effluent(self, qualityType, cells=None, area=None, k=None):

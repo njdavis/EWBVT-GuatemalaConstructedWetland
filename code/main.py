@@ -22,8 +22,13 @@ def main():
     print("Based on an effluent BOD5 value of", CEFONMA.necessaryEffluentQuality['BOD'])
     print("The Reed Submerged Bed Area (m^2):", ReedSSF.treatmentArea('BOD'))
     print("The k-C* Submerged Bed Area (m^2):", KadlecSSF_kC.safeFunctionCall("area", 'BOD'))
-    print("The P-k-C* Submerged Bed Area (m^2):", KadlecSSF_PkC.area('BOD', 8))
     """
+    CEFONMA.necessaryEffluentQuality['BOD'] = 100
+    print("The P-k-C* Submerged Bed Area (m^2):", KadlecSSF_PkC.area('BOD', cells=2))
+    CEFONMA.necessaryEffluentQuality['BOD'] = 30
+    print("The P-k-C* Submerged Bed Area (m^2):", KadlecSSF_PkC.area('BOD', cells=4, k=56/365, c_i=100))
+
+    
     
     print("Based on an effluent BOD5 value of", CEFONMA.necessaryEffluentQuality['BOD'])
     print("The Reed Submerged Bed Area (m^2):", ReedSSF.area('BOD'))
