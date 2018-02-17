@@ -4,6 +4,64 @@ import sys, math, unittest, tabulate
 #importing class definitions
 from siteInfo import Site
 
+class Wetland():
+
+    def __init__(self, CEFONMA):
+        self.reedSSF = ReedSubsurfaceFlow(CEFONMA)
+        self.reedFWS = ReedFreewaterFlow(CEFONMA)
+        self.kadlec1996SSF = Kadlec1996SSF(CEFONMA)
+        self.kadlec2009SSF = Kadlec2009SSF(CEFONMA)
+
+        self.model = self.kadlec2009SSF
+
+        self.wetlandType = 'SSF'
+
+        self.SSFmodelList = {'reed':self.reedSSF, 'kadlec2009':self.kadlec2009SSF, 'kadlecPkC':self.kadlec2009SSF, 'kadlec1996':self.kadlec1996SSF, 'kadleckC':self.kadlec1996SSF}
+        self.FWSmodelList = {'reed':self.reedFWS}
+        
+    def changeWetlandType(self, newType):
+        self.wetlandType = newType            
+
+
+    def changeModel(self, newModel):
+        if self.wetlandType == 'SSF':
+            self.model = self.SSFmodelList[newModel]
+        elif self.wetlandType == 'FWS':
+            self.model = self.FWSmodelList[newModel]
+        else:
+            print("Not a proper model or wetland type")
+        return
+
+    #Area Calls
+    def area(self, qualityType):
+        if self.model.nameOfModel == "Kadlec kC SSF":
+            return self.model.safeFunctionCall(area, qualityType)
+        else:
+            return  self.model.area(qualityType)
+
+    def printArea(self, qualityType):
+        if self.model.nameOfModel == "Kadlec kC SSF":
+            print("The %s Bed Area (m^2): %f" % (self.model.nameOfModel, self.model.safeFunctionCall(area, qualityType)))
+        else:
+            print("The %s Bed Area (m^2): %f" % (self.model.nameOfModel, self.model.area(qualityType)))
+
+    
+    #Effluent Calls   
+    def effluent(self, qualityType):
+        if self.model.nameOfModel == "Kadlec kC SSF":
+            return self.model.safeFunctionCall(effluent, qualityType)
+        else:
+            return  self.model.effluent(qualityType)
+        
+    def printEffluent(self, qualityType):
+        if self.model.nameOfModel == "Kadlec kC SSF":
+            print("The %s Bed Area (m^2): %f" % (self.model.nameOfModel, self.model.safeFunctionCall(effluent, qualityType)))
+        else:
+            print("The %s Bed Area (m^2): %f" % (self.model.nameOfModel, self.model.effluent(qualityType)))
+
+
+
+
 #Virtual Class of the Reed Model
 class ReedModel():
     

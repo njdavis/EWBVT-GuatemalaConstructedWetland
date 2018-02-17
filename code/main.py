@@ -4,30 +4,30 @@ import sys
 #importing class definitions
 import matplotlib.pyplot as plt
 from siteInfo import Site
-from wetlandCalc import ReedSubsurfaceFlow, ReedFreewaterFlow, Kadlec1996SSF, Kadlec2009SSF
+from wetlandCalc import Wetland
 from present import PresentData
 
 def main():
     
     CEFONMA = Site()    
-    ReedSSF = ReedSubsurfaceFlow(CEFONMA)
-    ReedFWF = ReedFreewaterFlow(CEFONMA)
-    KadlecSSF_kC = Kadlec1996SSF(CEFONMA)
-    KadlecSSF_PkC = Kadlec2009SSF(CEFONMA)
+    wetland = Wetland(CEFONMA)
     output = PresentData(CEFONMA)
     
     #Examples of graphs being printed
-    """ 
-    CEFONMA.necessaryEffluentQuality['BOD'] = 15
+
+    wetland.printArea('BOD')
+    wetland.printEffluent('BOD')
+    
+    """
+    CEFONMA.necessaryEffluentQuality['BOD'] = 30
+    
     print("Based on an effluent BOD5 value of", CEFONMA.necessaryEffluentQuality['BOD'])
     print("The Reed Submerged Bed Area (m^2):", ReedSSF.treatmentArea('BOD'))
     print("The k-C* Submerged Bed Area (m^2):", KadlecSSF_kC.safeFunctionCall("area", 'BOD'))
-    """
-    CEFONMA.necessaryEffluentQuality['BOD'] = 100
-    print("The P-k-C* Submerged Bed Area (m^2):", KadlecSSF_PkC.area('BOD', cells=2))
+    
+    
     CEFONMA.necessaryEffluentQuality['BOD'] = 30
-    print("The P-k-C* Submerged Bed Area (m^2):", KadlecSSF_PkC.area('BOD', cells=4, k=56/365, c_i=100))
-
+    print("The P-k-C* Submerged Bed Area (m^2):", KadlecSSF_PkC.area('BOD', cells=6, k=41/365))
     
     
     print("Based on an effluent BOD5 value of", CEFONMA.necessaryEffluentQuality['BOD'])
@@ -37,7 +37,7 @@ def main():
     print("The P-k-C* BOD effluent for 1000 m^2:", KadlecSSF_PkC.effluent('BOD'))
 
 
-    """
+
     CEFONMA.necessaryEffluentQuality['BOD'] = 15
     CEFONMA.necessaryEffluentQuality['TSS'] = 15
 
@@ -50,7 +50,7 @@ def main():
     print("Based on an effluent area value of", CEFONMA.necessaryEffluentQuality['TSS'])
     print("The Reed Submerged Bed TSS Effluent:", ReedSSF.effluent('TSS'))
     print("The Kadlec Submerged Bed TSS Effluent:", KadlecSSF_kC.safeFunctionCall("effluent", 'TSS'))
-    """
+    
     
     output.printAreaGraph(ReedSSF, 'BOD', 10, 800, [155, 286])
     output.printAreaGraph(ReedFWF, 'BOD', 10, 800, [155, 286])
@@ -70,16 +70,14 @@ def main():
     output.printTable21_1(KadlecSSF_kC) 
     
     output.printTableOfEffluent(KadlecSSF_kC, [500, 1000, 10000])
-
-    KadlecSSF_kC.effluent('fecalColiform')
     
-    output.printTable('annualAndMonthlyTemps', CEFONMA.climateTemps, title='Annual and Monthly Temps')
+    wetland.output.printTable('annualAndMonthlyTemps', CEFONMA.climateTemps, title='Annual and Monthly Temps')
     output.printTable('mediaCharacteristicsReed', ReedSSF.mediaCharacteristicsTable, title="Typical Media Characteristics for Subsurface Flow Wetlands")
-    output.printTable("annualAndMonthlySnowfall", CEFONMA.snowfall, title="Annual and Monthly Snowfall")
-    output.printTable("annualAndMonthlyRainfall", CEFONMA.rainfall, title="Annual and Monthly Rainfall")
-    output.printTable("annualAndMonthlyEvapo", CEFONMA.evapotranspiration, title="Annual and Monthly Evapotranspiration")
-    output.printTable("firstOrderBODRateConstantsKadlec", KadlecSSF_PkC.tableBODRateConstants, "Summary of First-Order Rate Constants for Selected Parameters")
-    output.printTable("firstOrderRateConstantsKadlec", KadlecSSF_PkC.tableRateConstants, "Summary of First-Order Rate Constants for Selected Parameters")
+    wetland.output.printTable("annualAndMonthlySnowfall", CEFONMA.snowfall, title="Annual and Monthly Snowfall")
+    wetland.output.printTable("annualAndMonthlyRainfall", CEFONMA.rainfall, title="Annual and Monthly Rainfall")
+    wetland.output.printTable("annualAndMonthlyEvapo", CEFONMA.evapotranspiration, title="Annual and Monthly Evapotranspiration")
+    wetland.output.printTable("firstOrderBODRateConstantsKadlec", KadlecSSF_PkC.tableBODRateConstants, "Summary of First-Order Rate Constants for Selected Parameters")
+    wetland.output.printTable("firstOrderRateConstantsKadlec", KadlecSSF_PkC.tableRateConstants, "Summary of First-Order Rate Constants for Selected Parameters")
 
 
     CEFONMA.avgFlowRate = 20
@@ -95,6 +93,6 @@ def main():
     CEFONMA.__init__()
     output.printTable20_1('fourCellArea', 'BOD')
 
-        
+    """
 
 if __name__ == '__main__': main()

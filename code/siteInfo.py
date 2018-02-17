@@ -8,7 +8,7 @@ class Site:
         #initialized with high end of EPA concentrations in typical residential wastewater
         #can be found at /EWBVT-GuatemalaConstructedWetland/sources/EPA\ Document\ About\ Leach\ Fields.pdf 
         #values in mg/L
-        self.currentSepticTankEffluent = {'BOD':168, 'TSS':85, 'organicNitrogen':10, 'ammonia':40, 'nitrate':30, 'totalNitrogen':30, 'totalPhosphorus':8.1, 'fecalColiform':10**6}
+        self.currentSepticTankEffluent = {'BOD':(168*.6), 'TSS':85, 'organicNitrogen':10, 'ammonia':40, 'nitrate':30, 'totalNitrogen':30, 'totalPhosphorus':8.1, 'fecalColiform':10**6}
         self.necessaryEffluentQuality = {'BOD':30, 'TSS':30, 'organicNitrogen':2, 'ammonia':0.1, 'nitrate':2, 'totalNitrogen':2, 'totalPhosphorus':0.05, 'fecalColiform':200}
         self.backgroundEffluent = {'BOD':8}
 
@@ -29,10 +29,11 @@ class Site:
         self.elevation = 2152.62
 
         #initialized with CEFONMA's current wastewater flow, according to EPA (m^3/day)
-        self.avgFlowRate = 76.65
+        self.avgFlowRate = 42.59
 
-        #20250 = 76.65 possible future flowrate
-        #5625 = 17.74 - 21.29 current flowrate
+        #20,250 = 76.65 possible future flowrate
+        #5,625 = 17.74 - 21.29 current flowrate
+        #11,250 = 42.59 Double the school's current population
 
         #Design Numbers
         self.numberOfCells = 6
