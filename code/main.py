@@ -12,8 +12,7 @@ def main():
     #Example of how to initialize values
     CEFONMA = Site() #This stores all values related to wetland design
     wetland = Wetland(CEFONMA) #This calculates values, using CEFONMA as input
-    
-    
+     
     #Examples of how to printing out calculated values
     wetland.printArea('BOD')
     wetland.printEffluent('BOD')
