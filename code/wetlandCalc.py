@@ -38,36 +38,79 @@ class Wetland():
         return
 
     #Area Calls
-    def area(self, qualityType):
+    def area(self, qualityType, cells=None, k=None, c_i=None):
+        if cells is None:
+            cells = self.site.numberOfCells
+        if k is None:
+            k = self.model.k_Const[qualityType]
+        if c_i is None:
+            c_i=self.site.currentSepticTankEffluent[qualityType]
+
         if self.model.nameOfModel == "Kadlec kC SSF":
             return self.model.safeFunctionCall(area, qualityType)
+        elif self.model.nameOfModel == "Kadlec PkC SSF":
+            return self.model.area(qualityType, cells=cells, k=k, c_i=c_i)
         else:
             return  self.model.area(qualityType)
 
-    def printArea(self, qualityType):
+    def printArea(self, qualityType, cells=None, k=None, c_i=None):
+        if cells is None:
+            cells = self.site.numberOfCells
+        if k is None:
+            k = self.model.k_Const[qualityType]
+        if c_i is None:
+            c_i=self.site.currentSepticTankEffluent[qualityType]
+
         if self.model.nameOfModel == "Kadlec kC SSF":
             print("The %s Bed Area (m^2): %f" % (self.model.nameOfModel, self.model.safeFunctionCall(area, qualityType)))
+        elif self.model.nameOfModel == "Kadlec PkC SSF":
+            print("The %s Bed Area (m^2): %f" % (self.model.nameOfModel, self.model.area(qualityType, cells=cells, k=k, c_i=c_i)))
         else:
             print("The %s Bed Area (m^2): %f" % (self.model.nameOfModel, self.model.area(qualityType)))
 
     
     #Effluent Calls   
-    def effluent(self, qualityType):
+    def effluent(self, qualityType, cells=None, area=None, k=None):
+        if cells is None:
+            cells = self.site.numberOfCells
+        if area is None:
+            area = self.site.area
+        if k is None:
+            k = self.model.k_Const[qualityType]
+
         if self.model.nameOfModel == "Kadlec kC SSF":
             return self.model.safeFunctionCall(effluent, qualityType)
+        elif self.model.nameOfModel == "Kadlec PkC SSF":
+            return self.model.effluent(qualityType, cells=cells, area=area, k=k)
         else:
             return  self.model.effluent(qualityType)
         
-    def printEffluent(self, qualityType):
+    def printEffluent(self, qualityType, cells=None, area=None, k=None):
+        if cells is None:
+            cells = self.site.numberOfCells
+        if area is None:
+            area = self.site.area
+        if k is None:
+            k = self.model.k_Const[qualityType]
+
         if self.model.nameOfModel == "Kadlec kC SSF":
             print("The %s Bed Effluent (m^2): %f" % (self.model.nameOfModel, self.model.safeFunctionCall(effluent, qualityType)))
+        elif self.model.nameOfModel == "Kadlec PkC SSF":
+            print("The %s Bed Effluent (m^2): %f" % (self.model.nameOfModel,self.model.effluent(qualityType, cells=cells, area=area, k=k)))
         else:
             print("The %s Bed Effluent (m^2): %f" % (self.model.nameOfModel, self.model.effluent(qualityType)))
 
     #Print table of Results
-    def printTableOfCalcs(self, qualityType, filename=None):
+    def printTableOfCalcs(self, qualityType, k=None):
+        self.output.printTableOfCalcs('BOD', self.model)
+        
+    def printPDFTableOfCalcs(self, qualityType, filename=None, k=None):
+        if k is None:
+            k = self.model.k_Const[qualityType]
+        
         if filename is None:
-            self.output.printTableOfCalcs('BOD', self.model)
+            filename = qualityType + "Calcs"
+            self.output.printTableOfCalcs('BOD', self.model, filename=filname)
         else:
             self.output.printTableOfCalcs('BOD', self.model, filename=filename)
 

@@ -275,8 +275,8 @@ class PresentData():
             text_file.write(tabulate.tabulate(table, tablefmt="grid"))
             text_file.write("\n \nTable: Calculations from Kadlec Second Edition {#tbl:PkCCaluculated}")
             text_file.close()
-
-        print(tabulate.tabulate(table, tablefmt="simple"))
+        else:
+            print(tabulate.tabulate(table, tablefmt="simple"))
         
 
 
