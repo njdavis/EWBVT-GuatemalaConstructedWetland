@@ -4,6 +4,7 @@ import sys, math, unittest, tabulate
 #importing class definitions
 from siteInfo import Site
 
+
 class Wetland():
 
     def __init__(self, CEFONMA):
@@ -11,7 +12,7 @@ class Wetland():
         self.reedFWS = ReedFreewaterFlow(CEFONMA)
         self.kadlec1996SSF = Kadlec1996SSF(CEFONMA)
         self.kadlec2009SSF = Kadlec2009SSF(CEFONMA)
-        self.visualize = PresentData(CEFONMA)
+        
 
         self.model = self.kadlec2009SSF
 

@@ -11,7 +11,7 @@ def main():
     
     CEFONMA = Site()    
     wetland = Wetland(CEFONMA)
-    output = PresentData(CEFONMA)
+    
     
     #Examples of graphs being printed
 
