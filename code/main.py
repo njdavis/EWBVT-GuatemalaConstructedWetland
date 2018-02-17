@@ -9,20 +9,28 @@ from present import PresentData
 
 def main():
     
-    CEFONMA = Site()    
-    wetland = Wetland(CEFONMA)
+    #Example of how to initialize values
+    CEFONMA = Site() #This stores all values related to wetland design
+    wetland = Wetland(CEFONMA) #This calculates values, using CEFONMA as input
     
     
-    #Examples of graphs being printed 
-
+    #Examples of how to printing out calculated values
     wetland.printArea('BOD')
     wetland.printEffluent('BOD')
 
+    #Examples of how to changing input values 
+    CEFONMA.currentSepticTankEffluent['BOD'] = 150
+    CEFONMA.necessaryEffluentQuality['BOD'] = 30
+    wetland.printArea('BOD')
     CEFONMA.area = 300
-    CEFONMA.currentSepticTankEffluent['ammonia'] = 200
-    wetland.printArea('ammonia')
-    wetland.printEffluent('ammonia') 
+    wetland.printEffluent('BOD') 
+
+    #Example of how to print table of calculations
     wetland.printTableOfCalcs('BOD')
+
+    #Examples of how to print 
+    wetland.printChangingWaterQualityGraph('BOD')
+    wetland.printChangingAreaGraph()
 
     
     """

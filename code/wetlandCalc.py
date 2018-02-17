@@ -8,12 +8,13 @@ from present import PresentData
 
 class Wetland():
 
-    def __init__(self, CEFONMA):
-        self.reedSSF = ReedSubsurfaceFlow(CEFONMA)
-        self.reedFWS = ReedFreewaterFlow(CEFONMA)
-        self.kadlec1996SSF = Kadlec1996SSF(CEFONMA)
-        self.kadlec2009SSF = Kadlec2009SSF(CEFONMA)
-        self.output = PresentData(CEFONMA)
+    def __init__(self, site):
+        self.site = site
+        self.reedSSF = ReedSubsurfaceFlow(site)
+        self.reedFWS = ReedFreewaterFlow(site)
+        self.kadlec1996SSF = Kadlec1996SSF(site)
+        self.kadlec2009SSF = Kadlec2009SSF(site)
+        self.output = PresentData(site)
         
 
         self.model = self.kadlec2009SSF
@@ -22,7 +23,8 @@ class Wetland():
 
         self.SSFmodelList = {'reed':self.reedSSF, 'kadlec2009':self.kadlec2009SSF, 'kadlecPkC':self.kadlec2009SSF, 'kadlec1996':self.kadlec1996SSF, 'kadleckC':self.kadlec1996SSF}
         self.FWSmodelList = {'reed':self.reedFWS}
-        
+
+            
     def changeWetlandType(self, newType):
         self.wetlandType = newType            
 
@@ -68,6 +70,21 @@ class Wetland():
             self.output.printTableOfCalcs('BOD', self.model)
         else:
             self.output.printTableOfCalcs('BOD', self.model, filename=filename)
+
+    #Print Graphs
+    def printChangingWaterQualityGraph(self, qualityType, highlightedValues=None):
+        if highlightedValues is None:
+            
+            highlightedValues = [155,286] #EPA high and low
+         
+        self.output.printWaterQualityGraph(self.model, qualityType, self.model.site.necessaryEffluentQuality[qualityType], 1500, highlightedValues)
+
+    def printChangingAreaGraph(self):
+        largestArea = int(self.area('BOD')) 
+        self.output.printChangingAreaGraph(self.model,  15, largestArea)
+        return
+
+
 
 
 
@@ -291,7 +308,12 @@ class Kadlec2009SSF(Kadlec):
         self.background_Const = {'BOD':8}
         
 
-        self.worksFor = ['BOD']
+        self.worksFor = ['BOD',
+                        'organicNitrogen', 
+                                 'ammonia', 
+                                 'nitrate', 
+                                 'totalNitrogen', 
+                                 'fecalColiform']
 
         self.nameOfModel = "Kadlec PkC SSF"
 

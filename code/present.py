@@ -8,7 +8,7 @@ class PresentData():
     def __init__(self, site):
         self.site = site
 
-    def printAreaGraph(self, model, waterQualityParameter,  waterQualityLow, waterQualityHigh,  highlightedValuesX):
+    def printWaterQualityGraph(self, model, waterQualityParameter,  waterQualityLow, waterQualityHigh,  highlightedValuesX):
         '''
         Prints graphs about how changing certain water quality parameters changes the area needed
         waterQualityParameter=string, site = siteInfo(), waterQualityLow = int, waterQualityHigh = int, highlightedValues = [x,..]
@@ -29,7 +29,7 @@ class PresentData():
             if model.nameOfModel == "Kadlec Subsurface Flow":
                 yValue = model.safeFunctionCall('area', waterQualityParameter)
             else:
-                yValue = model.area(waterQualityParameter)
+                yValue = model.area(waterQualityParameter) 
 
             if yValue != 0:
                 xAxis.append(value) 
@@ -46,6 +46,7 @@ class PresentData():
                 area = model.area(waterQualityParameter)
 
             model.site.currentSepticTankEffluent[waterQualityParameter] = parameterValue
+            
             outputSubPlot.annotate('(%d, %d)' % (parameterValue, area), xy=(parameterValue+30, area-19 ))
             plt.plot(parameterValue,area, 'h')
 
@@ -75,7 +76,7 @@ class PresentData():
 
             
 
-    def printMultipleModelsArea(self, model,  waterQualityLow, waterQualityHigh,  highlightedValuesX):
+    def printChangingAreaGraph(self, model,  waterQualityLow, waterQualityHigh):
         '''
         Prints graphs about how changing certain water quality parameters changes the area needed
         waterQualityParameter=string, site = siteInfo(), waterQualityLow = int, waterQualityHigh = int, highlightedValues = [x,..]
@@ -113,6 +114,11 @@ class PresentData():
                     xAxis[i].append(value) 
                     model.site.area = value
                     yAxis[i].append(model.effluent(waterQualityParameter))
+                    
+                        
+                    
+                    
+                        
 
             outputSubPlot.plot(xAxis[i], yAxis[i], '-', label = waterQualityParameter) 
         
