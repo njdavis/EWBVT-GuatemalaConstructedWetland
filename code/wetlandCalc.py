@@ -11,6 +11,7 @@ class Wetland():
         self.reedFWS = ReedFreewaterFlow(CEFONMA)
         self.kadlec1996SSF = Kadlec1996SSF(CEFONMA)
         self.kadlec2009SSF = Kadlec2009SSF(CEFONMA)
+        self.visualize = PresentData(CEFONMA)
 
         self.model = self.kadlec2009SSF
 
@@ -21,7 +22,6 @@ class Wetland():
         
     def changeWetlandType(self, newType):
         self.wetlandType = newType            
-
 
     def changeModel(self, newModel):
         if self.wetlandType == 'SSF':
@@ -55,10 +55,12 @@ class Wetland():
         
     def printEffluent(self, qualityType):
         if self.model.nameOfModel == "Kadlec kC SSF":
-            print("The %s Bed Area (m^2): %f" % (self.model.nameOfModel, self.model.safeFunctionCall(effluent, qualityType)))
+            print("The %s Bed Effluent (m^2): %f" % (self.model.nameOfModel, self.model.safeFunctionCall(effluent, qualityType)))
         else:
-            print("The %s Bed Area (m^2): %f" % (self.model.nameOfModel, self.model.effluent(qualityType)))
+            print("The %s Bed Effluent (m^2): %f" % (self.model.nameOfModel, self.model.effluent(qualityType)))
 
+    #Print table of Results
+    
 
 
 
