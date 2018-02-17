@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-from wetlandCalc import ReedSubsurfaceFlow, ReedFreewaterFlow, Kadlec1996SSF, Kadlec2009SSF
 from siteInfo import Site
 import tabulate, copy, os, sys
 
@@ -213,12 +212,15 @@ class PresentData():
         text_file.close()
 
 
-    def printTable20_1(self, filename, qualityType, k=None):
-        kadlec = Kadlec2009SSF(self.site)
+    def printTableOfCalcs(self, qualityType, model, k=None, filename=None):
         if k is None:
-            k = kadlec.k_Const[qualityType]
+            k = model.k_Const[qualityType]
         else:
-            kadlec.k_Const[qualityType] = k
+            model.k_Const[qualityType] = k
+        if filename is None:
+            noFile = True
+        else:
+            noFile = False
    
         self.site.tankArea = self.site.area/4
         self.site.numberOfCells = 4
@@ -226,17 +228,17 @@ class PresentData():
         HLR = (self.site.avgFlowRate/self.site.area)
 
         temp = self.site.currentSepticTankEffluent['BOD']
-        effl1 = kadlec.effluent('BOD', cells=1, area=self.site.tankArea, k=k)
+        effl1 = model.effluent('BOD', cells=1, area=self.site.tankArea, k=k)
         self.site.currentSepticTankEffluent['BOD'] = effl1
-        effl2 = kadlec.effluent('BOD', cells=1, area=self.site.tankArea, k=k)
+        effl2 = model.effluent('BOD', cells=1, area=self.site.tankArea, k=k)
         self.site.currentSepticTankEffluent['BOD'] = effl2
-        effl3 = kadlec.effluent('BOD', cells=1, area=self.site.tankArea, k=k)
+        effl3 = model.effluent('BOD', cells=1, area=self.site.tankArea, k=k)
         self.site.currentSepticTankEffluent['BOD'] = effl3
-        effl4 = kadlec.effluent('BOD', cells=1, area=self.site.tankArea, k=k)
+        effl4 = model.effluent('BOD', cells=1, area=self.site.tankArea, k=k)
         self.site.currentSepticTankEffluent['BOD'] = effl4
         self.site.currentSepticTankEffluent['BOD'] = temp 
 
-        efflTotal = round(kadlec.effluent('BOD', cells=4, area=self.site.area, k=k), 2)
+        efflTotal = round(model.effluent('BOD', cells=4, area=self.site.area, k=k), 2)
         
         c_i = self.site.currentSepticTankEffluent[qualityType]
         c_star = self.site.backgroundEffluent[qualityType]
@@ -260,13 +262,15 @@ class PresentData():
             ['Concentration'        ,'(mg/L)'  ,c_i          ,round(effl1, 2)  ,round(effl2, 2)  ,round(effl3, 2)  ,round(effl4, 2)  , efflTotal      ],
             ['HRT'                  ,'(days)'  ,'N/A'        ,'N/A'            ,'N/A'            ,'N/A'            ,'N/A'            ,'N/A'           ]]
 
+        if noFile is False:
+            folderLocation = os.path.join(sys.path[0], "../visualization/charts/%s.txt" % filename)
 
-        folderLocation = os.path.join(sys.path[0], "../visualization/charts/%s.txt" % filename)
+            text_file = open(folderLocation, "w")
+            text_file.write(tabulate.tabulate(table, tablefmt="grid"))
+            text_file.write("\n \nTable: Calculations from Kadlec Second Edition {#tbl:PkCCaluculated}")
+            text_file.close()
 
-        text_file = open(folderLocation, "w")
-        text_file.write(tabulate.tabulate(table, tablefmt="grid"))
-        text_file.write("\n \nTable: Calculations from Kadlec Second Edition {#tbl:PkCCaluculated}")
-        text_file.close()
+        print(tabulate.tabulate(table, tablefmt="simple"))
         
 
 

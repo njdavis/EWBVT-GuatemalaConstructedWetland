@@ -3,6 +3,7 @@ import sys, math, unittest, tabulate
 
 #importing class definitions
 from siteInfo import Site
+from present import PresentData
 
 
 class Wetland():
@@ -12,6 +13,7 @@ class Wetland():
         self.reedFWS = ReedFreewaterFlow(CEFONMA)
         self.kadlec1996SSF = Kadlec1996SSF(CEFONMA)
         self.kadlec2009SSF = Kadlec2009SSF(CEFONMA)
+        self.output = PresentData(CEFONMA)
         
 
         self.model = self.kadlec2009SSF
@@ -61,7 +63,13 @@ class Wetland():
             print("The %s Bed Effluent (m^2): %f" % (self.model.nameOfModel, self.model.effluent(qualityType)))
 
     #Print table of Results
-    
+    def printTableOfCalcs(self, qualityType, filename=None):
+        if filename is None:
+            self.output.printTableOfCalcs('BOD', self.model)
+        else:
+            self.output.printTableOfCalcs('BOD', self.model, filename=filename)
+
+
 
 
 
@@ -269,17 +277,7 @@ class Kadlec2009SSF(Kadlec):
         "**TP**":[" ",3.4,0.002,4.5,'**10.0**',16.7," "," ","*","*","*","*","*"], 
         "**FC**":[" ",3,40,49,'**83**',177," "," ",6,0,56,'**103**',181]}
 
-        self.k_Const = {'BOD':76/365, 'organicNitrogen':19.6/365, 'ammonia':11.4/365, 'nitrate':42/365, 'totalNitrogen':9.1/365, 'fecalColiform':103/365}
-
-        self.background_Const = {'BOD':(3.5+0.053*self.site.currentSepticTankEffluent['BOD']),
-                                 'TSS':(7.8+0.063*self.site.currentSepticTankEffluent['TSS']), 
-                                 'organicNitrogen':1.5, 
-                                 'ammonia':0, 
-                                 'nitrate':0, 
-                                 'totalNitrogen':1.5, 
-                                 'totalPhosphorus':0.02, 
-                                 'fecalColiform':10} 
-                                 #fecal coliform: 10^b of central tendency of widely variable value
+        self.k_Const = {'BOD':76/365, 'organicNitrogen':19.6/365, 'ammonia':11.4/365, 'nitrate':42/365, 'totalNitrogen':9.1/365, 'fecalColiform':103/365} 
 
         self.theta_Const =      {'BOD':1.0, 
                                  'TSS':1.0, 
@@ -321,7 +319,7 @@ class Kadlec2009SSF(Kadlec):
 
         a = (self.site.currentSepticTankEffluent[qualityType] - self.site.backgroundEffluent[qualityType])
         b = (1+(k/(cells*(self.site.avgFlowRate/area))))**cells
-        return a/b + self.background_Const[qualityType]
+        return a/b + self.site.backgroundEffluent[qualityType]
         
 
 

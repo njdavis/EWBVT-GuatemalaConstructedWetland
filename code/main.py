@@ -13,10 +13,17 @@ def main():
     wetland = Wetland(CEFONMA)
     
     
-    #Examples of graphs being printed
+    #Examples of graphs being printed 
 
     wetland.printArea('BOD')
     wetland.printEffluent('BOD')
+
+    CEFONMA.area = 300
+    CEFONMA.currentSepticTankEffluent['ammonia'] = 200
+    wetland.printArea('ammonia')
+    wetland.printEffluent('ammonia') 
+    wetland.printTableOfCalcs('BOD')
+
     
     """
     CEFONMA.necessaryEffluentQuality['BOD'] = 30

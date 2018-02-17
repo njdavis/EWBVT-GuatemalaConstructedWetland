@@ -10,7 +10,14 @@ class Site:
         #values in mg/L
         self.currentSepticTankEffluent = {'BOD':(168*.6), 'TSS':85, 'organicNitrogen':10, 'ammonia':40, 'nitrate':30, 'totalNitrogen':30, 'totalPhosphorus':8.1, 'fecalColiform':10**6}
         self.necessaryEffluentQuality = {'BOD':30, 'TSS':30, 'organicNitrogen':2, 'ammonia':0.1, 'nitrate':2, 'totalNitrogen':2, 'totalPhosphorus':0.05, 'fecalColiform':200}
-        self.backgroundEffluent = {'BOD':8}
+        self.backgroundEffluent = {'BOD':(3.5+0.053*self.currentSepticTankEffluent['BOD']),
+                                 'TSS':(7.8+0.063*self.currentSepticTankEffluent['TSS']), 
+                                 'organicNitrogen':1.5, 
+                                 'ammonia':0, 
+                                 'nitrate':0, 
+                                 'totalNitrogen':1.5, 
+                                 'totalPhosphorus':0.02, 
+                                 'fecalColiform':10}
 
 
         #initialized with average monthly chajul data (https://en.wikipedia.org/wiki/Chajul). Update if we find a closer town
