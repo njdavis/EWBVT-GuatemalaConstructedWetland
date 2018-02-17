@@ -1,5 +1,4 @@
 
-file = open('madlib.txt', 'r') 
+file = open('madlib.txt', encoding="utf8")
 print(file.read())
-
 

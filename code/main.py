@@ -10,11 +10,12 @@ from present import PresentData
 def main():
     
     CEFONMA = Site()    
-    wetland = Wetland(CEFONMA)
-    
+    wetland = Wetland(CEFONMA) # site info only
+
     
     #Examples of graphs being printed
-
+    CEFONMA.area = 300
+    CEFONMA.currentSepticTankEffluent['BOD'] = 200
     wetland.printArea('BOD')
     wetland.printEffluent('BOD')
     
