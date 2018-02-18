@@ -144,13 +144,13 @@ class Wetland():
 
         table.append([" ", " ", " ", " "])
         table.append(["Design Values", " ", " ", " "])
-        table.append(["Water Temp: ", self.site.waterTemp, " ", " "])
-        table.append(["Flow Rate: ", self.site.avgFlowRate, " ", " "])
+        table.append(["Water Temp: ", self.site.waterTemp, "C", " "])
+        table.append(["Flow Rate: ", self.site.avgFlowRate, "m^3/day", " "])
         table.append(["Number of Cells: ", self.site.numberOfCells, " ", " "])
         table.append(["Porosity: ", self.site.porosity, " ", " "])
-        table.append(["Depth: ", self.site.depth, " ", " "])
-        table.append(["Area: ", self.site.area, " ", " "])
-        table.append(["Tank Area: ", self.site.tankArea, " ", " "])
+        table.append(["Depth: ", self.site.depth, "m", " "])
+        table.append(["Area: ", self.site.area, "m^2", " "])
+        table.append(["Tank Area: ", self.site.tankArea, "m^2", " "])
         
 
         print(tabulate.tabulate(table, tablefmt="simple"))
