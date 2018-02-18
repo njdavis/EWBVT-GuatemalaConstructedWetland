@@ -100,6 +100,19 @@ class Wetland():
         else:
             print("The %s Bed Effluent (m^2): %f" % (self.model.nameOfModel, self.model.effluent(qualityType)))
 
+    #Print Graphs
+    def printChangingWaterQualityGraph(self, qualityType, highlightedValues=None):
+        if highlightedValues is None:
+            
+            highlightedValues = [155,286] #EPA high and low
+         
+        self.output.printWaterQualityGraph(self.model, qualityType, self.model.site.necessaryEffluentQuality[qualityType], 1500, highlightedValues)
+    
+    def printChangingAreaGraph(self):
+        largestArea = int(self.area('BOD')) 
+        self.output.printChangingAreaGraph(self.model,  15, largestArea)
+        return
+
     #Print table of Results
     def printTableOfCalcs(self, qualityType, k=None):
         self.output.printTableOfCalcs('BOD', self.model)
@@ -114,21 +127,7 @@ class Wetland():
         else:
             self.output.printTableOfCalcs('BOD', self.model, filename=filename)
 
-    #Print Graphs
-    def printChangingWaterQualityGraph(self, qualityType, highlightedValues=None):
-        if highlightedValues is None:
-            
-            highlightedValues = [155,286] #EPA high and low
-         
-        self.output.printWaterQualityGraph(self.model, qualityType, self.model.site.necessaryEffluentQuality[qualityType], 1500, highlightedValues)
-
-    def printChangingAreaGraph(self):
-        largestArea = int(self.area('BOD')) 
-        self.output.printChangingAreaGraph(self.model,  15, largestArea)
-        return
-
     def printCurrentInputs(self):
-
         table = [["Site: ", self.site.name, " ", " "],
                  ["Water Quality", " ", " ", " "],
                  ["Quality Type", "Input Effluent", "Output Effluent", "Background Effluent"]]

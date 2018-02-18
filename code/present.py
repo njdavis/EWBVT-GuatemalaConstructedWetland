@@ -217,6 +217,31 @@ class PresentData():
         text_file.write(" \n \n Table: %s {#tbl:%s}" % (title, filename))
         text_file.close()
 
+    def printInfoAboutFunctions(self, functions, purpose, inputOptionsList):
+        
+        table = []
+        for index, functionValue in enumerate(functions):
+            table.append(["**Function:** ", functionValue, " "])
+            table.append(["**Purpose:**", purpose[index]])
+            table.append(["**Inputs**", "**Input Options**"])
+        
+            for columns in inputOptionsList[index]:
+                row = []
+                for value in columns:
+                    row.append(value)
+
+                table.append(row)
+            table.append([" ", " "])
+            table.append([" ", " "])
+
+
+        folderLocation = os.path.join(sys.path[0], "../visualization/charts/functions.txt")
+
+        text_file = open(folderLocation, "w")
+        text_file.write(tabulate.tabulate(table, tablefmt="grid"))
+        text_file.close()
+
+        
 
     def printTableOfCalcs(self, qualityType, model, k=None, filename=None):
         if k is None:

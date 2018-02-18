@@ -22,7 +22,7 @@ def main():
     CEFONMA.necessaryEffluentQuality['BOD'] = 30
     wetland.printArea('BOD')
     CEFONMA.area = 300
-    wetland.printEffluent('BOD') 
+    wetland.printEffluent('ammonia') 
 
     #Example of how to print table of calculations
     wetland.printTableOfCalcs('BOD')
@@ -46,7 +46,7 @@ def main():
     CEFONMA.__init__()
     wetland.printPDFTableOfCalcs('BOD', filename='fourCellArea')
 
-    #Example of how to print all current inputs
+    #Example of how to print all current inputs stored in CEFONMA
     wetland.printCurrentInputs()
     
     
