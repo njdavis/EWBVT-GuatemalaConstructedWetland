@@ -127,9 +127,33 @@ class Wetland():
         self.output.printChangingAreaGraph(self.model,  15, largestArea)
         return
 
+    def printCurrentInputs(self):
 
+        table = [["Site: ", self.site.name, " ", " "],
+                 ["Water Quality", " ", " ", " "],
+                 ["Quality Type", "Input Effluent", "Output Effluent", "Background Effluent"]]
+        
+        count = 3
+        for qualityType in self.site.currentSepticTankEffluent:
+            table.append([])
+            table[count].append(qualityType + ": ")
+            table[count].append(round(self.site.currentSepticTankEffluent[qualityType], 2))
+            table[count].append(round(self.site.necessaryEffluentQuality[qualityType], 2))
+            table[count].append(round(self.site.backgroundEffluent[qualityType], 2))
+            count +=1
 
+        table.append([" ", " ", " ", " "])
+        table.append(["Design Values", " ", " ", " "])
+        table.append(["Water Temp: ", self.site.waterTemp, " ", " "])
+        table.append(["Flow Rate: ", self.site.avgFlowRate, " ", " "])
+        table.append(["Number of Cells: ", self.site.numberOfCells, " ", " "])
+        table.append(["Porosity: ", self.site.porosity, " ", " "])
+        table.append(["Depth: ", self.site.depth, " ", " "])
+        table.append(["Area: ", self.site.area, " ", " "])
+        table.append(["Tank Area: ", self.site.tankArea, " ", " "])
+        
 
+        print(tabulate.tabulate(table, tablefmt="simple"))
 
 
 

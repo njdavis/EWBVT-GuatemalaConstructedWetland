@@ -42,9 +42,12 @@ def main():
     CEFONMA.backgroundEffluent['BOD']
     wetland.printPDFTableOfCalcs('BOD',filename='Table20_1', k=45/365)
 
-    #Example of reseting CEFONMA to default values
+    #Example of how to reset CEFONMA to default values
     CEFONMA.__init__()
     wetland.printPDFTableOfCalcs('BOD', filename='fourCellArea')
+
+    #Example of how to print all current inputs
+    wetland.printCurrentInputs()
     
     
 

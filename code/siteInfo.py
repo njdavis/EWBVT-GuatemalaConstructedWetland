@@ -5,6 +5,7 @@ class Site:
 
     #initialize values
     def __init__(self):
+        self.name = 'CEFONMA'
         #initialized with high end of EPA concentrations in typical residential wastewater
         #can be found at /EWBVT-GuatemalaConstructedWetland/sources/EPA\ Document\ About\ Leach\ Fields.pdf 
         #values in mg/L
