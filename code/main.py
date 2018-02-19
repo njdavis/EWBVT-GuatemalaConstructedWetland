@@ -9,21 +9,12 @@ from present import PresentData
 
 def main():
     
-<<<<<<< HEAD
+
     #Example of how to initialize values
     CEFONMA = Site() #This stores all values related to wetland design
     wetland = Wetland(CEFONMA) #This calculates values, using CEFONMA as input
      
     #Examples of how to printing out calculated values
-=======
-    CEFONMA = Site()    
-    wetland = Wetland(CEFONMA) # site info only
-
-    
-    #Examples of graphs being printed
-    CEFONMA.area = 300
-    CEFONMA.currentSepticTankEffluent['BOD'] = 200
->>>>>>> 9c23b33c7cf231963db5d0f9d4c1c497bf24dd5f
     wetland.printArea('BOD')
     wetland.printEffluent('BOD')
 
