@@ -14,6 +14,11 @@ def main():
     wetland = Wetland(CEFONMA) #This calculates values, using CEFONMA as input
      
     #Examples of how to printing out calculated values
+    CEFONMA = Site()    
+    wetland = Wetland(CEFONMA)
+    
+    
+    #Examples of graphs being printed
     wetland.printArea('BOD')
     wetland.printEffluent('BOD')
 
