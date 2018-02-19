@@ -9,7 +9,6 @@ from present import PresentData
 
 def main():
     
-
     #Example of how to initialize values
     CEFONMA = Site() #This stores all values related to wetland design
     wetland = Wetland(CEFONMA) #This calculates values, using CEFONMA as input
