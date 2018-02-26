@@ -10,7 +10,7 @@
 (Line:9) Answer:  (part of the body)  Name: 
 (Line:10) Answer:  (adjective)  Name: 
 (Line:11) Answer:  (noun plural)  Name:
-(Line:12) Answer:  (open)  Name: Daniel
+(Line:12) Answer:  (saucy)  Name: Daniel
 (Line:13) Answer:  (adjective)  Name: 
 (Line:14) Answer:  (verb ending in “ing”)  Name: 
 (Line:15) Answer:  (noun)  Name: 
@@ -28,7 +28,7 @@
 (Line:27) Answer:  (person in the room male)  Name: 
 (Line:28) Answer:  (adjective)  Name: 
 (Line:29) Answer:  (noun)  Name: 
-(Line:30) Answer:  (aging)  Name: Daniel
+(Line:30) Answer:  (aged)  Name: Daniel
 (Line:31) Answer:  (noun)  Name: 
 (Line:32) Answer:  (plural noun)  Name: 
 (Line:33) Answer:  (plural noun)  Name: 
