@@ -5,7 +5,7 @@
 (Line:4) Answer:  (plural noun)  Name: 
 (Line:5) Answer:  (part of the body)  Name: 
 (Line:6) Answer:  (type of liquid)  Name: 
-(Line:7) Answer:  (part of the body plural)  Name: 
+(Line:7) Answer: toenails (part of the body plural)  Name: Daniel
 (Line:8) Answer:  (type of liquid)  Name: 
 (Line:9) Answer:  (part of the body)  Name: 
 (Line:10) Answer:  (adjective)  Name: 
@@ -13,26 +13,26 @@
 (Line:12) Answer:  (adjective)  Name: 
 (Line:13) Answer:  (adjective)  Name: 
 (Line:14) Answer:  (verb ending in “ing”)  Name: 
-(Line:15) Answer:  (noun)  Name: 
-(Line:16) Answer:  (plural noun)  Name: 
+(Line:15) Answer:  (noun)  Name:
+(Line:16) Answer: tomatoes (plural noun)  Name: Daniel
 (Line:17) Answer:  (noun)  Name: 
 (Line:18) Answer:  (adjective)  Name: 
 (Line:19) Answer:  (adjective)  Name: 
 (Line:20) Answer:  (plural noun)  Name: 
 (Line:21) Answer:  (plural noun)  Name: 
 (Line:22) Answer:  (adjective)  Name: 
-(Line:23) Answer:  (noun)  Name: 
+(Line:23) Answer:  (noun)  Name:
 (Line:24) Answer:  (noun)  Name: 
-(Line:25) Answer:  (plural noun)  Name: 
+(Line:25) Answer: cacti (plural noun)  Name: Daniel
 (Line:26) Answer:  (adjective)  Name: 
 (Line:27) Answer:  (person in the room male)  Name: 
 (Line:28) Answer:  (adjective)  Name: 
 (Line:29) Answer:  (noun)  Name: 
 (Line:30) Answer:  (adjective)  Name: 
-(Line:31) Answer:  (noun)  Name: 
+(Line:31) Answer:  (noun)  Name:
 (Line:32) Answer:  (plural noun)  Name: 
 (Line:33) Answer:  (plural noun)  Name: 
-(Line:34) Answer:  (adjective)  Name: 
+(Line:34) Answer: fabulous (adjective)  Name: Daniel
 (Line:35) Answer:  (adjective)  Name: 
 (Line:36) Answer:  (adjective)  Name: 
 (Line:37) Answer:  (verb)  Name: 
@@ -41,7 +41,7 @@
 (Line:40) Answer:  (junk food)  Name: 
 (Line:41) Answer:  (verb)  Name: 
 (Line:42) Answer:  (close friend’s name)  Name: 
-(Line:43) Answer:  (college major)  Name: 
+(Line:43) Answer: Interpretive Dance (college major)  Name: Daniel
 (Line:44) Answer:  (emotion)  Name: 
 (Line:45) Answer:  (letter between A-Z)  Name: 
 (Line:46) Answer:  (close friend’s name)  Name: 
