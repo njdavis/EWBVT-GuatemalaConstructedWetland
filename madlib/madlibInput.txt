@@ -1,7 +1,7 @@
 (Line:0) Answer:  (plural noun)  Name: 
 (Line:1) Answer:  (plural noun)  Name: 
 (Line:2) Answer:  (part of the body)  Name: 
-(Line:3) Answer:  (number)  Name: 
+(Line:3) Answer:  (1 and a half)  Name: Daniel
 (Line:4) Answer:  (plural noun)  Name: 
 (Line:5) Answer:  (part of the body)  Name: 
 (Line:6) Answer:  (type of liquid)  Name: 
@@ -9,8 +9,8 @@
 (Line:8) Answer:  (type of liquid)  Name: 
 (Line:9) Answer:  (part of the body)  Name: 
 (Line:10) Answer:  (adjective)  Name: 
-(Line:11) Answer:  (plural noun)  Name: 
-(Line:12) Answer:  (adjective)  Name: 
+(Line:11) Answer:  (noun plural)  Name:
+(Line:12) Answer:  (open)  Name: Daniel
 (Line:13) Answer:  (adjective)  Name: 
 (Line:14) Answer:  (verb ending in “ing”)  Name: 
 (Line:15) Answer:  (noun)  Name: 
@@ -19,7 +19,7 @@
 (Line:18) Answer:  (adjective)  Name: 
 (Line:19) Answer:  (adjective)  Name: 
 (Line:20) Answer:  (plural noun)  Name: 
-(Line:21) Answer:  (plural noun)  Name: 
+(Line:21) Answer:  (elves)  Name: Daniel
 (Line:22) Answer:  (adjective)  Name: 
 (Line:23) Answer:  (noun)  Name: 
 (Line:24) Answer:  (noun)  Name: 
@@ -28,7 +28,7 @@
 (Line:27) Answer:  (person in the room male)  Name: 
 (Line:28) Answer:  (adjective)  Name: 
 (Line:29) Answer:  (noun)  Name: 
-(Line:30) Answer:  (adjective)  Name: 
+(Line:30) Answer:  (aging)  Name: Daniel
 (Line:31) Answer:  (noun)  Name: 
 (Line:32) Answer:  (plural noun)  Name: 
 (Line:33) Answer:  (plural noun)  Name: 
@@ -37,7 +37,7 @@
 (Line:36) Answer:  (adjective)  Name: 
 (Line:37) Answer:  (verb)  Name: 
 (Line:38) Answer:  (time)  Name: 
-(Line:39) Answer:  (subject in school)  Name: 
+(Line:39) Answer:  (political science)  Name: Daniel
 (Line:40) Answer:  (junk food)  Name: 
 (Line:41) Answer:  (verb)  Name: 
 (Line:42) Answer:  (close friend’s name)  Name: 
