@@ -2,7 +2,7 @@
 (Line:1) Answer:  (plural noun)  Name: 
 (Line:2) Answer:  (part of the body)  Name: 
 (Line:3) Answer:  (number)  Name: 
-(Line:4) Answer:  (plural noun)  Name: 
+(Line:4) Answer:  chickens (plural noun)  Name: Jack Coleman
 (Line:5) Answer:  (part of the body)  Name: 
 (Line:6) Answer:  (type of liquid)  Name: 
 (Line:7) Answer:  (part of the body plural)  Name: 
@@ -11,7 +11,7 @@
 (Line:10) Answer:  (adjective)  Name: 
 (Line:11) Answer:  (plural noun)  Name: 
 (Line:12) Answer:  (adjective)  Name: 
-(Line:13) Answer:  (adjective)  Name: 
+(Line:13) Answer:  slippery (adjective)  Name: Jack Coleman
 (Line:14) Answer:  (verb ending in “ing”)  Name: 
 (Line:15) Answer:  (noun)  Name: 
 (Line:16) Answer:  (plural noun)  Name: 
@@ -20,7 +20,7 @@
 (Line:19) Answer:  (adjective)  Name: 
 (Line:20) Answer:  (plural noun)  Name: 
 (Line:21) Answer:  (plural noun)  Name: 
-(Line:22) Answer:  (adjective)  Name: 
+(Line:22) Answer:  fluffy (adjective)  Name: Jack Coleman
 (Line:23) Answer:  (noun)  Name: 
 (Line:24) Answer:  (noun)  Name: 
 (Line:25) Answer:  (plural noun)  Name: 
@@ -29,7 +29,7 @@
 (Line:28) Answer:  (adjective)  Name: 
 (Line:29) Answer:  (noun)  Name: 
 (Line:30) Answer:  (adjective)  Name: 
-(Line:31) Answer:  (noun)  Name: 
+(Line:31) Answer:  hippo (noun)  Name: Jack Coleman
 (Line:32) Answer:  (plural noun)  Name: 
 (Line:33) Answer:  (plural noun)  Name: 
 (Line:34) Answer:  (adjective)  Name: 
@@ -38,7 +38,7 @@
 (Line:37) Answer:  (verb)  Name: 
 (Line:38) Answer:  (time)  Name: 
 (Line:39) Answer:  (subject in school)  Name: 
-(Line:40) Answer:  (junk food)  Name: 
+(Line:40) Answer:  Sour Patch Kids (junk food)  Name: Jack Coleman
 (Line:41) Answer:  (verb)  Name: 
 (Line:42) Answer:  (close friend’s name)  Name: 
 (Line:43) Answer:  (college major)  Name: 
