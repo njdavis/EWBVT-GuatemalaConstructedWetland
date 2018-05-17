@@ -9,7 +9,7 @@ class Site:
         #initialized with high end of EPA concentrations in typical residential wastewater
         #can be found at /EWBVT-GuatemalaConstructedWetland/sources/EPA\ Document\ About\ Leach\ Fields.pdf 
         #values in mg/L
-        self.currentSepticTankEffluent = {'BOD':(168*.6), 'TSS':85, 'organicNitrogen':10, 'ammonia':40, 'nitrate':30, 'totalNitrogen':30, 'totalPhosphorus':8.1, 'fecalColiform':10**6}
+        self.currentSepticTankEffluent = {'BOD':100.8, 'TSS':85, 'organicNitrogen':10, 'ammonia':40, 'nitrate':30, 'totalNitrogen':30, 'totalPhosphorus':8.1, 'fecalColiform':10**6}
         self.necessaryEffluentQuality = {'BOD':30, 'TSS':30, 'organicNitrogen':2, 'ammonia':0.1, 'nitrate':2, 'totalNitrogen':2, 'totalPhosphorus':0.05, 'fecalColiform':200}
         self.backgroundEffluent = {'BOD':(3.5+0.053*self.currentSepticTankEffluent['BOD']),
                                  'TSS':(7.8+0.063*self.currentSepticTankEffluent['TSS']), 
