@@ -123,14 +123,14 @@ class KadlecEquationTest(unittest.TestCase):
         self.assertAlmostEqual(result, 27.5, 1)
 
     #TOTAL NITROGEN  #######################################
-    def testAreaAmmonia(self):
+    def testAreaNitrogen(self):
         totalNitrogen = KadlecSSF_TotalNitrogen(self.data)
         totalNitrogen.setK_Const(self.k_Const)
         result = totalNitrogen.getArea()
 
         self.assertAlmostEqual(result, 466.4, 1) #Need to check this is the right answer
 
-    def testEffluentAmmonia(self):
+    def testEffluentNitrogen(self):
         totalNitrogen = KadlecSSF_TotalNitrogen(self.data)
         totalNitrogen.setK_Const(self.k_Const)
         result = totalNitrogen.getEffluent()
@@ -145,7 +145,7 @@ class KadlecEquationTest(unittest.TestCase):
 
         self.assertAlmostEqual(result, 466.4, 1) #Need to check this is the right answer
 
-    def testEffluentAmmonia(self):
+    def testEffluentNitrate(self):
         nitrate = KadlecSSF_Nitrate(self.data)
         nitrate.setK_Const(self.k_Const)
         result = nitrate.getEffluent()
@@ -153,14 +153,14 @@ class KadlecEquationTest(unittest.TestCase):
         self.assertAlmostEqual(result, 27.5, 1)
 
     #FECAL COLIFORM #######################################
-    def testAreaAmmonia(self):
+    def testAreaFecalColiform(self):
         fecalColiform = KadlecSSF_FecalColiform(self.data)
         fecalColiform.setK_Const(self.k_Const)
         result = fecalColiform.getArea()
 
         self.assertAlmostEqual(result, 466.4, 1) #Need to check this is the right answer
 
-    def testEffluentAmmonia(self):
+    def testEffluentFecalColiform(self):
        	fecalColiform = KadlecSSF_FecalColiform(self.data)
         fecalColiform.setK_Const(self.k_Const)
 
