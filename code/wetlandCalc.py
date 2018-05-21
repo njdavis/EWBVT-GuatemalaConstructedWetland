@@ -1,10 +1,57 @@
 """Program to calculate constructed wetland design"""
 import sys, math, unittest, tabulate
 
-#importing class definitions
-from siteInfo import Site
-from present import PresentData
 
+
+class KadlecSSF():
+    def __init__(self, data):
+        self.data = data
+        self.nameOfModel = "Kadlec PkC SSF"
+        self.k_Const = -1
+        self.background_Const = -1
+
+    def effluent(self):        
+        numerator = self.influentQuality - self.backgroundEffluentQuality
+        denominator = (1+(self.k_Const/(self.cells*(self.flowRate/self.area))))**self.cells
+        return numerator/denominator + self.backgroundEffluentQuality
+
+class KadlecSSF_BOD(KadlecSSF):
+    def __init__(self, data, k=None):
+        if k is None:
+            self.k_Const = 76/365
+        else:
+            self.k_Const = k
+
+        self.cells = data.numberOfCells
+        self.area = data.area
+        self.flowRate = data.avgFlowRate
+        self.influentQuality = data.influentQuality['BOD']
+        self.backgroundEffluentQuality = data.backgroundEffluentQuality['BOD']
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
 
 class Wetland():
 
@@ -137,6 +184,8 @@ class Wetland():
         print(tabulate.tabulate(table, tablefmt="simple"))
 
 
+
+
 #Virtual Class of the Kadlec Models
 class Kadlec():
 
@@ -150,7 +199,8 @@ class Kadlec():
         else: 
             isEffluentTooLow = False   
         return isEffluentTooLow
-
+    
+    
     def safeFunctionCall(self, function, qualityType):
         if self.isEffluentQualityTooLow(qualityType):
             print("Your effluent %s requirements are too low for this %s influent value (%.2f vs %.2f). Change area or C_in" % (qualityType, qualityType, self.site.necessaryEffluentQuality[qualityType], self.backgroundConcentration(qualityType)))
@@ -160,15 +210,18 @@ class Kadlec():
                 return self.area(qualityType)
             else:
                 return self.effluent(qualityType)
+    
 
     def minNecessaryEffluentQuality(self):
         listOfMinValues = []
         for qualityType in self.background_Const:
             listOfMinValues.append(self.background_Const[qualityType])  
         return listOfMinValues
-        
 
-class KadlecSSF(Kadlec):
+
+
+
+class KadlecSSF_Old(Kadlec):
 
     def __init__(self, site):
         self.site = site
@@ -263,6 +316,6 @@ class tables():
             "**FC**":[" ",3,40,49,'**83**',177," "," ",6,0,56,'**103**',181]}
 
         
-
+'''
 
 

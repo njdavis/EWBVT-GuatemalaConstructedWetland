@@ -1,37 +1,99 @@
 #Class created to store information about the site (ie, CEFONMA Water Flow rates)
 import math
 
-class Site:
+class SiteData:
 
+    def __init__(self):
+        self.name = 'CEFONMA'
+        #initialized with high end of EPA concentrations in typical residential wastewater
+        #can be found at /EWBVT-GuatemalaConstructedWetland/sources/EPA\ Document\ About\ Leach\ Fields.pdf 
+        #values in mg/L
+        self.influentQuality = {     'BOD':-1, 
+                                            'TSS':-1, 
+                                            'organicNitrogen':-1, 
+                                            'ammonia':-1, 
+                                            'nitrate':-1, 
+                                            'totalNitrogen':-1, 
+                                            'totalPhosphorus':-1, 
+                                            'fecalColiform':-1
+                                        }
+
+        self.necessaryEffluentQuality = {   'BOD':-1, 
+                                            'TSS':-1, 
+                                            'organicNitrogen':-1, 
+                                            'ammonia':-1, 
+                                            'nitrate':-1, 
+                                            'totalNitrogen':-1, 
+                                            'totalPhosphorus':-1, 
+                                            'fecalColiform':-1
+                                        }
+
+        self.backgroundEffluentQuality =   {'BOD':(3.5+0.053*self.influentQuality['BOD']),
+                                            'TSS':(7.8+0.063*self.influentQuality['TSS']), 
+                                            'organicNitrogen':-1, 
+                                            'ammonia':-1, 
+                                            'nitrate':-1, 
+                                            'totalNitrogen':-1, 
+                                            'totalPhosphorus':-1, 
+                                            'fecalColiform':-1
+                                            }
+
+        #initialize with elevation of CEFONMA (meters) found using google maps
+        self.elevation = -1
+
+        #initialized with CEFONMA's current wastewater flow, according to EPA (m^3/day)
+        self.avgFlowRate = -1
+
+        #20,250 = 76.65 possible future flowrate
+        #5,625 = 17.74 - 21.29 current flowrate
+        #11,250 = 42.59 Double the school's current population
+
+        #Design Numbers
+        self.numberOfCells = -1
+        self.porosity = -1
+        self.depth = -1
+
+        self.area = -1
+        self.tankArea = self.area/self.numberOfCells
+
+
+
+class CEFONMA(SiteData):
     #initialize values
     def __init__(self):
         self.name = 'CEFONMA'
         #initialized with high end of EPA concentrations in typical residential wastewater
         #can be found at /EWBVT-GuatemalaConstructedWetland/sources/EPA\ Document\ About\ Leach\ Fields.pdf 
         #values in mg/L
-        self.currentSepticTankEffluent = {'BOD':100.8, 'TSS':85, 'organicNitrogen':10, 'ammonia':40, 'nitrate':30, 'totalNitrogen':30, 'totalPhosphorus':8.1, 'fecalColiform':10**6}
-        self.necessaryEffluentQuality = {'BOD':30, 'TSS':30, 'organicNitrogen':2, 'ammonia':0.1, 'nitrate':2, 'totalNitrogen':2, 'totalPhosphorus':0.05, 'fecalColiform':200}
-        self.backgroundEffluent = {'BOD':(3.5+0.053*self.currentSepticTankEffluent['BOD']),
-                                 'TSS':(7.8+0.063*self.currentSepticTankEffluent['TSS']), 
-                                 'organicNitrogen':1.5, 
-                                 'ammonia':0, 
-                                 'nitrate':0, 
-                                 'totalNitrogen':1.5, 
-                                 'totalPhosphorus':0.02, 
-                                 'fecalColiform':10}
+        self.influentQuality  = {    'BOD':100.8, 
+                                            'TSS':85, 
+                                            'organicNitrogen':10, 
+                                            'ammonia':40, 
+                                            'nitrate':30, 
+                                            'totalNitrogen':30, 
+                                            'totalPhosphorus':8.1, 
+                                            'fecalColiform':10**6
+                                        }
 
+        self.necessaryEffluentQuality = {   'BOD':30, 
+                                            'TSS':30, 
+                                            'organicNitrogen':2, 
+                                            'ammonia':0.1, 
+                                            'nitrate':2, 
+                                            'totalNitrogen':2, 
+                                            'totalPhosphorus':0.05, 
+                                            'fecalColiform':200
+                                        }
 
-        #initialized with average monthly chajul data (https://en.wikipedia.org/wiki/Chajul). Update if we find a closer town
-        self.climateTemps = {'Jan':14.6,'Feb':15.1,'Mar':16.6,'Apr':17.4,'May':17.5,'Jun':17.5,'Jul':16.7,'Aug':16.7,'Sep':16.8,'Oct':16.1,'Nov':15.7,'Dec':15.2, 'Annual':16.33}
-
-        self.snowfall = {'Jan':"__",'Feb':"__",'Mar':"__",'Apr':"__",'May':"__",'Jun':"__",'Jul':"__",'Aug':"__",'Sep':"__",'Oct':"__",'Nov':"__",'Dec':"__", 'Annual':"__"}
-        self.rainfall = {'Jan':65,'Feb':42,'Mar':50,'Apr':66,'May':128,'Jun':306,'Jul':264,'Aug':230,'Sep':251,'Oct':224,'Nov':127,'Dec':64, 'Annual':1818}
-        self.evapotranspiration = {'Jan':"__",'Feb':"__",'Mar':"__",'Apr':"__",'May':"__",'Jun':"__",'Jul':"__",'Aug':"__",'Sep':"__",'Oct':"__",'Nov':"__",'Dec':"__", 'Annual':"__"}
-
-        self.waterTemp = 18
-
-        #initialized with the current location of CEFONMA
-        self.coordinates = {'latitude':15.47, 'longitude':-91.09}
+        self.backgroundEffluentQuality = {  'BOD':(3.5+0.053*self.currentSepticTankEffluent['BOD']),
+                                            'TSS':(7.8+0.063*self.currentSepticTankEffluent['TSS']), 
+                                            'organicNitrogen':1.5, 
+                                            'ammonia':0, 
+                                            'nitrate':0, 
+                                            'totalNitrogen':1.5, 
+                                            'totalPhosphorus':0.02, 
+                                            'fecalColiform':10
+                                        }
 
         #initialize with elevation of CEFONMA (meters) found using google maps
         self.elevation = 2152.62
@@ -50,7 +112,74 @@ class Site:
 
         self.area = 1000
         self.tankArea = self.area/self.numberOfCells
-         
+
+
+
+        #initialized with average monthly chajul data (https://en.wikipedia.org/wiki/Chajul). Update if we find a closer town
+        self.climateTemps = {   'Jan':14.6,
+                                'Feb':15.1,
+                                'Mar':16.6,
+                                'Apr':17.4,
+                                'May':17.5,
+                                'Jun':17.5,
+                                'Jul':16.7,
+                                'Aug':16.7,
+                                'Sep':16.8,
+                                'Oct':16.1,
+                                'Nov':15.7,
+                                'Dec':15.2, 
+                                'Annual':16.33
+                            }
+
+        self.snowfall = {       'Jan':"__",
+                                'Feb':"__",
+                                'Mar':"__",
+                                'Apr':"__",
+                                'May':"__",
+                                'Jun':"__",
+                                'Jul':"__",
+                                'Aug':"__",
+                                'Sep':"__",
+                                'Oct':"__",
+                                'Nov':"__",
+                                'Dec':"__", 
+                                'Annual':"__"
+                        }
+
+        self.rainfall = {       'Jan':65,
+                                'Feb':42,
+                                'Mar':50,
+                                'Apr':66,
+                                'May':128,
+                                'Jun':306,
+                                'Jul':264,
+                                'Aug':230,
+                                'Sep':251,
+                                'Oct':224,
+                                'Nov':127,
+                                'Dec':64, 
+                                'Annual':1818
+                        }
+
+        self.evapotranspiration =   {   'Jan':"__",
+                                        'Feb':"__",
+                                        'Mar':"__",
+                                        'Apr':"__",
+                                        'May':"__",
+                                        'Jun':"__",
+                                        'Jul':"__",
+                                        'Aug':"__",
+                                        'Sep':"__",
+                                        'Oct':"__",
+                                        'Nov':"__",
+                                        'Dec':"__", 
+                                        'Annual':"__"
+                                    }
+
+        self.waterTemp = 18
+
+        #initialized with the current location of CEFONMA
+        self.coordinates = {'latitude':15.47, 'longitude':-91.09}         
 
     def flowRateM3PD(self):
         return self.flowRate*0.003785
