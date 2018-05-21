@@ -82,6 +82,7 @@ class Wetland():
         tempArea = self.site.area
         self.site.area = self.area('BOD')
         table = [['Effluent Calculations', ' ', ' '],
+                 ['Area: ', round(self.site.area, 2), ' ', ' '],
                  ['Quality Type', 'Input Effluent', 'Background Effluent', 'Output Effluent']]
 
         for qualityType in self.kadlecSSF.worksFor:
@@ -225,7 +226,11 @@ class KadlecSSF(Kadlec):
             k = self.k_Const[qualityType]
 
         if qualityType == 'TSS':
-            return 1.5+0.22*self.site.currentSepticTankEffluent[qualityType]
+            TSSEffluent = 1.5+0.22*self.site.currentSepticTankEffluent[qualityType]
+            if TSSEffluent < self.site.backgroundEffluent['TSS']:
+                return self.site.backgroundEffluent['TSS']
+            else: 
+                return TSSEffluent
         else:
             a = (self.site.currentSepticTankEffluent[qualityType] - self.site.backgroundEffluent[qualityType])
             b = (1+(k/(cells*(self.site.avgFlowRate/area))))**cells

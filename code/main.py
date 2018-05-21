@@ -23,11 +23,14 @@ def main():
     CEFONMA.tankArea = 125
     CEFONMA.backgroundEffluent['BOD']
     
+
     
     wetland.printTableOfAreaCalcs('BOD')
-    wetland.printTableOfEffluents()
+
+    CEFONMA.__init__() 
 
     wetland.printCurrentInputs()
+    wetland.printTableOfEffluents()
     
     
 
