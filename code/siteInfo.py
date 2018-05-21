@@ -4,7 +4,7 @@ import math
 class SiteData:
 
     def __init__(self):
-        self.name = 'CEFONMA'
+        self.name = 'Empty'
         #initialized with high end of EPA concentrations in typical residential wastewater
         #can be found at /EWBVT-GuatemalaConstructedWetland/sources/EPA\ Document\ About\ Leach\ Fields.pdf 
         #values in mg/L
@@ -38,6 +38,18 @@ class SiteData:
                                             'fecalColiform':-1
                                             }
 
+
+        self.k_Const = {   
+            'BOD':-1, 
+            'TSS':-1, 
+            'organicNitrogen':-1, 
+            'ammonia':-1, 
+            'nitrate':-1, 
+            'totalNitrogen':-1, 
+            'totalPhosphorus':-1, 
+            'fecalColiform':-1
+        }
+
         #initialize with elevation of CEFONMA (meters) found using google maps
         self.elevation = -1
 
@@ -65,35 +77,49 @@ class CEFONMA(SiteData):
         #initialized with high end of EPA concentrations in typical residential wastewater
         #can be found at /EWBVT-GuatemalaConstructedWetland/sources/EPA\ Document\ About\ Leach\ Fields.pdf 
         #values in mg/L
-        self.influentQuality  = {    'BOD':100.8, 
-                                            'TSS':85, 
-                                            'organicNitrogen':10, 
-                                            'ammonia':40, 
-                                            'nitrate':30, 
-                                            'totalNitrogen':30, 
-                                            'totalPhosphorus':8.1, 
-                                            'fecalColiform':10**6
-                                        }
+        self.influentQuality  = {    
+            'BOD':100.8, 
+            'TSS':85, 
+            'organicNitrogen':10, 
+            'ammonia':40, 
+            'nitrate':30, 
+            'totalNitrogen':30, 
+            'totalPhosphorus':8.1, 
+            'fecalColiform':10**6
+        }
 
-        self.necessaryEffluentQuality = {   'BOD':30, 
-                                            'TSS':30, 
-                                            'organicNitrogen':2, 
-                                            'ammonia':0.1, 
-                                            'nitrate':2, 
-                                            'totalNitrogen':2, 
-                                            'totalPhosphorus':0.05, 
-                                            'fecalColiform':200
-                                        }
+        self.necessaryEffluentQuality = {   
+            'BOD':30, 
+            'TSS':30, 
+            'organicNitrogen':2, 
+            'ammonia':0.1, 
+            'nitrate':2, 
+            'totalNitrogen':2, 
+            'totalPhosphorus':0.05, 
+            'fecalColiform':200
+        }
 
-        self.backgroundEffluentQuality = {  'BOD':(3.5+0.053*self.currentSepticTankEffluent['BOD']),
-                                            'TSS':(7.8+0.063*self.currentSepticTankEffluent['TSS']), 
-                                            'organicNitrogen':1.5, 
-                                            'ammonia':0, 
-                                            'nitrate':0, 
-                                            'totalNitrogen':1.5, 
-                                            'totalPhosphorus':0.02, 
-                                            'fecalColiform':10
-                                        }
+        self.backgroundEffluentQuality = {  
+            'BOD':(3.5+0.053*self.currentSepticTankEffluent['BOD']),
+            'TSS':(7.8+0.063*self.currentSepticTankEffluent['TSS']), 
+            'organicNitrogen':1.5, 
+            'ammonia':0, 
+            'nitrate':0, 
+            'totalNitrogen':1.5, 
+            'totalPhosphorus':0.02, 
+            'fecalColiform':10
+        }
+
+        self.k_Const = {
+            'BOD':76/365, 
+            'organicNitrogen':19.6/365, 
+            'ammonia':11.4/365, 
+            'nitrate':42/365, 
+            'totalNitrogen':9.1/365, 
+            'fecalColiform':103/365,
+            'TSS':0.22
+        } 
+
 
         #initialize with elevation of CEFONMA (meters) found using google maps
         self.elevation = 2152.62
