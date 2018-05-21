@@ -26,6 +26,13 @@ class KadlecEquationTest(unittest.TestCase):
         result = self.BOD.effluent()
 
         self.assertAlmostEqual(result, 27.5, 1)
+
+    def testAreaBOD(self):
+        self.BOD = KadlecSSF_BOD(self.data, k=self.k)
+        result = self.BOD.area()
+
+        self.assertAlmostEqual(result, 27.5, 1)
+
     
     '''
                             'BOD',

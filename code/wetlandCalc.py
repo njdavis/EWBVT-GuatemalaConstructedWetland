@@ -10,10 +10,18 @@ class KadlecSSF():
         self.k_Const = -1
         self.background_Const = -1
 
+    def area(self):
+        x = (self.influentQuality-self.backgroundEffluentQuality)/(selfnecessaryEffluentQuality-self.backgroundEffluentQuality)  
+        metersCubed = ((self.cells*self.flowRate)*((x)**(1/cells) - 1))/self.k_Const
+        return metersCubed
+
+
     def effluent(self):        
         numerator = self.influentQuality - self.backgroundEffluentQuality
         denominator = (1+(self.k_Const/(self.cells*(self.flowRate/self.area))))**self.cells
         return numerator/denominator + self.backgroundEffluentQuality
+
+
 
 class KadlecSSF_BOD(KadlecSSF):
     def __init__(self, data, k=None):
